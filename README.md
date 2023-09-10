@@ -8,7 +8,7 @@ SK(R)UM tiimi: Ulla Montonen, Santeri Sajari, Maiju Rekola, Kristjan Savolainen
 * Lipunmyyntijärjestelmä nimeltä TicketGuru. 
 * Lipputoimisto syöttää myytävät liput, tapahtuman kuvauksen ja hinnat ja asiakas pystyy ostamaan ne.
 * Asiakas pystyy tulostamaan ostamansa liput.
-* Sovellus tuottaa lipuille helposti tarkastettavan koodin jolla pystyy todentamaan lipun aitouden mobiilipäätteellä.
+* Sovellus tuottaa lipuille helposti tarkastettavan koodin, millä pystyy todentamaan lipun aitouden mobiilipäätteellä.
 
 * Toteutus- ja toimintaympäristö lyhyesti:
   * Maven projekti
@@ -21,3 +21,10 @@ SK(R)UM tiimi: Ulla Montonen, Santeri Sajari, Maiju Rekola, Kristjan Savolainen
 
 * Käytetään tietokoneella ja liput luetaan mobiilipäätteellä.
 
+## Järjestelmän määrittely
+
+* järjestelmän määrittelystä..
+
+## Käyttöliittymä
+
+* käyttöliittymäst..
