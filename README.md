@@ -28,5 +28,5 @@ Tässä projektissa tunnistettuja käyttäjärooleja:
 * Lipuntarkastaja
 * Ostaja
 
-Lisää: [Käyttäjäryhmät ja tarinat](https://github.com/UllaMontonen/TicketGuru/blob/dev/K%C3%A4ytt%C3%A4j%C3%A4roolit%20ja%20tarinat.md)
+Lisää: [Käyttäjäryhmät ja tarinat](https://github.com/UllaMontonen/TicketGuru/blob/dev/KayttajaroolitJaTarinat.md)
 ## Käyttöliittymä
