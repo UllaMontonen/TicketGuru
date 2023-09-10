@@ -1,11 +1,22 @@
-# SK(R)UM Ryhmän TicketGuru projekti
+# TicketGuru projekti
 
-Readme projektiin, alla tietoja alustetusta spring bootista, jos siitä on hyötyä tai iloa. Samat versiot ja riippuvuudet, kuin mitä backend kurssilla käytetään.
+SK(R)UM tiimi: Ulla Montonen, Santeri Sajari, Maiju Rekola, Kristjan Savolainen
 
-* Maven projekti
-* versio 3.1.3
-* java versio 17
- ## tämän hetkiset riippuvuudet/dependencies
- * Spring Boot DevTools
- * Spring Web
- * MySQL driver
+## Johdanto
+
+* Lipunmyyntijärjestelmä nimeltä TicketGuru. 
+* Lipputoimisto syöttää myytävät liput, tapahtuman kuvauksen ja hinnat ja asiakas pystyy ostamaan ne.
+* Asiakas pystyy tulostamaan ostamansa liput.
+* Sovellus tuottaa lipuille helposti tarkastettavan koodin jolla pystyy todentamaan lipun aitouden mobiilipäätteellä.
+
+* Toteutus- ja toimintaympäristö lyhyesti:
+  * Maven projekti
+  * versio 3.1.3
+  * java versio 17
+* Riippuvuudet/dependencies
+  * Spring Boot DevTools
+  * Spring Web
+  * MySQL driver
+
+* Käytetään tietokoneella ja liput luetaan mobiilipäätteellä.
+
