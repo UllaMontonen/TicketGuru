@@ -4,6 +4,7 @@ SK(R)UM tiimi: Ulla Montonen, Santeri Sajari, Maiju Rekola, Kristjan Savolainen
 
 ## Johdanto
 
+* Asiakkaana lipputoimisto.
 * Lipunmyyntijärjestelmä nimeltä TicketGuru. 
 * Lipputoimisto syöttää myytävät liput, tapahtuman kuvauksen ja hinnat ja asiakas pystyy ostamaan ne.
 * Asiakas pystyy tulostamaan ostamansa liput.
