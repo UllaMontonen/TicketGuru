@@ -20,3 +20,12 @@ Riippuvuudet/dependencies
 * MySQL driver
 
 Käytetään tietokoneella ja liput luetaan mobiilipäätteellä.
+
+## Järjestelmän määrittely
+Tässä projektissa tunnistettuja käyttäjärooleja:
+* Admin
+* Lipunmyyjä
+* Lipuntarkastaja
+* Ostaja
+
+## Käyttöliittymä
