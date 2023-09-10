@@ -10,16 +10,15 @@ SK(R)UM tiimi: Ulla Montonen, Santeri Sajari, Maiju Rekola, Kristjan Savolainen
 * Asiakas pystyy tulostamaan ostamansa liput.
 * Sovellus tuottaa lipuille helposti tarkastettavan koodin, millä pystyy todentamaan lipun aitouden mobiilipäätteellä.
 
-* Toteutus- ja toimintaympäristö lyhyesti:
-  * Maven projekti
-  * versio 3.1.3
-  * java versio 17
-* Riippuvuudet/dependencies
-  * Spring Boot DevTools
-  * Spring Web
-  * MySQL driver
+Toteutus- ja toimintaympäristö lyhyesti:
+* Maven projekti 3.1.3
+* Java 17
+Riippuvuudet/dependencies
+* Spring Boot DevTools
+* Spring Web
+* MySQL driver
 
-* Käytetään tietokoneella ja liput luetaan mobiilipäätteellä.
+Käytetään tietokoneella ja liput luetaan mobiilipäätteellä.
 
 ## Järjestelmän määrittely
 
