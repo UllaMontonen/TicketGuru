@@ -13,6 +13,7 @@ SK(R)UM tiimi: Ulla Montonen, Santeri Sajari, Maiju Rekola, Kristjan Savolainen
 Toteutus- ja toimintaympäristö lyhyesti:
 * Maven projekti 3.1.3
 * Java 17
+
 Riippuvuudet/dependencies
 * Spring Boot DevTools
 * Spring Web
