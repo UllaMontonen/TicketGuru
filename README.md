@@ -20,11 +20,3 @@ Riippuvuudet/dependencies
 * MySQL driver
 
 Käytetään tietokoneella ja liput luetaan mobiilipäätteellä.
-
-## Järjestelmän määrittely
-
-* järjestelmän määrittelystä..
-
-## Käyttöliittymä
-
-* käyttöliittymäst..
