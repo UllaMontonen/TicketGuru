@@ -29,10 +29,11 @@ Tässä projektissa tunnistettuja käyttäjärooleja:
 * Ostaja
 
 Lisää: [Käyttäjäryhmät ja tarinat](https://github.com/UllaMontonen/TicketGuru/blob/dev/KayttajaroolitJaTarinat.md)
+
 ## Käyttöliittymä
 
-![alt text](Kuva1.png "Kuva 1")
+![](kuvat/Kuva1.png "Kuva 1")
 
-![alt text](Kuva2.png "Kuva 2")
+![](kuvat/Kuva2.png "Kuva 2")
 
-![alt text](Kuva3.png "Kuva 3")
+![](kuvat/Kuva3.png "Kuva 3")
