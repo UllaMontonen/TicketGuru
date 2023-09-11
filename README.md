@@ -30,3 +30,9 @@ Tässä projektissa tunnistettuja käyttäjärooleja:
 
 Lisää: [Käyttäjäryhmät ja tarinat](https://github.com/UllaMontonen/TicketGuru/blob/dev/KayttajaroolitJaTarinat.md)
 ## Käyttöliittymä
+
+![alt text](C:\Users\maiju\OneDrive\Työpöytä\TicketGuru\TicketGuru\Kuva 1.png "Kuva 1")
+
+![alt text](C:\Users\maiju\OneDrive\Työpöytä\TicketGuru\TicketGuru\Kuva 2.png "Kuva 2")
+
+![alt text](C:\Users\maiju\OneDrive\Työpöytä\TicketGuru\TicketGuru\Kuva 3.png "Kuva 3")
