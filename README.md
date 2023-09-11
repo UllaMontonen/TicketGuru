@@ -32,8 +32,8 @@ Lisää: [Käyttäjäryhmät ja tarinat](https://github.com/UllaMontonen/TicketG
 
 ## Käyttöliittymä
 
-![](C:\Users\maiju\OneDrive\Työpöytä\TicketGuru\TicketGuru\kuvat\Kuva1.png "Kuva 1")
+![](Kuva1.png "Kuva 1")
 
-![](kuvat/Kuva2.png "Kuva 2")
+![](Kuva2.png "Kuva 2")
 
-![](kuvat/Kuva3.png "Kuva 3")
+![](Kuva3.png "Kuva 3")
