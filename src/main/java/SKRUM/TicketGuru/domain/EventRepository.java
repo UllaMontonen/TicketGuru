@@ -1,4 +1,4 @@
-package SK.R.UM.TicketGuru.domain;
+package SKRUM.TicketGuru.domain;
 
 import java.util.List;
 

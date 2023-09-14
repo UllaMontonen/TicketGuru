@@ -1,11 +1,11 @@
-package SK.R.UM.TicketGuru.domain;
+package SKRUM.TicketGuru.domain;
 
 import jakarta.persistence.*;
 
 @Entity
 public class Event {
     @Id
-    @GeneratedValue(strategy=GeneratedType.AUTO)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     private String name, place, city;
     private int ticketAmount, eventDay, eventMonth, eventYear, eventTime;
