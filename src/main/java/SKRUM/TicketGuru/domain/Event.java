@@ -1,14 +1,19 @@
 package SKRUM.TicketGuru.domain;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity
 public class Event {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long id;
+    private Long eventId;
     private String name, place, city;
     private int ticketAmount, eventDay, eventMonth, eventYear, eventTime;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "event")
+    private List<Ticket> tickets;
 	
     
     public Event() {
@@ -16,7 +21,7 @@ public class Event {
 	}
     
 	public Event(int eventYear, String place, int ticketAmount, String name, String city, int eventMonth, int eventDay,
-			int eventTime, Long id) {
+			int eventTime) {
 		super();
 		this.eventYear = eventYear;
 		this.place = place;
@@ -26,15 +31,14 @@ public class Event {
 		this.eventMonth = eventMonth;
 		this.eventDay = eventDay;
 		this.eventTime = eventTime;
-		this.id = id;
 	}
 
 
 	public Long getId() {
-		return id;
+		return eventId;
 	}
 	public void setId(Long id) {
-		this.id = id;
+		this.eventId = id;
 	}
 	
 	public String getName() {
@@ -92,11 +96,17 @@ public class Event {
 	public void setEventTime(int eventTime) {
 		this.eventTime = eventTime;
 	}
+	public List<Ticket> getTickets() {
+		return tickets;
+	}
 
+	public void setTickets(List<Ticket> tickets) {
+		this.tickets = tickets;
+	}
 
 	@Override
 	public String toString() {
-		return "Event [id=" + id + ", name=" + name + ", place=" + place + ", city=" + city + ", ticketAmount="
+		return "Event [id=" + eventId + ", name=" + name + ", place=" + place + ", city=" + city + ", ticketAmount="
 				+ ticketAmount + ", eventDay=" + eventDay + ", eventMonth=" + eventMonth + ", eventYear=" + eventYear
 				+ ", eventTime=" + eventTime + "]";
 	}
