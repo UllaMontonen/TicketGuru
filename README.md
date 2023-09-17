@@ -45,29 +45,29 @@ Lisää: [Käyttäjäryhmät ja tarinat](https://github.com/UllaMontonen/TicketG
  ### Tapahtuma
 Tapahtuma-taulu sisältää tapahtuman tiedot. Tapahtumaan voidaan myydä monta lippua. Lippu käy vain tiettyyn tapahtumaan. 
 
-| Attribuutti     | Tyyppi                  | Kuvaus                       |
-| --------------- |:-----------------------:| ----------------------------:|
-| Tapahtuma_id PK | Integer (autoincrement) | Tapahtuman id                |
-| Aika            | Date                    | Tapahtuman ajankohta         |
-| Paikka          | Varchar(100)            | Tapahtuman paikka/tila       |
-| Nimi            | Varchar(200)            | Tapahtuman nimi              |
-| Kaupunki        | Varchar(100)            | Tapahtuman järjestyskaupunki |
-| Lippumäärä      | Integer                 | Myytävien lippujen määrä     |
+| Attribuutti | Tyyppi | Kuvaus |
+| --- |:---:| ---:|
+| Tapahtuma_id PK | Integer (autoincrement) | Tapahtuman id |
+| Aika            | Date | Tapahtuman ajankohta |
+| Paikka          | Varchar(100) | Tapahtuman paikka/tila |
+| Nimi            | Varchar(200) | Tapahtuman nimi |
+| Kaupunki        | Varchar(100) | Tapahtuman järjestyskaupunki |
+| Lippumäärä      | Integer | Myytävien lippujen määrä |
 
 ### Lippu
 Lippu-taulu sisältää lipun tiedot. Lippu käy tiettyyn tapahtumaan. Yhdellä lipulla voi olla yksi lipputyyppi. Lipputyyppi voi olla useammalla lipulla. 
 
-| Attribuutti      | Tyyppi                  | Kuvaus                                      |
-| ---------------- |:-----------------------:| -------------------------------------------:|
-| Lippu_id PK      | Integer (autoincrement) | Lipun id                                    |
-| Tapahtuma_id  FK | Integer                 | Viittaus tapahtumaan tapahtuma-taulussa     |
-| Tyyppi_id FK     | Varchar(100)            | Viittaus lipun tyyppiin lipputyyli-taulussa |
+| Attribuutti | Tyyppi | Kuvaus |
+| --- |:---:| ---:|
+| Lippu_id PK      | Integer (autoincrement) | Lipun id |
+| Tapahtuma_id  FK | Integer | Viittaus tapahtumaan tapahtuma-taulussa |
+| Tyyppi_id FK     | Varchar(100) | Viittaus lipun tyyppiin lipputyyli-taulussa |
 
 ### Lipputyyppi
 Lipputyyppi-taulu sisältää lippujen eri tyypit. Sama lipputyyppi voi olla eri lipuilla. Yhdellä lipulla voi olla vain yksi lipputyyppi.
 
-| Attribuutti   | Tyyppi      | Kuvaus                                      |
-| ------------- |:-----------:| -------------------------------------------:|
-| Tyyppi_id PK  | C/100       | Lipputyypin id                              |
-| Kuvaus        | C/200       | Lipputyypin kuvaus (esim. aikuinen, lapsi)  |
-| Hinta         | Integer     | Lipputyypin hinta                           |
+| Attribuutti | Tyyppi | Kuvaus |
+| --- |:---:| ---:|
+| Tyyppi_id PK     | C/100 | Lipputyypin id |
+| Kuvaus           | C/200 | Lipputyypin kuvaus (esim. aikuinen, lapsi) |
+| Hinta            | Integer | Lipputyypin hinta |
