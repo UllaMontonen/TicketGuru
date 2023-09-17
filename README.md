@@ -37,3 +37,7 @@ Lisää: [Käyttäjäryhmät ja tarinat](https://github.com/UllaMontonen/TicketG
 ![](Kuva2.png "Kuva 2")
 
 ![](Kuva3.png "Kuva 3")
+
+## Tietokanta
+
+![](Tietokantakaavio.png "Tietokantakaavio")
