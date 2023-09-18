@@ -14,7 +14,8 @@ public class TicketType {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long ticketTypeId;
-    private String name, description;
+    private String description;
+    private double price;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tickettype")
     private List<Ticket> tickets;
@@ -25,14 +26,6 @@ public class TicketType {
 
     public void setTicketTypeId(Long ticketTypeId) {
         this.ticketTypeId = ticketTypeId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getDescription() {
@@ -48,15 +41,22 @@ public class TicketType {
         super();
     }
 
-    public TicketType(String name, String description, double price) {
+    public TicketType(String description, double price) {
         super();
-        this.name = name;
         this.description = description;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     @Override
     public String toString() {
-        return "TicketType [ticketTypeId=" + ticketTypeId + ", name=" + name + ", description=" + description
-                + ", price=" + "]";
+        return "TicketType [description=" + description + ", price=" + price + "]";
     }
+    
 }
