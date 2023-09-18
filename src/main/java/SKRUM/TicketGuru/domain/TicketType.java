@@ -1,13 +1,9 @@
 package SKRUM.TicketGuru.domain;
 
-import java.util.List;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 
 @Entity
 public class TicketType {
@@ -16,9 +12,7 @@ public class TicketType {
     private Long ticketTypeId;
     private String description;
     private double price;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tickettype")
-    private List<Ticket> tickets;
+
 
     public Long getTicketTypeId() {
         return ticketTypeId;
