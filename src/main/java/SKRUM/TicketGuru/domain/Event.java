@@ -1,6 +1,9 @@
 package SKRUM.TicketGuru.domain;
 
+import java.util.Date;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 
@@ -10,8 +13,12 @@ public class Event {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long eventId;
     private String name, place, city;
-    private int ticketAmount, eventDay, eventMonth, eventYear, eventTime;
+    private int ticketAmount;
     
+    @Temporal(TemporalType.DATE)
+    private Date eventDate;
+    
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "event")
     private List<Ticket> tickets;
 	
@@ -19,21 +26,26 @@ public class Event {
     public Event() {
 		super();
 	}
-    
-	public Event(int eventYear, String place, int ticketAmount, String name, String city, int eventMonth, int eventDay,
-			int eventTime) {
+     
+
+	public Event(String name, String place, String city, int ticketAmount, Date eventDate, List<Ticket> tickets) {
 		super();
-		this.eventYear = eventYear;
-		this.place = place;
-		this.ticketAmount = ticketAmount;
 		this.name = name;
+		this.place = place;
 		this.city = city;
-		this.eventMonth = eventMonth;
-		this.eventDay = eventDay;
-		this.eventTime = eventTime;
+		this.ticketAmount = ticketAmount;
+		this.eventDate = eventDate;
+		this.tickets = tickets;
 	}
 
+	
 
+	public Date getEventDate() {
+		return eventDate;
+	}
+	public void setEventDate(Date eventDate) {
+		this.eventDate = eventDate;
+	}
 	public Long getId() {
 		return eventId;
 	}
@@ -69,33 +81,6 @@ public class Event {
 		this.ticketAmount = ticketAmount;
 	}
 	
-	public int getEventDay() {
-		return eventDay;
-	}
-	public void setEventDay(int eventDay) {
-		this.eventDay = eventDay;
-	}
-	
-	public int getEventMonth() {
-		return eventMonth;
-	}
-	public void setEventMonth(int eventMonth) {
-		this.eventMonth = eventMonth;
-	}
-	
-	public int getEventYear() {
-		return eventYear;
-	}
-	public void setEventYear(int eventYear) {
-		this.eventYear = eventYear;
-	}
-	
-	public int getEventTime() {
-		return eventTime;
-	}
-	public void setEventTime(int eventTime) {
-		this.eventTime = eventTime;
-	}
 	public List<Ticket> getTickets() {
 		return tickets;
 	}
@@ -104,12 +89,14 @@ public class Event {
 		this.tickets = tickets;
 	}
 
+
 	@Override
 	public String toString() {
-		return "Event [id=" + eventId + ", name=" + name + ", place=" + place + ", city=" + city + ", ticketAmount="
-				+ ticketAmount + ", eventDay=" + eventDay + ", eventMonth=" + eventMonth + ", eventYear=" + eventYear
-				+ ", eventTime=" + eventTime + "]";
+		return "Event [eventId=" + eventId + ", name=" + name + ", place=" + place + ", city=" + city
+				+ ", ticketAmount=" + ticketAmount + ", eventDate=" + eventDate + ", tickets=" + tickets + "]";
 	}
+
+	
 
 	
 
