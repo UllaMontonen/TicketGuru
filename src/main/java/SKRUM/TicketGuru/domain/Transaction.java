@@ -18,65 +18,72 @@ import jakarta.persistence.TemporalType;
 
 @Entity
 public class Transaction {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    
-    @Temporal(TemporalType.DATE)
-    private Date date;
-    
-    private double amount;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+	@Temporal(TemporalType.DATE)
+	private Date date;
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "transaction")
-    private List<Ticket> tickets;
+	private double amount;
 
-    public Transaction(Date date, double amount, Customer customer) {
-        super();
-        this.date = date;
-        this.amount = amount;
-        this.customer = customer;
-    }
+	@ManyToOne
+	@JoinColumn(name = "customer_id")
+	private Customer customer;
 
-    public Transaction() {
-        super();
-    }
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "transaction")
+	private List<Ticket> tickets;
 
-    public Long getId() {
-        return id;
-    }
+	public Transaction(Date date, double amount, Customer customer) {
+		super();
+		this.date = date;
+		this.amount = amount;
+		this.customer = customer;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public Transaction() {
+		super();
+	}
 
-    public Date getDate() {
-        return date;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public double getAmount() {
-        return amount;
-    }
+	public Date getDate() {
+		return date;
+	}
 
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
+	public void setDate(Date date) {
+		this.date = date;
+	}
 
-    public Customer getCustomer() {
-        return customer;
-    }
+	public double getAmount() {
+		return amount;
+	}
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public List<Ticket> getTickets() {
+		return tickets;
+	}
+
+	public void setTickets(List<Ticket> tickets) {
+		this.tickets = tickets;
+	}
 
 }

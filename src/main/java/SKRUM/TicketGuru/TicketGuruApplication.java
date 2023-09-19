@@ -15,39 +15,32 @@ public class TicketGuruApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TicketGuruApplication.class, args);
 	}
-	
+
 	@Bean
-	public CommandLineRunner demo(CustomerRepository cRepo, EventRepository eRepo, TicketRepository tRepo, TicketTypeRepository ttRepo, TransactionRepository trRepo) {
+	public CommandLineRunner demo(CustomerRepository cRepo, EventRepository eRepo, TicketRepository tRepo,
+			TicketTypeRepository ttRepo, TransactionRepository trRepo) {
 		return (args) -> {
-			//customer
-			Customer customer = new Customer("Testi Pesti", "email@mail.com");
-			cRepo.save(customer);
-			
-			//transaction
 			Date date = new Date();
-			Transaction transaction = new Transaction(date, 56.34, customer);
-			trRepo.save(transaction);
-			trRepo.save(transaction);
-			
-			//event
-			Event event = new Event("TestiTapahtuma", "Apollo", "Helsinki", 100, date);
-			Event event1 = new Event("TestiTapahtuma2", "Maxine", "Helsinki", 100, date);
-			eRepo.save(event);
-			eRepo.save(event1);
-			
-			//TicketType
-			TicketType ticketType = new TicketType("Normaali", 20.30, event);
-			TicketType ticketType1 = new TicketType("Opiskelija", 21.32, event1);
-			ttRepo.save(ticketType);
-			ttRepo.save(ticketType1);
-			
-			//ticket
-			Ticket ticket = new Ticket(event, ticketType, transaction, "ABC-123", true);
-			Ticket ticket1 = new Ticket(event1, ticketType1, transaction, "DAC-321", true);
-			tRepo.save(ticket);
-			tRepo.save(ticket1);
-			
+
+			// customer
+			cRepo.save(new Customer("Testi Pesti", "email@mail.com"));
+
+			// event
+			eRepo.save(new Event("TestiTapahtuma", "Apollo", "Helsinki", 100, date));
+			eRepo.save(new Event("TestiTapahtuma2", "Maxine", "Helsinki", 100, date));
+
+			// TicketType
+
+			ttRepo.save(new TicketType("Normaali", 20.30, eRepo.findByName("TestiTapahtuma").get(0)));
+			ttRepo.save(new TicketType("Opiskelija", 21.32, eRepo.findByName("TestiTapahtuma2").get(0)));
+
+			// ticket ja transaction
+			tRepo.save(new Ticket(eRepo.findByName("TestiTapahtuma").get(0),
+					ttRepo.findByDescription("Normaali").get(0), trRepo.save(new Transaction(new Date(), 56.34, cRepo.findByName("Testi Pesti").get(0))), "ABC-123", true));
+			tRepo.save(new Ticket(eRepo.findByName("TestiTapahtuma2").get(0),
+					ttRepo.findByDescription("Opiskelija").get(0), trRepo.save(new Transaction(new Date(), 26.34, cRepo.findByName("Testi Pesti").get(0))), "ABC-123", true));
+
 		};
 	}
-	
+
 }

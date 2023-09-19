@@ -4,13 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 @Entity
 public class TicketType {
@@ -20,8 +14,8 @@ public class TicketType {
     private String description;
     private double price;
 
-    @JsonIgnore
     @ManyToOne
+    @JoinColumn(name = "event_id")
     private Event event;
 
     @JsonIgnore
@@ -63,9 +57,17 @@ public class TicketType {
 
     public Event getEvent() {
         return event;
-    }
+    }   
 
-    public void setEvent(Event event) {
+    public List<Ticket> getTickets() {
+		return tickets;
+	}
+
+	public void setTickets(List<Ticket> tickets) {
+		this.tickets = tickets;
+	}
+
+	public void setEvent(Event event) {
         this.event = event;
     }
 

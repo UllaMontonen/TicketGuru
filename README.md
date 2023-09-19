@@ -90,7 +90,7 @@ Transaction-taulu sisältää myyntitapahtuman tiedot. Taulu sisältää myös s
 | Attribuutti | Tyyppi | Kuvaus |
 | --- |:---:| ---:|
 | id PK     | Integer (autoincrement) | Ticket tyypin id |
-| name FK          | Integer | Asiakkaan taulu viittaus |
+| customer_id FK          | Integer | Asiakkaan taulu viittaus |
 | amount           | FLOAT(53) | määrä |
 | date          | Date | Myyntitapahtuman aikaleima |
 

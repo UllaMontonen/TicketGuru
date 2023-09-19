@@ -10,15 +10,15 @@ public class Ticket {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "event")
+	@JoinColumn(name = "event_id")
 	private Event event;
 
 	@ManyToOne
-	@JoinColumn(name = "ticketType")
+	@JoinColumn(name = "ticketType_id")
 	private TicketType ticketType;
 
 	@ManyToOne
-	@JoinColumn(name = "transaction")
+	@JoinColumn(name = "transaction_id")
 	private Transaction transaction;
 
 	private boolean verified;

@@ -2,6 +2,8 @@ package SKRUM.TicketGuru.domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,13 +20,14 @@ public class Customer {
     private String name;
     private String email;
    
+    @JsonIgnore
     @OneToMany(mappedBy = "customer")
     private List<Transaction> transactions;
 
-    public String getname() {
+    public String getName() {
         return name;
     }
-    public void setname(String userName) {
+    public void setName(String userName) {
         this.name = userName;
     }
     public String getEmail() {
@@ -39,7 +42,14 @@ public class Customer {
     public void setId(Long id) {
         this.id = id;
     }
-    public Customer(String userName, String email) {
+    
+    public List<Transaction> getTransactions() {
+		return transactions;
+	}
+	public void setTransactions(List<Transaction> transactions) {
+		this.transactions = transactions;
+	}
+	public Customer(String userName, String email) {
         super();
         this.name = userName;
         this.email = email;
