@@ -40,8 +40,6 @@ Lisää: [Käyttäjäryhmät ja tarinat](https://github.com/UllaMontonen/TicketG
 
 ## Tietokanta
 
-![](Tietokantakaavio.png "Tietokantakaavio")
-
  ### Event
 Event-taulu sisältää tapahtuman tiedot. Tapahtumaan voidaan myydä monta lippua. Lippu käy vain tiettyyn tapahtumaan. 
 
@@ -60,21 +58,21 @@ Ticket-taulu sisältää lipun tiedot. Ticket käy tiettyyn tapahtumaan. Yhdell�
 | Attribuutti | Tyyppi | Kuvaus |
 | --- |:---:| ---:|
 | id PK      | Integer (autoincrement) | Lipun id |
-| Event_id  FK | Integer | Viittaus Tapahtumaan Event-taulussa |
-| Tyyppi_id FK     | Varchar(100) | Viittaus lipun tyyppiin TicketType-taulussa |
-| transaction_id FK     | Varchar(100) | Viittaus myynti tapahtumaan Transaction-taulussa |
+| event_id  FK | Integer | Viittaus Tapahtumaan Event-taulussa |
+| ticketType_id FK     | Integer | Viittaus lipun tyyppiin TicketType-taulussa |
+| transaction_id FK     | Integer | Viittaus myynti tapahtumaan Transaction-taulussa |
 | code     | Varchar(100) | Lipun koodi |
-| transaction_id FK     | Varchar(100) | Viittaus myynti tapahtumaan Transaction-taulussa |
-| verified     | boolean | Maksutapahtuman tila |
+| transaction_id FK     | Varchar(200) | Viittaus myynti tapahtumaan Transaction-taulussa |
+| verified     | Boolean | Maksutapahtuman tila |
 
 ### TicketType
 TicketType-taulu sisältää Ticketjen eri tyypit. Sama TicketType voi olla eri lipuilla. Yhdellä lipulla voi olla vain yksi TicketType.
 
 | Attribuutti | Tyyppi | Kuvaus |
 | --- |:---:| ---:|
-| id PK     | C/100 | Ticket tyypin id |
+| id PK     | Integer (autoincrement) | Ticket tyypin id |
 | description          | Varchar(200) | Ticket tyypin kuvaus (esim. aikuinen, lapsi) |
-| price           | Integer | Ticket tyypin hinta |
+| price           | FLOAT(53) | Ticket tyypin hinta |
 | Event_id  FK | Integer | Viittaus Tapahtumaan Event-taulussa |
 
 ### Customer
@@ -82,7 +80,7 @@ Customer-taulu sisältää asiakkaan tiedot. Asiakkaat voivat omilla tiedoilla o
 
 | Attribuutti | Tyyppi | Kuvaus |
 | --- |:---:| ---:|
-| id PK     | C/100 | Ticket tyypin id |
+| id PK     | Integer (autoincrement) | Ticket tyypin id |
 | name           | Varchar(200) | Asiakkaan nimi |
 | email           | Varchar(200) | Sähköposti osoite |
 
@@ -91,12 +89,12 @@ Transaction-taulu sisältää myyntitapahtuman tiedot. Taulu sisältää myös s
 
 | Attribuutti | Tyyppi | Kuvaus |
 | --- |:---:| ---:|
-| id PK     | C/100 | Ticket tyypin id |
-| name FK          | Varchar(200) | Asiakkaan nimi |
-| amount           | Integer | määrä |
+| id PK     | Integer (autoincrement) | Ticket tyypin id |
+| name FK          | Integer | Asiakkaan taulu viittaus |
+| amount           | FLOAT(53) | määrä |
 | date          | Date | Myyntitapahtuman aikaleima |
 
-## Ticket Selling API
+# Ticket Selling API
 
 This is the documentation for the Ticket Selling API, which allows you to manage customers, events, and tickets in a ticket-selling application.
 
