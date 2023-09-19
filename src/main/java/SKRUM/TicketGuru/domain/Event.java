@@ -32,7 +32,7 @@ public class Event {
 	}
      
 
-	public Event(String name, String place, String city, int ticketAmount, Date eventDate, List<Ticket> tickets) {
+	public Event(String name, String place, String city, int ticketAmount, Date eventDate, List<Ticket> tickets, List<TicketType> ticketTypes) {
 		super();
 		this.name = name;
 		this.place = place;
@@ -40,9 +40,20 @@ public class Event {
 		this.ticketAmount = ticketAmount;
 		this.eventDate = eventDate;
 		this.tickets = tickets;
+		this.ticketTypes = ticketTypes;
+	}
+	
+	
+
+	public Event(String name, String place, String city, int ticketAmount, Date eventDate) {
+		super();
+		this.name = name;
+		this.place = place;
+		this.city = city;
+		this.ticketAmount = ticketAmount;
+		this.eventDate = eventDate;
 	}
 
-	
 
 	public Date getEventDate() {
 		return eventDate;
@@ -84,6 +95,15 @@ public class Event {
 
 	public void setTickets(List<Ticket> tickets) {
 		this.tickets = tickets;
+	}
+
+	public List<TicketType> getTicketTypes() {
+		return ticketTypes;
+	}
+
+
+	public void setTicketTypes(List<TicketType> ticketTypes) {
+		this.ticketTypes = ticketTypes;
 	}
 
 
