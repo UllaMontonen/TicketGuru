@@ -11,7 +11,7 @@ import jakarta.persistence.*;
 public class Event {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long eventId;
+    private Long id;
     private String name, place, city;
     private int ticketAmount;
     
@@ -21,6 +21,10 @@ public class Event {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "event")
     private List<Ticket> tickets;
+
+	@JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "event")
+    private List<TicketType> ticketTypes;
 	
     
     public Event() {
@@ -46,13 +50,6 @@ public class Event {
 	public void setEventDate(Date eventDate) {
 		this.eventDate = eventDate;
 	}
-	public Long getId() {
-		return eventId;
-	}
-	public void setId(Long id) {
-		this.eventId = id;
-	}
-	
 	public String getName() {
 		return name;
 	}
@@ -92,8 +89,18 @@ public class Event {
 
 	@Override
 	public String toString() {
-		return "Event [eventId=" + eventId + ", name=" + name + ", place=" + place + ", city=" + city
+		return "Event [eventId=" + id + ", name=" + name + ", place=" + place + ", city=" + city
 				+ ", ticketAmount=" + ticketAmount + ", eventDate=" + eventDate + ", tickets=" + tickets + "]";
+	}
+
+
+	public Long getId() {
+		return id;
+	}
+
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	

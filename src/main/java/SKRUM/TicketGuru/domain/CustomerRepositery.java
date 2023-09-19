@@ -2,5 +2,6 @@ package SKRUM.TicketGuru.domain;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface EventRepository extends CrudRepository<Event, Long> {
+public interface CustomerRepositery extends CrudRepository<Customer, Long> {
+    
 }
