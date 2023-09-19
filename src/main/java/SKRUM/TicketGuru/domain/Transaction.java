@@ -1,5 +1,6 @@
 package SKRUM.TicketGuru.domain;
 
+import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -12,13 +13,18 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String date;
+    
+    @Temporal(TemporalType.DATE)
+    private Date date;
+    
     private double amount;
 
     @JsonIgnore
@@ -30,7 +36,7 @@ public class Transaction {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "transaction")
     private List<Ticket> tickets;
 
-    public Transaction(String date, double amount, Customer customer) {
+    public Transaction(Date date, double amount, Customer customer) {
         super();
         this.date = date;
         this.amount = amount;
@@ -49,11 +55,11 @@ public class Transaction {
         this.id = id;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

@@ -21,6 +21,9 @@ public class Ticket {
 	@JoinColumn(name = "transaction")
 	private Transaction transaction;
 
+	private boolean verified;
+	private String code;
+
 	public Long getId() {
 		return id;
 	}
@@ -28,8 +31,6 @@ public class Ticket {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	private String code;
 
 	public Transaction getTransaction() {
 		return transaction;
@@ -54,8 +55,6 @@ public class Ticket {
 	public void setVerified(boolean verified) {
 		this.verified = verified;
 	}
-
-	private boolean verified;
 
 	public Event getEvent() {
 		return event;
