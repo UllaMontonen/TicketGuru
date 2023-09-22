@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import SKRUM.TicketGuru.domain.*;
 
 @RestController
-public class RestTicketMasterController {
+public class RestTicketController {
 
 	@Autowired
 	private TicketRepository tRepo;
