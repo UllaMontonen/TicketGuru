@@ -14,14 +14,14 @@ import SKRUM.TicketGuru.domain.Event;
 public class TicketGuruController {
 
 	@Autowired
-	private EventRepository repository;
+	private EventRepository eRepo;
 	
 	
 	// *** EVENT CONTROLLER ***
 	// EVENT: show all events
 	@GetMapping({"/eventlist"})
 	public String eventlist(Model model) {
-		model.addAttribute("events", repository.findAll());
+		model.addAttribute("events", eRepo.findAll());
 		return "eventlist";
 	}
 	// EVENT: add new event
@@ -33,19 +33,19 @@ public class TicketGuruController {
 	// EVENT: save new event
 	@PostMapping("/eventlist/save")
 	public String save(Event event) {
-		repository.save(event);
+		eRepo.save(event);
 		return "redirect:eventlist";
 	}
 	// EVENT: delete event
 	@GetMapping("/eventlist/delete/{id}")
 	public String deleteEvent(@PathVariable("id") long id, Model model) {
-		repository.deleteById(id);
+		eRepo.deleteById(id);
 		return "redirect:.../eventlist";
 	}
 	// EVEMT: edit event
 	@GetMapping("/eventlist/edit/{id}")
 	public String editEvent(@PathVariable("id") Long id, Model model) {
-		model.addAttribute("event", repository.findById(id));
+		model.addAttribute("event", eRepo.findById(id));
 	return "editevent";
 	}
 	// *** END OF EVENT CONTROLLER ***
