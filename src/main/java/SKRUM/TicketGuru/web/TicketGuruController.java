@@ -7,14 +7,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import SKRUM.TicketGuru.domain.EventRepository;
-import SKRUM.TicketGuru.domain.Event;
+import SKRUM.TicketGuru.domain.*;
 
 @Controller
 public class TicketGuruController {
 
 	@Autowired
 	private EventRepository eRepo;
+	
+	@Autowired
+	private CustomerRepository cRepo;
 	
 	
 	// *** EVENT CONTROLLER ***
@@ -49,5 +51,41 @@ public class TicketGuruController {
 	return "editevent";
 	}
 	// *** END OF EVENT CONTROLLER ***
+	
+	
+	
+	
+	// *** CUSTOMER CONTROLLER ***
+	// CUSTOMER: show all customers
+	@GetMapping({"/customerlist"})
+	public String customerlist(Model model) {
+		model.addAttribute("customer", cRepo.findAll());
+		return "customerlist";
+	}
+	// CUSTOMER: add new customer
+	@GetMapping("/customerlist/add")
+	public String addCustomer(Model model) {
+		model.addAttribute("customer", new Event());
+		return "addcustomer";
+	}
+	// CUSTOMER: save new customer
+	@PostMapping("/customerlist/save")
+	public String save(Customer customer) {
+		cRepo.save(customer);
+		return "redirect:customerlist";
+	}
+	// CUSTOMER: delete customer
+	@GetMapping("/customerlist/delete/{id}")
+	public String deleteCustomer(@PathVariable("id") long id, Model model) {
+		cRepo.deleteById(id);
+		return "redirect:.../customerlist";
+	}
+	// CUSTOMER: edit customer
+	@GetMapping("/customerlist/edit/{id}")
+	public String editCustomer(@PathVariable("id") Long id, Model model) {
+		model.addAttribute("customer", cRepo.findById(id));
+	return "editcustomer";
+	}
+	// *** END OF CUSTOMER CONTROLLER ***
 	
 }
