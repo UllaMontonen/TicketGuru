@@ -1,9 +1,10 @@
 package SKRUM.TicketGuru.web;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,36 +21,56 @@ public class RestCustomerController {
 	@Autowired
 	private CustomerRepository cRepo;
 	
-	// get a list of customers
+		// Hakee kaikki customerit taulusta ja palauttaa ne koodilla 200
 		@GetMapping("/api/customers")
-		public List<Customer> customerListRest() {
-			return (List<Customer>) cRepo.findAll();
+		public ResponseEntity<Iterable<Customer>> customerListRest() {
+			Iterable<Customer> customers = cRepo.findAll();
+			return new ResponseEntity<Iterable<Customer>>(customers, HttpStatus.OK);
 		}
 		
-		// show customer based on the given id
+		// Etsii annettulla ID:llä customeria, palauttaa löydetyn customerin ja koodin 200 
+		// tai tyhjän bodyn koodilla 404
 		@GetMapping("/api/customers/{id}")
-		public Optional<Customer> findCustomerRest(@PathVariable("id") Long id) {
-			return cRepo.findById(id);
+		public ResponseEntity<Optional<Customer>> findCustomerRest(@PathVariable("id") Long id) {
+			Optional<Customer> customer =cRepo.findById(id);
+			if(customer.isPresent()) {
+				return new ResponseEntity<Optional<Customer>>(customer, HttpStatus.OK);
+			} else {
+				return new ResponseEntity<Optional<Customer>>(HttpStatus.NOT_FOUND);
+			}
 		}
 		
-		// create a new customer
+		// Luo tauluun uuden customerin ja palauttaa sen bodyssä koodilla 201, tyhjä/ ei JSON:ia 
+		// sisältävä requestbody palauttaa automaattisesti koodin 400
 		@PostMapping("/api/customers")
-		public Customer newCustomer(@RequestBody Customer newCustomer) {
-			return cRepo.save(newCustomer);
+		public ResponseEntity<Customer> addCustomer(@RequestBody Customer newCustomer) {
+			return new ResponseEntity<Customer>(cRepo.save(newCustomer), HttpStatus.CREATED);
 		}
 		
-		// update an existing customer based on given id
+		// Muokkaa annetun ID:n customeria, palauttaa muokatun customerin ja koodin 200 
+		// tai koodin 404, jos customeria ei löydy
 		@PutMapping("/api/customers/{id}")
-		public Customer editCustomer(@RequestBody Customer editedCustomer, @PathVariable("id") Long id) {
-			editedCustomer.setId(id);
-			return cRepo.save(editedCustomer);
+		public ResponseEntity<Customer> editCustomer(@RequestBody Customer editedCustomer, @PathVariable("id") Long id) {
+			if(cRepo.findById(id).isPresent()) {
+				editedCustomer.setId(id);
+				return new ResponseEntity<Customer>(cRepo.save(editedCustomer), HttpStatus.OK);
+			} else {
+				return new ResponseEntity<Customer>(HttpStatus.NOT_FOUND);
+			}
 		}
 		
-		// delete an customer based on given id
+		// Poistaa annetun ID:n customerin, palauttaa jäljellä olevat customerin ja koodin 200 
+		// tai koodin 404 jos customeria ei löydy
 		@DeleteMapping("/api/customers/{id}")
-		public List<Customer> deleteCustomer(@PathVariable("id") Long id) {
-			cRepo.deleteById(id);
-			return(List<Customer>) cRepo.findAll();
+		public ResponseEntity<Iterable<Customer>> deleteCustomer(@PathVariable("id") Long id) {
+			Optional<Customer> targetCustomer = cRepo.findById(id);
+			
+			if(targetCustomer.isPresent()) {
+				cRepo.delete(targetCustomer.get());
+				return new ResponseEntity<Iterable<Customer>>(cRepo.findAll(), HttpStatus.OK);
+			} else {
+				return new ResponseEntity<Iterable<Customer>>(HttpStatus.NOT_FOUND);
+			}
 		}
-
-}
+		
+	}
