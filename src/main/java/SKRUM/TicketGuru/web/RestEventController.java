@@ -60,7 +60,7 @@ public class RestEventController {
 	}
 	
 	//Poistaa annetun ID:n eventin, palauttaa jäljellä olevat eventin ja koodin 200 
-	// tai koodin 404 jos tikettiä ei löydy
+	// tai koodin 404 jos customeria ei löydy
 	@DeleteMapping("/api/events/{id}")
 	public ResponseEntity<Iterable<Event>> deleteEvent(@PathVariable("id") Long id) {
 		Optional<Event> targetEvent = eRepo.findById(id);
