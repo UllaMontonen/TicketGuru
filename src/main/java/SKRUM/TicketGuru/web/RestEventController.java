@@ -48,7 +48,7 @@ public class RestEventController {
 	}
 	
 	//Muokkaa annetun ID:n eventtiä, palauttaa muokatun eventin ja koodin 200 
-	// tai koodin 404, jos tikettiä ei löydy
+	// tai koodin 404, jos eventtiä ei löydy
 	@PutMapping("/api/events/{id}")
 	public ResponseEntity<Event> editEvent(@RequestBody Event editedEvent, @PathVariable("id") Long id) {
 		if(eRepo.findById(id).isPresent()) {
