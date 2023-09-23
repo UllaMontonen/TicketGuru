@@ -34,7 +34,7 @@ public class RestEventController {
 	public ResponseEntity<Optional<Event>> findEventRest(@PathVariable("id") Long id) {
 		Optional<Event> event =eRepo.findById(id);
 		if(event.isPresent()) {
-			return new ResponseEntity<Optional<Event>>(event,HttpStatus.OK);
+			return new ResponseEntity<Optional<Event>>(event, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<Optional<Event>>(HttpStatus.NOT_FOUND);
 		}
