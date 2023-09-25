@@ -114,7 +114,7 @@ This is the documentation for the Ticket Selling API, which allows you to manage
 - **PUT /api/events/{id}**: Update an existing event.
 - **DELETE /api/events/{id}**: Delete an event.
 
-### [Tickets](RESTdoc/ticket.md)
+### [Tickets](RESTDoc/ticket.md)
 
 - **GET /api/tickets**: Get a list of tickets.
 - **POST /api/tickets**: Create a new ticket.
