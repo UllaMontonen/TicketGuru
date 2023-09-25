@@ -71,7 +71,7 @@ For an event with ID 1:
 }
 ```
 
-**Code: 404 Not Found**
+**Code**: `404 Not Found`
 
 For an event with a non-existent ID:
 
