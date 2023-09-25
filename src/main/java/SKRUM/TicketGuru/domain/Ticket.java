@@ -7,22 +7,53 @@ public class Ticket {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long ticketId;
+	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "eventId")
+	@JoinColumn(name = "event_id")
 	private Event event;
 
 	@ManyToOne
-	@JoinColumn(name = "description")
+	@JoinColumn(name = "ticketType_id")
 	private TicketType ticketType;
 
-	public Long getTicketId() {
-		return ticketId;
+	@ManyToOne
+	@JoinColumn(name = "transaction_id")
+	private Transaction transaction;
+
+	private boolean verified;
+	private String code;
+
+	public Long getId() {
+		return id;
 	}
 
-	public void setTicketId(Long ticketId) {
-		this.ticketId = ticketId;
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Transaction getTransaction() {
+		return transaction;
+	}
+
+	public void setTransaction(Transaction transaction) {
+		this.transaction = transaction;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public boolean isVerified() {
+		return verified;
+	}
+
+	public void setVerified(boolean verified) {
+		this.verified = verified;
 	}
 
 	public Event getEvent() {
@@ -45,18 +76,13 @@ public class Ticket {
 		super();
 	}
 
-	public Ticket(Event event, TicketType ticketType) {
+	public Ticket(Event event, TicketType ticketType, Transaction transaction, String code, boolean verified) {
 		super();
 		this.event = event;
 		this.ticketType = ticketType;
-	}
-
-	@Override
-	public String toString() {
-		return "Ticket [ticketId=" + ticketId + ", event=" + event + ", TicketType=" + ticketType + ",, getTicketId()="
-				+ getTicketId() + ", getEvent()=" + getEvent() + ", getTicketType()="
-				+ getTicketType() + ", getClass()=" + getClass()
-				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+		this.transaction = transaction;
+		this.code = code;
+		this.verified = verified;
 	}
 
 }
