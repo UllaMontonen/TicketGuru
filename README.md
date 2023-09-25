@@ -96,7 +96,7 @@ transaction-taulu sisältää myyntitapahtuman tiedot. Taulu sisältää myös s
 
 # Ticket Selling API
 
-This is the documentation for the Ticket Selling API, which allows you to manage customers, events, and tickets in a ticket-selling application.
+This is the documentation for the Ticket Selling API, which allows you to manage customers, events, transactions, ticket types and tickets in a ticket-selling application.
 
 ## Endpoints
 
@@ -107,14 +107,14 @@ This is the documentation for the Ticket Selling API, which allows you to manage
 - **PUT /api/customers/{id}**: Update an existing customer.
 - **DELETE /api/customers/{id}**: Delete a customer.
 
-### [Events](event.md)
+### [Events](REST Doc/event.md)
 
 - **GET /api/events**: Get a list of events.
 - **POST /api/events**: Create a new event.
 - **PUT /api/events/{id}**: Update an existing event.
 - **DELETE /api/events/{id}**: Delete an event.
 
-### [Tickets](ticket.md)
+### [Tickets](REST doc/ticket.md)
 
 - **GET /api/tickets**: Get a list of tickets.
 - **POST /api/tickets**: Create a new ticket.
