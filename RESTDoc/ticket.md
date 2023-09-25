@@ -3,7 +3,7 @@
 
 * **URL**
 
-  /tickets | /tickets/{ticket_id}
+  /api/tickets | /api/tickets/{ticket_id}
 
 * **Method:**
   
