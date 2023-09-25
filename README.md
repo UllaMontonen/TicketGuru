@@ -107,14 +107,14 @@ This is the documentation for the Ticket Selling API, which allows you to manage
 - **PUT /api/customers/{id}**: Update an existing customer.
 - **DELETE /api/customers/{id}**: Delete a customer.
 
-### [Events](REST Doc/event.md)
+### [Events](RESTDoc/event.md)
 
 - **GET /api/events**: Get a list of events.
 - **POST /api/events**: Create a new event.
 - **PUT /api/events/{id}**: Update an existing event.
 - **DELETE /api/events/{id}**: Delete an event.
 
-### [Tickets](REST doc/ticket.md)
+### [Tickets](RESTdoc/ticket.md)
 
 - **GET /api/tickets**: Get a list of tickets.
 - **POST /api/tickets**: Create a new ticket.
