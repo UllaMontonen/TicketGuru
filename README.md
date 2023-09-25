@@ -28,7 +28,7 @@ Tässä projektissa tunnistettuja käyttäjärooleja:
 * Lipuntarkastaja
 * Ostaja
 
-Lisää: [Käyttäjäryhmät ja tarinat](https://github.com/UllaMontonen/TicketGuru/blob/dev/KayttajaroolitJaTarinat.md)
+Lisää: [Käyttäjäryhmät ja tarinat](KayttajaroolitJaTarinat.md)
 
 ## Käyttöliittymä
 
@@ -60,9 +60,9 @@ Ticket-taulu sisältää lipun tiedot. Ticket käy tiettyyn tapahtumaan. Yhdell�
 | id PK      | Integer (autoincrement) | Lipun id |
 | event_id  FK | Integer | Viittaus Tapahtumaan Event-taulussa |
 | ticketType_id FK     | Integer | Viittaus lipun tyyppiin TicketType-taulussa |
-| transaction_id FK     | Integer | Viittaus myynti tapahtumaan Transaction-taulussa |
+| transaction_id FK     | Integer | Viittaus myynti tapahtumaan transaction-taulussa |
 | code     | Varchar(100) | Lipun koodi |
-| transaction_id FK     | Varchar(200) | Viittaus myynti tapahtumaan Transaction-taulussa |
+| transaction_id FK     | Varchar(200) | Viittaus myynti tapahtumaan transaction-taulussa |
 | verified     | Boolean | Maksutapahtuman tila |
 
 ### TicketType
@@ -84,8 +84,8 @@ Customer-taulu sisältää asiakkaan tiedot. Asiakkaat voivat omilla tiedoilla o
 | name           | Varchar(200) | Asiakkaan nimi |
 | email           | Varchar(200) | Sähköposti osoite |
 
-### Transaction
-Transaction-taulu sisältää myyntitapahtuman tiedot. Taulu sisältää myös sen asiakkaan jonka lipun osti tiedot.
+### transaction
+transaction-taulu sisältää myyntitapahtuman tiedot. Taulu sisältää myös sen asiakkaan jonka lipun osti tiedot.
 
 | Attribuutti | Tyyppi | Kuvaus |
 | --- |:---:| ---:|
@@ -107,16 +107,30 @@ This is the documentation for the Ticket Selling API, which allows you to manage
 - **PUT /api/customers/{id}**: Update an existing customer.
 - **DELETE /api/customers/{id}**: Delete a customer.
 
-### Events
+### [Events](event.md)
 
 - **GET /api/events**: Get a list of events.
 - **POST /api/events**: Create a new event.
 - **PUT /api/events/{id}**: Update an existing event.
 - **DELETE /api/events/{id}**: Delete an event.
 
-### Tickets
+### [Tickets](ticket.md)
 
 - **GET /api/tickets**: Get a list of tickets.
 - **POST /api/tickets**: Create a new ticket.
 - **PUT /api/tickets/{id}**: Update an existing ticket.
 - **DELETE /api/tickets/{id}**: Delete a ticket.
+
+### Transactions
+
+- **GET /api/transactions**: Get a list of transactions.
+- **POST /api/transactions**: Create a new transaction.
+- **PUT /api/transactions/{id}**: Update an existing transaction.
+- **DELETE /api/transactions/{id}**: Delete a transaction.
+
+### Ticket Types
+
+- **GET /api/ticketTypes**: Get a list of ticketTypes.
+- **POST /api/ticketTypes**: Create a new ticketType.
+- **PUT /api/ticketTypes/{id}**: Update an existing ticketType.
+- **DELETE /api/ticketTypes/{id}**: Delete a ticketType.
