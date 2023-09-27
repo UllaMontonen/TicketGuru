@@ -100,7 +100,7 @@ This is the documentation for the Ticket Selling API, which allows you to manage
 
 ## Endpoints
 
-### Customers
+### [Customers](RESTDoc/customer.md)
 
 - **GET /api/customers**: Get a list of customers.
 - **POST /api/customers**: Create a new customer.
@@ -121,14 +121,14 @@ This is the documentation for the Ticket Selling API, which allows you to manage
 - **PUT /api/tickets/{id}**: Update an existing ticket.
 - **DELETE /api/tickets/{id}**: Delete a ticket.
 
-### Transactions
+### [Transactions](RESTDoc/transaction.md)
 
 - **GET /api/transactions**: Get a list of transactions.
 - **POST /api/transactions**: Create a new transaction.
 - **PUT /api/transactions/{id}**: Update an existing transaction.
 - **DELETE /api/transactions/{id}**: Delete a transaction.
 
-### Ticket Types
+### [Ticket Types](RESTDoc/TicketType.md)
 
 - **GET /api/ticketTypes**: Get a list of ticketTypes.
 - **POST /api/ticketTypes**: Create a new ticketType.
