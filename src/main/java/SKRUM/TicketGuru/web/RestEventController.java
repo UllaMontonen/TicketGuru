@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -104,21 +105,27 @@ public class RestEventController {
 		List<Ticket> boughtTickets = new ArrayList<>();
 		Optional<Event> event = eRepo.findById(eventId);
 		Optional<TicketType> ticketType = ttRepo.findById(ticketTypeId);
+		HttpHeaders header = new HttpHeaders();
 
 		// Jos tapahtumaa ei löydy sillä Id:llä niin response on "Bad request".
 		// Vastaavasti jos tickettype Id:llä ei löydy mitään niin response on
-		// "Conflict".
+		// "NOT_FOUND" ja header kertoo virheen.
 
 		if (event.isEmpty()) {
-			return new ResponseEntity<List<Ticket>>(HttpStatus.BAD_REQUEST);
+			header.add("ERROR", "No event found with this id");
+			return new ResponseEntity<List<Ticket>>(header, HttpStatus.NOT_FOUND);
 		} else if (ticketType.isEmpty()) {
-			return new ResponseEntity<List<Ticket>>(HttpStatus.CONFLICT);
+			header.add("ERROR", "No ticket type found with this id");
+			return new ResponseEntity<List<Ticket>>(header, HttpStatus.NOT_FOUND);
 		} else {
 
 			// Jos asiakasta ei ole olemassa niin mapper luo uuden asiakkaan, jos
 			// customerId:lle löytyy vastine niin haetaan hänen tiedot. Jos bodyn sisältö on
-			// jotain muuta niin response on "Forbidden".
+			// jotain muuta tai annetulla ID:llä ei löydy customer entityä 
+			//niin response on "BAD_REQUEST" ja header kertoo virheen.
+			
 
+			//Tarkista jos saadussa oliossa ei ole annettu ID:tä
 			if (transactionDto.getCustomerId() == null) {
 				Customer customer = tMapper.DtoToCustomerByName(transactionDto);
 				cRepo.save(customer);
@@ -150,7 +157,8 @@ public class RestEventController {
 				return new ResponseEntity<List<Ticket>>(boughtTickets, HttpStatus.OK);
 
 			} else {
-				return new ResponseEntity<List<Ticket>>(HttpStatus.FORBIDDEN);
+				header.add("ERROR", "No customer found with given ID");
+				return new ResponseEntity<List<Ticket>>(header, HttpStatus.BAD_REQUEST);
 			}
 
 		}
