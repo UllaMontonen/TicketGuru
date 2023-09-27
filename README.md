@@ -134,3 +134,7 @@ This is the documentation for the Ticket Selling API, which allows you to manage
 - **POST /api/ticketTypes**: Create a new ticketType.
 - **PUT /api/ticketTypes/{id}**: Update an existing ticketType.
 - **DELETE /api/ticketTypes/{id}**: Delete a ticketType.
+
+### [Ticket Sales](RESTDoc/TicketSale.md)
+
+- **POST /api/event/{eventId}/ticketTypes/{ticketTypeId}**: Create a new ticket sale.
