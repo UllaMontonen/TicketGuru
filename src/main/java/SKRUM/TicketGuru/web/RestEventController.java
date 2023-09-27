@@ -33,7 +33,7 @@ public class RestEventController {
 	private TransactionRepository trRepo;
 
 	private final TransactionMapper tMapper;
-	
+
 	@Autowired
 	public RestEventController(TransactionMapper tMapper) {
 		this.tMapper = tMapper;
@@ -91,6 +91,12 @@ public class RestEventController {
 			return new ResponseEntity<Iterable<Event>>(HttpStatus.NOT_FOUND);
 		}
 	}
+	// Ostotaphtuman luominen jossa eventId määrittää tapahtuman ja ticketTypeId
+	// määrittää lipputyypin, bodyyn syötetään:
+	// {
+	// "ticketAmount: " ",
+	// "customerId": " "
+	// }
 
 	@PostMapping("/api/events/{eventId}/tickettypes/{ticketTypeId}")
 	public ResponseEntity<List<Ticket>> saleEvent(@RequestBody TransactionDTO transactionDto,
@@ -99,11 +105,19 @@ public class RestEventController {
 		Optional<Event> event = eRepo.findById(eventId);
 		Optional<TicketType> ticketType = ttRepo.findById(ticketTypeId);
 
+		// Jos tapahtumaa ei löydy sillä Id:llä niin response on "Bad request".
+		// Vastaavasti jos tickettype Id:llä ei löydy mitään niin response on
+		// "Conflict".
+
 		if (event.isEmpty()) {
 			return new ResponseEntity<List<Ticket>>(HttpStatus.BAD_REQUEST);
 		} else if (ticketType.isEmpty()) {
 			return new ResponseEntity<List<Ticket>>(HttpStatus.CONFLICT);
 		} else {
+
+			// Jos asiakasta ei ole olemassa niin mapper luo uuden asiakkaan, jos
+			// customerId:lle löytyy vastine niin haetaan hänen tiedot. Jos bodyn sisältö on
+			// jotain muuta niin response on "Forbidden".
 
 			if (transactionDto.getCustomerId() == null) {
 				Customer customer = tMapper.DtoToCustomerByName(transactionDto);
@@ -113,34 +127,38 @@ public class RestEventController {
 				trRepo.save(transaction);
 
 				for (int i = 0; i < transactionDto.getTicketAmount(); i++) {
+					String ticketCode = generateUniqueTicketCode(event.get());
 					boughtTickets
-							.add(tRepo.save(new Ticket(event.get(), ticketType.get(), transaction, "ABC-" + i, true)));
+							.add(tRepo.save(new Ticket(event.get(), ticketType.get(), transaction, ticketCode, true)));
 				}
 
 				return new ResponseEntity<List<Ticket>>(boughtTickets, HttpStatus.OK);
 
-			}
-			else if(tMapper.DtoToCustomerById(transactionDto).isPresent()) {
-				
+			} else if (tMapper.DtoToCustomerById(transactionDto).isPresent()) {
+
 				Customer customer = tMapper.DtoToCustomerById(transactionDto).get();
 				Transaction transaction = new Transaction(new Date(),
 						transactionDto.getTicketAmount() * ticketType.get().getPrice(), customer);
 				trRepo.save(transaction);
-				
+
 				for (int i = 0; i < transactionDto.getTicketAmount(); i++) {
+					String ticketCode = generateUniqueTicketCode(event.get());
 					boughtTickets
-							.add(tRepo.save(new Ticket(event.get(), ticketType.get(), transaction, "ABC-" + i, true)));
+							.add(tRepo.save(new Ticket(event.get(), ticketType.get(), transaction, ticketCode, true)));
 				}
-				
+
 				return new ResponseEntity<List<Ticket>>(boughtTickets, HttpStatus.OK);
-				
-			}
-			else {
+
+			} else {
 				return new ResponseEntity<List<Ticket>>(HttpStatus.FORBIDDEN);
 			}
 
 		}
 
+	}
+	private String generateUniqueTicketCode(Event event) {
+		// Antaa joka lipulle uniikin koodin muodossa: "EVT-{eventId}-{aika}"
+		return "EVT-" + event.getId() + "-" + System.currentTimeMillis();
 	}
 
 }
