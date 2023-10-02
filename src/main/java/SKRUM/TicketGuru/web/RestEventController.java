@@ -170,6 +170,8 @@ public class RestEventController {
 
 	}
 	
+	//Lisää saadun tickettypen kantaan annettulle eventille ja palauttaa sen tai koodin 400
+	//Jos eventtiä ei löydy kannasta
 	@PostMapping("api/events/{id}/tickettypes")
 	private ResponseEntity<TicketType> createTicketTypeForEvent(@PathVariable("id") Long id, @RequestBody TicketType newTicketType) {
 		Optional<Event> event = eRepo.findById(id);
@@ -185,6 +187,8 @@ public class RestEventController {
 		}
 	}
 	
+	//Hakee eventint kaikki tickettypet kannasta ja palauttaa listan tai koodin 404
+	//Jos eventtiä ei löydy kannasta
 	@GetMapping("api/events/{id}/tickettypes")
 	private ResponseEntity<List<TicketType>> findTicketTypesForEvent(@PathVariable("id") Long id) {
 		Optional<Event> event = eRepo.findById(id);
