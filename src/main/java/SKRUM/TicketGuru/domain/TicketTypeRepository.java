@@ -7,4 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface TicketTypeRepository extends CrudRepository<TicketType, Long> {
 	
     List<TicketType> findByDescription(String description);
+    
+    List<TicketType> findByEvent(Event event);
 }

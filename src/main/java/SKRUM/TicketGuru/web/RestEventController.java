@@ -169,6 +169,37 @@ public class RestEventController {
 		}
 
 	}
+	
+	@PostMapping("api/events/{id}/tickettypes")
+	private ResponseEntity<TicketType> createTicketTypeForEvent(@PathVariable("id") Long id, @RequestBody TicketType newTicketType) {
+		Optional<Event> event = eRepo.findById(id);
+		
+		if(event.isPresent()) {
+			newTicketType.setEvent(event.get());
+			return new ResponseEntity<TicketType>(ttRepo.save(newTicketType), HttpStatus.CREATED);
+		}
+		else {
+			HttpHeaders header = new HttpHeaders();
+			header.add("ERROR", "Event with id " + id + " not found");
+			return new ResponseEntity<TicketType>(header, HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("api/events/{id}/tickettypes")
+	private ResponseEntity<List<TicketType>> findTicketTypesForEvent(@PathVariable("id") Long id) {
+		Optional<Event> event = eRepo.findById(id);
+		
+		if(event.isPresent()) {
+			List<TicketType> ticketTypes = ttRepo.findByEvent(event.get());
+			return new ResponseEntity<List<TicketType>>(ticketTypes, HttpStatus.OK);
+		}
+		else {
+			HttpHeaders header = new HttpHeaders();
+			header.add("ERROR", "Event with id " + id + " not found");
+			return new ResponseEntity<List<TicketType>>(header, HttpStatus.NOT_FOUND);
+		}
+	}
+	
 	private String generateUniqueTicketCode(Event event) {
 		// Antaa joka lipulle uniikin koodin muodossa: "EVT-{eventId}-{aika}"
 		return "EVT-" + event.getId() + "-" + System.currentTimeMillis();
