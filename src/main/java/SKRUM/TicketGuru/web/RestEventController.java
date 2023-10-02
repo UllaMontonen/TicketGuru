@@ -125,7 +125,8 @@ public class RestEventController {
 			//niin response on "BAD_REQUEST" ja header kertoo virheen.
 			
 
-			//Tarkista jos saadussa oliossa ei ole annettu ID:tä
+			//Tarkistaa saadun olion, jos ei ole annettu ID:tä luodaan annettujen tietojen perusteella
+			//uusi asiakas
 			if (transactionDto.getCustomerId() == null) {
 				Customer customer = tMapper.DtoToCustomerByName(transactionDto);
 				cRepo.save(customer);
@@ -141,6 +142,8 @@ public class RestEventController {
 
 				return new ResponseEntity<List<Ticket>>(boughtTickets, HttpStatus.OK);
 
+			//Jos oliossa on annettu ID, mapper tarkastaa sen kannasta ja luo löydetylle customer entitylle
+			//transaktion ja liput
 			} else if (tMapper.DtoToCustomerById(transactionDto).isPresent()) {
 
 				Customer customer = tMapper.DtoToCustomerById(transactionDto).get();
@@ -156,6 +159,8 @@ public class RestEventController {
 
 				return new ResponseEntity<List<Ticket>>(boughtTickets, HttpStatus.OK);
 
+			//Jos saadulle oliolle on annettu ID, mutta sitä ei löydy kannasta palautetaan koodi 400 ja
+			//header joka kertoo mikä meni pieleen
 			} else {
 				header.add("ERROR", "No customer found with given ID");
 				return new ResponseEntity<List<Ticket>>(header, HttpStatus.BAD_REQUEST);
