@@ -1,10 +1,8 @@
 package SKRUM.TicketGuru.web;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,8 +20,6 @@ public class RestCustomerController {
 	
 	@Autowired
 	private CustomerRepository cRepo;
-	@Autowired
-	private TransactionRepository trRepo;
 	
 		// Hakee kaikki customerit taulusta ja palauttaa ne koodilla 200
 		@GetMapping("/api/customers")
@@ -74,21 +70,6 @@ public class RestCustomerController {
 				return new ResponseEntity<Iterable<Customer>>(cRepo.findAll(), HttpStatus.OK);
 			} else {
 				return new ResponseEntity<Iterable<Customer>>(HttpStatus.NOT_FOUND);
-			}
-		}
-		//Palauttaa annetun customer entityn kaikki transactionit tai virhekoodin 404, jos annetulla ID:llä
-		//ei löydy customeria kannasta
-		@GetMapping("/api/customers/{id}/transactions")
-		public ResponseEntity<List<Transaction>> findCustomersTransactions(@PathVariable("id") Long id) {
-			Optional<Customer> customer = cRepo.findById(id);
-			
-			if(customer.isPresent()) {
-				return new ResponseEntity<List<Transaction>>(trRepo.findByCustomer(customer.get()), HttpStatus.OK);
-			}
-			else {
-				HttpHeaders header = new HttpHeaders();
-				header.add("ERROR", "Customer with id " + id + " not found");
-				return new ResponseEntity<List<Transaction>>(header, HttpStatus.NOT_FOUND);
 			}
 		}
 		
