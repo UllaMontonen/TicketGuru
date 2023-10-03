@@ -98,7 +98,8 @@ public class RestEventController {
 	// "ticketAmount: " ",
 	// "customerId": " "
 	// }
-
+	// Kommenttina varastoon varmuuden vuoksi
+	/*
 	@PostMapping("/api/events/{eventId}/tickettypes/{ticketTypeId}")
 	public ResponseEntity<List<Ticket>> saleEvent(@RequestBody TransactionDTO transactionDto,
 			@PathVariable("eventId") Long eventId, @PathVariable("ticketTypeId") Long ticketTypeId) {
@@ -168,7 +169,7 @@ public class RestEventController {
 
 		}
 
-	}
+	} */
 	
 	//Lisää saadun tickettypen kantaan annettulle eventille ja palauttaa sen tai koodin 400
 	//Jos eventtiä ei löydy kannasta
