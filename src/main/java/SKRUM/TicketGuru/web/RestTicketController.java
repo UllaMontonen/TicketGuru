@@ -104,8 +104,8 @@ public class RestTicketController {
 		List<Ticket> boughtTickets = new ArrayList<>();
 		double price = 0.0;
 
-		if (ticketSale.getCustomerId() == null && ticketSale.getCustomerName() == null
-				&& ticketSale.getCustomerEmail() == null) {
+		if (ticketSale.getCustomerId() == null && ticketSale.getCustomerName() != null
+				&& ticketSale.getCustomerEmail() != null) {
 			Customer customer = cRepo.save(tMapper.DtoToCustomerByName(ticketSale));
 
 			for (TicketDTO ticketDto : ticketSale.getTicketsDTO()) {
@@ -135,7 +135,12 @@ public class RestTicketController {
 			boughtTickets = addTransactionToTickets(boughtTickets, transaction);
 			return new ResponseEntity<Iterable<Ticket>>(tRepo.saveAll(boughtTickets), HttpStatus.OK);
 
-		} else if (tMapper.DtoToCustomerById(ticketSale).isPresent()) {
+		} else if(ticketSale.getCustomerId() == null && ticketSale.getCustomerEmail() == null || ticketSale.getCustomerName() == null) {
+			header.add("ERROR", "No ID given and email and/or name is missing");
+			return new ResponseEntity<Iterable<Ticket>>(header, HttpStatus.BAD_REQUEST);
+		}
+		
+		else if (tMapper.DtoToCustomerById(ticketSale).isPresent()) {
 			Customer customer = tMapper.DtoToCustomerById(ticketSale).get();
 
 			for (TicketDTO ticketDto : ticketSale.getTicketsDTO()) {
