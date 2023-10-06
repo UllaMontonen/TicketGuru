@@ -5,13 +5,25 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class TicketType {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @NotEmpty(message = "Description cannot be empty")
+    @NotBlank(message = "Description cannot be blank")
+    @Size(min = 1, max = 200, message = "Description must be between 1 and 200 characters")
     private String description;
+    
+    @NotNull(message = "Price cannot be null")
+    @PositiveOrZero(message = "Price need to be positive number")
     private double price;
 
     @ManyToOne
