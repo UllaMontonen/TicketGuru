@@ -1,4 +1,4 @@
-package SK.R.UM.TicketGuru;
+package SKRUM;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
