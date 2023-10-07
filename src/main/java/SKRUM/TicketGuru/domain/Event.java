@@ -6,13 +6,33 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Event {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private String name, place, city;
+	
+	@NotEmpty(message = "Name cannot be empty")
+	@NotBlank(message = "Name cannot be blank")
+	@Size(min = 1, max = 200, message = "Name must be between 1 and 200 characters")
+	private String name;
+	
+	@NotEmpty(message = "Place cannot be empty")
+	@Size(min = 1, max = 200, message = "Place must be between 1 and 200 characters")
+	private String place;
+	
+	@NotEmpty(message = "City cannot be empty")
+	@Size(min = 1, max = 100, message = "City must be between 1 and 100 characters")
+	private String city;
+	
+	@NotNull(message = "Amount cannot be null")
+    @PositiveOrZero(message = "Amount need to be a positive number")
 	private int ticketAmount;
 
 	@Temporal(TemporalType.DATE)
