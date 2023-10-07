@@ -1,7 +1,7 @@
 package SKRUM.TicketGuru.web;
 
-import java.util.Date;
-import java.util.ArrayList;
+//import java.util.Date;
+//import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,37 +9,54 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import SKRUM.TicketGuru.domain.*;
+import jakarta.validation.Valid;
 
 @RestController
+@Validated
 public class RestEventController {
 
 	@Autowired
 	private EventRepository eRepo;
 	@Autowired
-	private CustomerRepository cRepo;
-	@Autowired
 	private TicketTypeRepository ttRepo;
-	@Autowired
-	private TicketRepository tRepo;
-	@Autowired
-	private TransactionRepository trRepo;
+	
+	// alla olevia ei enää tarvita ostotapahtuman muutoslogiikan myötä. 
+	// Koodi kuitenkin tallessa kaiken varalta
+	//@Autowired
+	//private CustomerRepository cRepo;
+	//@Autowired
+	//private TicketRepository tRepo;
+	//@Autowired
+	//private TransactionRepository trRepo;
+	//private final TransactionMapper tMapper;
+	//@Autowired
+	//public RestEventController(TransactionMapper tMapper) {
+	//	this.tMapper = tMapper;
+	//}
 
-	private final TransactionMapper tMapper;
-
-	@Autowired
-	public RestEventController(TransactionMapper tMapper) {
-		this.tMapper = tMapper;
+	
+	 //Palauttaa kaikkiin MethodArguementNotValidException heittoihin, response entityn jossa
+  	//lukee virheilmoitus. Kyseinen heitto tulee @Valid annotaation virheistä
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    ResponseEntity<String> handleConstraintViolationExcepetion(MethodArgumentNotValidException e) {
+		return new ResponseEntity<>("not valid due to validation error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
 	}
-
+	
+	
 	// Hakee kaikki eventit taulusta ja palauttaa ne koodilla 200
 	@GetMapping("/api/events")
 	public ResponseEntity<Iterable<Event>> eventListRest() {
@@ -63,14 +80,14 @@ public class RestEventController {
 	// JSON:ia
 	// sisältävä requestbody palauttaa automaattisesti koodin 400
 	@PostMapping("/api/events")
-	public ResponseEntity<Event> addEvent(@RequestBody Event newEvent) {
+	public ResponseEntity<Event> addEvent(@Valid @RequestBody Event newEvent) {
 		return new ResponseEntity<Event>(eRepo.save(newEvent), HttpStatus.CREATED);
 	}
 
 	// Muokkaa annetun ID:n eventtiä, palauttaa muokatun eventin ja koodin 200
 	// tai koodin 404, jos eventtiä ei löydy
 	@PutMapping("/api/events/{id}")
-	public ResponseEntity<Event> editEvent(@RequestBody Event editedEvent, @PathVariable("id") Long id) {
+	public ResponseEntity<Event> editEvent(@Valid @RequestBody Event editedEvent, @PathVariable("id") Long id) {
 		if (eRepo.findById(id).isPresent()) {
 			editedEvent.setId(id);
 			return new ResponseEntity<Event>(eRepo.save(editedEvent), HttpStatus.OK);
@@ -92,6 +109,54 @@ public class RestEventController {
 			return new ResponseEntity<Iterable<Event>>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	/// *** TicketType toiminnot alla ***
+	
+	//Lisää saadun tickettypen kantaan annettulle eventille ja palauttaa sen tai koodin 400
+		//Jos eventtiä ei löydy kannasta
+		@PostMapping("api/events/{id}/tickettypes")
+		private ResponseEntity<TicketType> createTicketTypeForEvent(@PathVariable("id") Long id,@Valid @RequestBody TicketType newTicketType) {
+			Optional<Event> event = eRepo.findById(id);
+			
+			if(event.isPresent()) {
+				newTicketType.setEvent(event.get());
+				return new ResponseEntity<TicketType>(ttRepo.save(newTicketType), HttpStatus.CREATED);
+			}
+			else {
+				HttpHeaders header = new HttpHeaders();
+				header.add("ERROR", "Event with id " + id + " not found");
+				return new ResponseEntity<TicketType>(header, HttpStatus.BAD_REQUEST);
+			}
+		}
+		
+		//Hakee eventint kaikki tickettypet kannasta ja palauttaa listan tai koodin 404
+		//Jos eventtiä ei löydy kannasta
+		@GetMapping("api/events/{id}/tickettypes")
+		private ResponseEntity<List<TicketType>> findTicketTypesForEvent(@PathVariable("id") Long id) {
+			Optional<Event> event = eRepo.findById(id);
+			
+			if(event.isPresent()) {
+				List<TicketType> ticketTypes = ttRepo.findByEvent(event.get());
+				return new ResponseEntity<List<TicketType>>(ticketTypes, HttpStatus.OK);
+			}
+			else {
+				HttpHeaders header = new HttpHeaders();
+				header.add("ERROR", "Event with id " + id + " not found");
+				return new ResponseEntity<List<TicketType>>(header, HttpStatus.NOT_FOUND);
+			}
+		}
+		
+		
+	
+	
+	
+	// *** Alla koodi, jota ei enää tarvita muuttuneen ostotapahtuman logiikan myötä.***
+		
+	//	private String generateUniqueTicketCode(Event event) {
+	//		// Antaa joka lipulle uniikin koodin muodossa: "EVT-{eventId}-{aika}"
+	//		return "EVT-" + event.getId() + "-" + System.currentTimeMillis();
+	//	}
+		
 	// Ostotaphtuman luominen jossa eventId määrittää tapahtuman ja ticketTypeId
 	// määrittää lipputyypin, bodyyn syötetään:
 	// {
@@ -171,43 +236,6 @@ public class RestEventController {
 
 	} */
 	
-	//Lisää saadun tickettypen kantaan annettulle eventille ja palauttaa sen tai koodin 400
-	//Jos eventtiä ei löydy kannasta
-	@PostMapping("api/events/{id}/tickettypes")
-	private ResponseEntity<TicketType> createTicketTypeForEvent(@PathVariable("id") Long id, @RequestBody TicketType newTicketType) {
-		Optional<Event> event = eRepo.findById(id);
-		
-		if(event.isPresent()) {
-			newTicketType.setEvent(event.get());
-			return new ResponseEntity<TicketType>(ttRepo.save(newTicketType), HttpStatus.CREATED);
-		}
-		else {
-			HttpHeaders header = new HttpHeaders();
-			header.add("ERROR", "Event with id " + id + " not found");
-			return new ResponseEntity<TicketType>(header, HttpStatus.BAD_REQUEST);
-		}
-	}
 	
-	//Hakee eventint kaikki tickettypet kannasta ja palauttaa listan tai koodin 404
-	//Jos eventtiä ei löydy kannasta
-	@GetMapping("api/events/{id}/tickettypes")
-	private ResponseEntity<List<TicketType>> findTicketTypesForEvent(@PathVariable("id") Long id) {
-		Optional<Event> event = eRepo.findById(id);
-		
-		if(event.isPresent()) {
-			List<TicketType> ticketTypes = ttRepo.findByEvent(event.get());
-			return new ResponseEntity<List<TicketType>>(ticketTypes, HttpStatus.OK);
-		}
-		else {
-			HttpHeaders header = new HttpHeaders();
-			header.add("ERROR", "Event with id " + id + " not found");
-			return new ResponseEntity<List<TicketType>>(header, HttpStatus.NOT_FOUND);
-		}
-	}
-	
-	private String generateUniqueTicketCode(Event event) {
-		// Antaa joka lipulle uniikin koodin muodossa: "EVT-{eventId}-{aika}"
-		return "EVT-" + event.getId() + "-" + System.currentTimeMillis();
-	}
 
 }
