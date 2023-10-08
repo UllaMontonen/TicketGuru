@@ -15,6 +15,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
 public class Transaction {
@@ -25,6 +27,8 @@ public class Transaction {
 	@Temporal(TemporalType.DATE)
 	private Date date;
 
+	@NotNull(message = "Amount cannot be null")
+    @PositiveOrZero(message = "Amount need to be a positive number")
 	private double amount;
 
 	@ManyToOne

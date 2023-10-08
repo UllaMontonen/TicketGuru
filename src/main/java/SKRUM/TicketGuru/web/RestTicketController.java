@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import SKRUM.TicketGuru.domain.*;
+import jakarta.validation.Valid;
 
 @RestController
+@Validated
 public class RestTicketController {
 
 	@Autowired
@@ -74,7 +77,7 @@ public class RestTicketController {
 	// Muokkaa annetun ID:n tikettiä, palauttaa muokatun tiketin ja koodin 200 tai
 	// koodin 404, jos tikettiä ei löydy
 	@PutMapping("/api/tickets/{id}")
-	public ResponseEntity<Ticket> editTicket(@RequestBody Ticket editedTicket, @PathVariable("id") Long id) {
+	public ResponseEntity<Ticket> editTicket(@Valid @RequestBody Ticket editedTicket, @PathVariable("id") Long id) {
 		if (tRepo.findById(id).isPresent()) {
 			editedTicket.setId(id);
 			return new ResponseEntity<Ticket>(tRepo.save(editedTicket), HttpStatus.OK);
@@ -99,7 +102,7 @@ public class RestTicketController {
 
 	//Kommenttien ja validaation tarkempi lisäys myöhemmin
 	@PostMapping("/api/tickets")
-	public ResponseEntity<Iterable<Ticket>> ticketSale(@RequestBody TicketSaleDTO ticketSale) {
+	public ResponseEntity<Iterable<Ticket>> ticketSale(@Valid @RequestBody TicketSaleDTO ticketSale) {
 		HttpHeaders header = new HttpHeaders();
 		List<Ticket> boughtTickets = new ArrayList<>();
 		double price = 0.0;
