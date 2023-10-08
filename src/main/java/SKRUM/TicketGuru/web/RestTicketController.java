@@ -7,16 +7,21 @@ import java.util.Optional;
 
 import org.apache.commons.math3.util.Precision;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import SKRUM.TicketGuru.domain.*;
@@ -43,6 +48,28 @@ public class RestTicketController {
 	public RestTicketController(TicketSaleMapper tMapper) {
 		this.tMapper = tMapper;
 	}
+	
+	// Palauttaa kaikkiin MethodArguementNotValidException heittoihin, response
+	// entityn jossa
+	// lukee virheilmoitus. Kyseinen heitto tulee @Valid annotaation virheistä
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	ResponseEntity<String> handleConstraintViolationExcepetion(MethodArgumentNotValidException e) {
+		return new ResponseEntity<>("not valid due to validation error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+	}
+	
+	//Myyntitapahtuman virheenhallintaa, validaattoria ei saa toimimaan siihen muiden tapaan
+	@ExceptionHandler(TransactionSystemException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	ResponseEntity<String> handleTransactionSystemException(TransactionSystemException e) {
+		return new ResponseEntity<>("customer name or email is null or not valid", HttpStatus.BAD_REQUEST);
+	}
+	@ExceptionHandler(InvalidDataAccessApiUsageException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	ResponseEntity<String> handleInvalidDataAccessApiUsageException(InvalidDataAccessApiUsageException e) {
+		return new ResponseEntity<>("customer name and/or email or id input is missing", HttpStatus.BAD_REQUEST);
+	}
+	
 
 	// Hakee kaikki Tiketit taulusta ja palauttaa ne koodilla 200
 	@GetMapping("/api/tickets")
@@ -100,9 +127,11 @@ public class RestTicketController {
 		}
 	}
 
-	//Kommenttien ja validaation tarkempi lisäys myöhemmin
+	//Ostotapahtuma, luo tiketteja, transaction tapahtumia ja tarvittaessa ostajan.
+	// saa syötteenä customerId:n tai customerName ja customerEmail ja listan haluttujen lippujen määrästä,
+	//tapahtumasta ja lipputyypistä
 	@PostMapping("/api/tickets")
-	public ResponseEntity<Iterable<Ticket>> ticketSale(@Valid @RequestBody TicketSaleDTO ticketSale) {
+	public ResponseEntity<Iterable<Ticket>> ticketSale(@RequestBody TicketSaleDTO ticketSale) {
 		HttpHeaders header = new HttpHeaders();
 		List<Ticket> boughtTickets = new ArrayList<>();
 		double price = 0.0;
@@ -138,9 +167,6 @@ public class RestTicketController {
 			boughtTickets = addTransactionToTickets(boughtTickets, transaction);
 			return new ResponseEntity<Iterable<Ticket>>(tRepo.saveAll(boughtTickets), HttpStatus.OK);
 
-		} else if(ticketSale.getCustomerId() == null && ticketSale.getCustomerEmail() == null || ticketSale.getCustomerName() == null) {
-			header.add("ERROR", "No ID given and email and/or name is missing");
-			return new ResponseEntity<Iterable<Ticket>>(header, HttpStatus.BAD_REQUEST);
 		}
 		
 		else if (tMapper.DtoToCustomerById(ticketSale).isPresent()) {
@@ -173,8 +199,13 @@ public class RestTicketController {
 			boughtTickets = addTransactionToTickets(boughtTickets, transaction);
 			return new ResponseEntity<Iterable<Ticket>>(tRepo.saveAll(boughtTickets), HttpStatus.OK);
 
-		} else {
+		} 
+		else if(tMapper.DtoToCustomerById(ticketSale).isEmpty()) {
 			header.add("ERROR", "No Customer found with given ID");
+			return new ResponseEntity<Iterable<Ticket>>(header, HttpStatus.BAD_REQUEST);
+		}
+		else {
+			header.add("ERROR", "No ID given and email and/or name is missing");
 			return new ResponseEntity<Iterable<Ticket>>(header, HttpStatus.BAD_REQUEST);
 		}
 	}
