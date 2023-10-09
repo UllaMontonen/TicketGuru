@@ -1,13 +1,14 @@
-package SKRUM;
-
+package SKRUM.TicketGuru;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+
 @SpringBootTest
-class TicketGuruApplicationTests {
+public class TicketGuruApplicationTest {
 
 	@Test
-	void contextLoads() {
-	}
+    public void applicationContextLoads() {
 
+    }
+    
 }

@@ -1,4 +1,4 @@
-package SKRUM;
+package SKRUM.TicketGuru;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -7,8 +7,6 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import SKRUM.TicketGuru.domain.*;
 
@@ -32,7 +30,7 @@ public class TicketRepositoryTest {
 	//että tikettejä on yksi vähemmän
 	@Test
 	public void deleteTicket() {
-		Ticket ticket = tRepo.save(new Ticket());
+		Ticket ticket = tRepo.save(new Ticket(null, null, null, "ABC-132", true));
 		System.out.println(ticket.getId());
 		List<Ticket> tickets = (List<Ticket>) tRepo.findAll();
 		tRepo.deleteById(ticket.getId());
