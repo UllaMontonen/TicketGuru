@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import SKRUM.TicketGuru.domain.Transaction;
@@ -24,6 +27,15 @@ public class RestTransactionController {
 
 	@Autowired
 	private TransactionRepository trRepo;
+	
+	// Palauttaa kaikkiin MethodArguementNotValidException heittoihin, response
+	// entityn jossa
+	// lukee virheilmoitus. Kyseinen heitto tulee @Valid annotaation virheistä
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	ResponseEntity<String> handleConstraintViolationExcepetion(MethodArgumentNotValidException e) {
+		return new ResponseEntity<>("not valid due to validation error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+	}
 
 	// Hakee kaikki entiteetit taulusta ja palauttaa ne koodilla 200
 	@GetMapping("/api/transactions")

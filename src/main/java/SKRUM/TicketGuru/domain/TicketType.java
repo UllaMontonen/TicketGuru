@@ -24,7 +24,7 @@ public class TicketType {
     
     @NotNull(message = "Price cannot be null")
     @PositiveOrZero(message = "Price need to be positive number")
-    private double price;
+    private Double price;
 
     @ManyToOne
     @JoinColumn(name = "event_id")
@@ -58,7 +58,7 @@ public class TicketType {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -83,7 +83,7 @@ public class TicketType {
         this.event = event;
     }
 
-    public TicketType(String description, double price, Event event) {
+    public TicketType(String description, Double price, Event event) {
         super();
         this.description = description;
         this.price = price;
