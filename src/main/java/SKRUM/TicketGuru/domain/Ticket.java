@@ -1,6 +1,11 @@
 package SKRUM.TicketGuru.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Ticket {
@@ -21,7 +26,12 @@ public class Ticket {
 	@JoinColumn(name = "transaction_id")
 	private Transaction transaction;
 
+	@NotNull(message = "Value cannot be null")
+	@AssertTrue(message = "Ticket is not verified")
 	private boolean verified;
+
+	@NotEmpty(message = "Code cannot be empty")
+	@Size(min = 1, max = 100, message = "Code must be between 1 and 100 characters")
 	private String code;
 
 	public Long getId() {

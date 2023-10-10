@@ -5,14 +5,26 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class TicketType {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @NotEmpty(message = "Description cannot be empty")
+    @NotBlank(message = "Description cannot be blank")
+    @Size(min = 1, max = 200, message = "Description must be between 1 and 200 characters")
     private String description;
-    private double price;
+    
+    @NotNull(message = "Price cannot be null")
+    @PositiveOrZero(message = "Price need to be positive number")
+    private Double price;
 
     @ManyToOne
     @JoinColumn(name = "event_id")
@@ -46,7 +58,7 @@ public class TicketType {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -71,7 +83,7 @@ public class TicketType {
         this.event = event;
     }
 
-    public TicketType(String description, double price, Event event) {
+    public TicketType(String description, Double price, Event event) {
         super();
         this.description = description;
         this.price = price;

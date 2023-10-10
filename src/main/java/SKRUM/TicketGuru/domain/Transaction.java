@@ -15,6 +15,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
 public class Transaction {
@@ -25,7 +27,9 @@ public class Transaction {
 	@Temporal(TemporalType.DATE)
 	private Date date;
 
-	private double amount;
+	@NotNull(message = "Amount cannot be null")
+    @PositiveOrZero(message = "Amount need to be a positive number")
+	private Double amount;
 
 	@ManyToOne
 	@JoinColumn(name = "customer_id")
@@ -35,7 +39,7 @@ public class Transaction {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "transaction")
 	private List<Ticket> tickets;
 
-	public Transaction(Date date, double amount, Customer customer) {
+	public Transaction(Date date, Double amount, Customer customer) {
 		super();
 		this.date = date;
 		this.amount = amount;
@@ -66,7 +70,7 @@ public class Transaction {
 		return amount;
 	}
 
-	public void setAmount(double amount) {
+	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
 
