@@ -4,13 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import SKRUM.TicketGuru.domain.TicketType;
 import SKRUM.TicketGuru.domain.TicketTypeRepository;
 
 import java.util.Optional;
+
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
 @RestController
@@ -21,13 +22,6 @@ public class TicketTypeController {
     @Autowired
     private TicketTypeRepository ttRepo;
 
-    //Palauttaa kaikkiin MethodArguementNotValidException heittoihin, response entityn jossa
-  	//lukee virheilmoitus. Kyseinen heitto tulee @Valid annotaation virheistä
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    ResponseEntity<String> handleConstraintViolationExcepetion(MethodArgumentNotValidException e) {
-		return new ResponseEntity<>("not valid due to validation error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
-	}
     
     // Hakee kaikki tikettityypit taulusta ja palauttaa ne koodilla 200
     @GetMapping
@@ -44,7 +38,7 @@ public class TicketTypeController {
         if (ticketTypeOptional.isPresent()) {
             return new ResponseEntity<Optional<TicketType>>(ticketTypeOptional, HttpStatus.OK);
         } else {
-            return new ResponseEntity<Optional<TicketType>>(HttpStatus.NOT_FOUND);
+            throw new EntityNotFoundException("TicketType with ID " + id + " not found");
         }
     }
 
@@ -52,8 +46,7 @@ public class TicketTypeController {
     // tyhjä/ei JSON:ia sisältävä requestbody palauttaa automaattisesti koodin 404
     @PostMapping
     public ResponseEntity<TicketType> addTicketType(@Valid @RequestBody TicketType newTicketType) {
-        ttRepo.save(newTicketType);
-        return new ResponseEntity<TicketType>(HttpStatus.CREATED);
+        return new ResponseEntity<TicketType>(ttRepo.save(newTicketType), HttpStatus.CREATED);
     }
 
     // Muokkaa annetun ID:n perusteella tikettityyppiä, palauttaa muokatun tikettityypin ja 
@@ -62,7 +55,7 @@ public class TicketTypeController {
     public ResponseEntity<TicketType> updateTicketType(@Valid @PathVariable("id") Long id,
             @RequestBody TicketType editedTicketType) {
         if (!ttRepo.existsById(id)) {
-            return new ResponseEntity<TicketType>(HttpStatus.NOT_FOUND);
+            throw new EntityNotFoundException("TicketType with ID " + id + " not found");
         }
         editedTicketType.setId(id);
         ttRepo.save(editedTicketType);
@@ -74,7 +67,7 @@ public class TicketTypeController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Iterable<TicketType>> deleteTicketType(@PathVariable("id") Long id) {
         if (!ttRepo.existsById(id)) {
-            return new ResponseEntity<Iterable<TicketType>>(HttpStatus.NOT_FOUND);
+            throw new EntityNotFoundException("TicketType with ID " + id + " not found");
         }
         ttRepo.deleteById(id);
         return new ResponseEntity<Iterable<TicketType>>(HttpStatus.OK);

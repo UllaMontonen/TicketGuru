@@ -4,22 +4,23 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+
 import org.springframework.web.bind.annotation.RestController;
 
 import SKRUM.TicketGuru.domain.*;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
 @RestController
@@ -30,15 +31,6 @@ public class RestCustomerController {
 	private CustomerRepository cRepo;
 	@Autowired
 	private TransactionRepository trRepo;
-	
-	//Palauttaa kaikkiin MethodArguementNotValidException heittoihin, response entityn jossa
-	//lukee virheilmoitus. Kyseinen heitto tulee @Valid annotaation virheistä
-	@ExceptionHandler(MethodArgumentNotValidException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	ResponseEntity<String> handleConstraintViolationExcepetion(MethodArgumentNotValidException e) {
-		return new ResponseEntity<>("not valid due to validation error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
-	}
-	
 
 	// Hakee kaikki customerit taulusta ja palauttaa ne koodilla 200
 	@GetMapping("/api/customers")
@@ -56,7 +48,7 @@ public class RestCustomerController {
 		if (customer.isPresent()) {
 			return new ResponseEntity<Optional<Customer>>(customer, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Optional<Customer>>(HttpStatus.NOT_FOUND);
+			throw new EntityNotFoundException("Customer with ID " + id + " not found");
 		}
 	}
 
@@ -72,12 +64,13 @@ public class RestCustomerController {
 	// Muokkaa annetun ID:n customeria, palauttaa muokatun customerin ja koodin 200
 	// tai koodin 404, jos customeria ei löydy
 	@PutMapping("/api/customers/{id}")
-	public ResponseEntity<Customer> editCustomer(@Valid @RequestBody Customer editedCustomer, @PathVariable("id") Long id) {
+	public ResponseEntity<Customer> editCustomer(@Valid @RequestBody Customer editedCustomer,
+			@PathVariable("id") Long id) {
 		if (cRepo.findById(id).isPresent()) {
 			editedCustomer.setId(id);
 			return new ResponseEntity<Customer>(cRepo.save(editedCustomer), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Customer>(HttpStatus.NOT_FOUND);
+			throw new EntityNotFoundException("Customer with ID " + id + " not found");
 		}
 	}
 
@@ -92,7 +85,7 @@ public class RestCustomerController {
 			cRepo.delete(targetCustomer.get());
 			return new ResponseEntity<Iterable<Customer>>(cRepo.findAll(), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Iterable<Customer>>(HttpStatus.NOT_FOUND);
+			throw new EntityNotFoundException("Customer with ID " + id + " not found");
 		}
 	}
 
@@ -106,9 +99,7 @@ public class RestCustomerController {
 		if (customer.isPresent()) {
 			return new ResponseEntity<List<Transaction>>(trRepo.findByCustomer(customer.get()), HttpStatus.OK);
 		} else {
-			HttpHeaders header = new HttpHeaders();
-			header.add("ERROR", "Customer with id " + id + " not found");
-			return new ResponseEntity<List<Transaction>>(header, HttpStatus.NOT_FOUND);
+			throw new EntityNotFoundException("Customer with ID " + id + " not found");
 		}
 	}
 

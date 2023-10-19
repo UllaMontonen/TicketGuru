@@ -1,14 +1,17 @@
 package SKRUM.TicketGuru.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import SKRUM.TicketGuru.domain.exceptions.CustomForbiddenException;
+import SKRUM.TicketGuru.domain.response.ErrorRes;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,35 +33,38 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         this.jwtUtil = jwtUtil;
         this.mapper = mapper;
     }
+
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        Map<String, Object> errorDetails = new HashMap<>();
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
 
         try {
             String accessToken = jwtUtil.resolveToken(request);
-            if (accessToken == null ) {
+            if (accessToken == null) {
                 filterChain.doFilter(request, response);
                 return;
             }
-            System.out.println("token : "+accessToken);
+            System.out.println("token : " + accessToken);
             Claims claims = jwtUtil.resolveClaims(request);
 
-            if(claims != null & jwtUtil.validateClaims(claims)){
+            if (claims != null & jwtUtil.validateClaims(claims)) {
                 String username = claims.getSubject();
-                System.out.println("username : "+username);
-                Authentication authentication =
-                        new UsernamePasswordAuthenticationToken(username,"",new ArrayList<>());
+                System.out.println("username : " + username);
+                Authentication authentication = new UsernamePasswordAuthenticationToken(username, "",
+                        new ArrayList<>());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
 
-        }catch (Exception e){
-            errorDetails.put("message", "Authentication Error");
-            errorDetails.put("details",e.getMessage());
+        } catch (Exception e) {
+            ErrorRes errorResponse = new ErrorRes(HttpStatus.FORBIDDEN,
+                    "Token you entered is incorrect, try to get a new one at /api/auth/login");
             response.setStatus(HttpStatus.FORBIDDEN.value());
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
-            mapper.writeValue(response.getWriter(), errorDetails);
-
+            String errorResponseJson = mapper.writeValueAsString(errorResponse);
+            response.getWriter().write(errorResponseJson);
+            response.getWriter().flush();
+            return;
         }
         filterChain.doFilter(request, response);
     }
