@@ -2,6 +2,8 @@ package SKRUM.TicketGuru.auth;
 
 import io.jsonwebtoken.*;
 import jakarta.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
@@ -15,17 +17,14 @@ import java.util.concurrent.TimeUnit;
 public class JwtUtil {
 
 
-    private final String secret_key = "mysecretkey";
+	@Value("${jwt.secret}")
+    private String secret_key;
+	
     private long accessTokenValidity = 60*60*1000;
-
-    private final JwtParser jwtParser;
 
     private final String TOKEN_HEADER = "Authorization";
     private final String TOKEN_PREFIX = "Bearer ";
 
-    public JwtUtil(){
-        this.jwtParser = Jwts.parser().setSigningKey(secret_key);
-    }
 
     public String createToken(User user) {
         Claims claims = Jwts.claims().setSubject(user.getUsername());
@@ -39,7 +38,7 @@ public class JwtUtil {
     }
 
     private Claims parseJwtClaims(String token) {
-        return jwtParser.parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(secret_key).parseClaimsJws(token).getBody();
     }
 
     public Claims resolveClaims(HttpServletRequest req) {
@@ -79,7 +78,8 @@ public class JwtUtil {
         return claims.getSubject();
     }
 
-    private List<String> getRoles(Claims claims) {
+    @SuppressWarnings("unused")
+	private List<String> getRoles(Claims claims) {
         return (List<String>) claims.get("roles");
     }
 
