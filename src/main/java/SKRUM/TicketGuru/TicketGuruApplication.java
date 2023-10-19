@@ -41,8 +41,7 @@ public class TicketGuruApplication {
 					ttRepo.findByDescription("Opiskelija").get(0), trRepo.save(new Transaction(new Date(), 26.34, cRepo.findByName("Testi Pesti").get(0))), "ABC-123", true));
 
 			//Käyttäjän luonti
-			User user1 = new User("user", "user");
-			user1.setRole("USER");		
+			User user1 = new User("user", "$2a$10$cZAbqG8AaRTHSdwuNgPEHunTzr5.M.cAx4u6XwMsDSri.0e6wF8ca", "USER");	
 			uRepo.save(user1);
 
 
