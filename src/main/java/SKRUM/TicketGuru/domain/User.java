@@ -6,34 +6,41 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-@Entity(name="users")
+@Entity(name = "users")
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, updatable = false)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", nullable = false, updatable = false)
+	private Long id;
 
-    // Username with unique constraint
-    @Column(name = "username", nullable = false, unique = true)
-    private String username;
+	// Username with unique constraint
+	@Column(name = "username", nullable = false, unique = true)
+	private String username;
 
-    @Column(name = "password", nullable = false)
-    private String passwordHash;
+	@Column(name = "password", nullable = false)
+	private String passwordHash;
 
-    @Column(name = "role", nullable = false)
-    private String role;
-    
-    public User() {
-    }
+	@Column(name = "role", nullable = false)
+	private String role;
 
-	public User(String username, String passwordHash) {
+	public User() {
+	}
+
+	public User(String username, String passwordHash, String role) {
 		super();
 		this.username = username;
 		this.passwordHash = passwordHash;
+		this.role = role;
 	}
 
-    public Long getId() {
+	//RestAuthControlleria varten
+	public User(String username) {
+		super();
+		this.username = username;
+	}
+
+	public Long getId() {
 		return id;
 	}
 

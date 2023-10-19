@@ -35,7 +35,7 @@ public class RestAuthController {
             Authentication authentication = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(loginReq.getUser(), loginReq.getPassword()));
             String username = authentication.getName();
-            User user = new User(username, "");
+            User user = new User(username);
             String token = jwtUtil.createToken(user);
             LoginRes loginRes = new LoginRes(username, token);
 
