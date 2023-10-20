@@ -36,6 +36,7 @@ public class Event {
 	private int ticketAmount;
 
 	@Temporal(TemporalType.DATE)
+	@NotNull(message = "Date cannot be null")
 	private Date eventDate;
 
 	@JsonIgnore
