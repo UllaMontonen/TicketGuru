@@ -88,9 +88,9 @@ Create a new event.
 
 **Method** : `POST`
 
-**Auth required** : `NO`
+**Auth required** : YES
 
-**Permissions required** : `None`
+**Permissions required** : None
 
 **Request Body**
 Provide the following details to create a new event:
@@ -132,7 +132,7 @@ Update an existing event.
 
 **Method** : `PUT`
 
-**Auth required** : NO
+**Auth required** : YES
 
 **Permissions required** : None
 
@@ -182,7 +182,7 @@ Delete an event by providing its ID.
 
 **Method** : `DELETE`
 
-**Auth required** : NO
+**Auth required** : YES
 
 **Permissions required** : None
 

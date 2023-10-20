@@ -104,9 +104,9 @@ Create a new TicketType.
 
 **Method** : `POST`
 
-**Auth required** : `NO`
+**Auth required** : YES
 
-**Permissions required** : `None`
+**Permissions required** : None
 
 **Request Body**
 Provide the following details to create a new TicketType:
@@ -151,7 +151,7 @@ Update an existing TicketType.
 
 **Method** : `PUT`
 
-**Auth required** : NO
+**Auth required** : YES
 
 **Permissions required** : None
 
@@ -204,7 +204,7 @@ Delete an TicketType by providing its ID.
 
 **Method** : `DELETE`
 
-**Auth required** : NO
+**Auth required** : YES
 
 **Permissions required** : None
 
