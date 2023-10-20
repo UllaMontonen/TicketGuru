@@ -35,3 +35,4 @@ Currently all endpoints require a valid Token to be included in the request. Thi
 **Condition**: `If 'username' and 'password' combination is wrong.`
 
 **Code**: `400 BAD REQUEST`
+**Content**: `Invalid username or password`
