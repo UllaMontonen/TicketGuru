@@ -6,35 +6,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+
 import org.springframework.web.bind.annotation.RestController;
 
 import SKRUM.TicketGuru.domain.*;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
 @RestController
 @Validated
 public class RestEventController {
-	
+
 	@Autowired
 	private EventRepository eRepo;
-
-	// Palauttaa kaikkiin MethodArguementNotValidException heittoihin, response
-	// entityn jossa
-	// lukee virheilmoitus. Kyseinen heitto tulee @Valid annotaation virheistä
-	@ExceptionHandler(MethodArgumentNotValidException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	ResponseEntity<String> handleConstraintViolationExcepetion(MethodArgumentNotValidException e) {
-		return new ResponseEntity<>("not valid due to validation error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
-	}
 
 	// Hakee kaikki eventit taulusta ja palauttaa ne koodilla 200
 	@GetMapping("/api/events")
@@ -51,7 +43,7 @@ public class RestEventController {
 		if (event.isPresent()) {
 			return new ResponseEntity<Optional<Event>>(event, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Optional<Event>>(HttpStatus.NOT_FOUND);
+			throw new EntityNotFoundException("Event with ID " + id + " not found");
 		}
 	}
 
@@ -71,7 +63,7 @@ public class RestEventController {
 			editedEvent.setId(id);
 			return new ResponseEntity<Event>(eRepo.save(editedEvent), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Event>(HttpStatus.NOT_FOUND);
+			throw new EntityNotFoundException("Event with ID " + id + " not found");
 		}
 	}
 
@@ -85,7 +77,7 @@ public class RestEventController {
 			eRepo.delete(targetEvent.get());
 			return new ResponseEntity<Iterable<Event>>(eRepo.findAll(), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Iterable<Event>>(HttpStatus.NOT_FOUND);
+			throw new EntityNotFoundException("Event with ID " + id + " not found");
 		}
 	}
 

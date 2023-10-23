@@ -25,6 +25,7 @@ public class Transaction {
 	private Long id;
 
 	@Temporal(TemporalType.DATE)
+	@NotNull(message = "Date cannot be null")
 	private Date date;
 
 	@NotNull(message = "Amount cannot be null")

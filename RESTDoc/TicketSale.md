@@ -10,7 +10,7 @@ Sell tickets for a specific event and ticket type.
 
 **Method**: `POST`
 
-**Auth required**: NO
+**Auth required**: YES
 
 **Permissions required**: None
 

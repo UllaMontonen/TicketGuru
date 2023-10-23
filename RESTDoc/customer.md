@@ -10,7 +10,7 @@ Get a list of all Customers.
 
 **Method**: `GET`
 
-**Auth required**: NO
+**Auth required**: YES
 
 **Permissions required**: None
 
@@ -41,7 +41,7 @@ Get details of a specific Customer by its ID.
 
 **Method**: `GET`
 
-**Auth required**: NO
+**Auth required**: YES
 
 **Permissions required**: None
 
@@ -78,9 +78,9 @@ Create a new Customer.
 
 **Method** : `POST`
 
-**Auth required** : `NO`
+**Auth required** : YES
 
-**Permissions required** : `None`
+**Permissions required** : None
 
 **Request Body**
 Provide the following details to create a new Customer:
@@ -114,7 +114,7 @@ Update an existing Customer.
 
 **Method** : `PUT`
 
-**Auth required** : NO
+**Auth required** : YES
 
 **Permissions required** : None
 
@@ -157,7 +157,7 @@ Delete an Customer by providing its ID.
 
 **Method** : `DELETE`
 
-**Auth required** : NO
+**Auth required** : YES
 
 **Permissions required** : None
 
