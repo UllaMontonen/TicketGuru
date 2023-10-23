@@ -10,7 +10,7 @@ Get a list of all events.
 
 **Method**: `GET`
 
-**Auth required**: NO
+**Auth required**: YES
 
 **Permissions required**: None
 
@@ -48,7 +48,7 @@ Get details of a specific event by its ID.
 
 **Method**: `GET`
 
-**Auth required**: NO
+**Auth required**: YES
 
 **Permissions required**: None
 

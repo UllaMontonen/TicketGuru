@@ -10,7 +10,7 @@ Get a list of all TicketTypes.
 
 **Method**: `GET`
 
-**Auth required**: NO
+**Auth required**: YES
 
 **Permissions required**: None
 
@@ -59,7 +59,7 @@ Get details of a specific TicketType by its ID.
 
 **Method**: `GET`
 
-**Auth required**: NO
+**Auth required**: YES
 
 **Permissions required**: None
 
