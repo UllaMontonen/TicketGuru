@@ -18,7 +18,7 @@ public class TicketGuruApplication {
 
 	@Bean
 	public CommandLineRunner demo(CustomerRepository cRepo, EventRepository eRepo, TicketRepository tRepo,
-			TicketTypeRepository ttRepo, TransactionRepository trRepo) {
+			TicketTypeRepository ttRepo, TransactionRepository trRepo, UserRepository uRepo) {
 		return (args) -> {
 			Date date = new Date();
 
@@ -39,6 +39,11 @@ public class TicketGuruApplication {
 					ttRepo.findByDescription("Normaali").get(0), trRepo.save(new Transaction(new Date(), 56.34, cRepo.findByName("Testi Pesti").get(0))), "ABC-123", true));
 			tRepo.save(new Ticket(eRepo.findByName("TestiTapahtuma2").get(0),
 					ttRepo.findByDescription("Opiskelija").get(0), trRepo.save(new Transaction(new Date(), 26.34, cRepo.findByName("Testi Pesti").get(0))), "ABC-123", true));
+
+			//Käyttäjän luonti
+			User user1 = new User("user", "{bcrypt}$2a$10$cZAbqG8AaRTHSdwuNgPEHunTzr5.M.cAx4u6XwMsDSri.0e6wF8ca", "USER");	
+			uRepo.save(user1);
+
 
 		};
 	}

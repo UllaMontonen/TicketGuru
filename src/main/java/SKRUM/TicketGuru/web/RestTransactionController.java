@@ -6,19 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import SKRUM.TicketGuru.domain.Transaction;
 import SKRUM.TicketGuru.domain.TransactionRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
 @RestController
@@ -27,15 +25,6 @@ public class RestTransactionController {
 
 	@Autowired
 	private TransactionRepository trRepo;
-	
-	// Palauttaa kaikkiin MethodArguementNotValidException heittoihin, response
-	// entityn jossa
-	// lukee virheilmoitus. Kyseinen heitto tulee @Valid annotaation virheistä
-	@ExceptionHandler(MethodArgumentNotValidException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	ResponseEntity<String> handleConstraintViolationExcepetion(MethodArgumentNotValidException e) {
-		return new ResponseEntity<>("not valid due to validation error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
-	}
 
 	// Hakee kaikki entiteetit taulusta ja palauttaa ne koodilla 200
 	@GetMapping("/api/transactions")
@@ -53,8 +42,8 @@ public class RestTransactionController {
 		if (transaction.isPresent()) {
 			return new ResponseEntity<Optional<Transaction>>(transaction, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Optional<Transaction>>(HttpStatus.NOT_FOUND);
-		}
+            throw new EntityNotFoundException("Transaction with ID " + id + " not found");
+        }
 	}
 
 	// Luo tauluun uuden entiteetin ja palauttaa sen bodyssä koodilla 201, tyhjä/ ei
@@ -72,8 +61,8 @@ public class RestTransactionController {
 			editedTransaction.setId(id);
 			return new ResponseEntity<Transaction>(trRepo.save(editedTransaction), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Transaction>(HttpStatus.NOT_FOUND);
-		}
+            throw new EntityNotFoundException("Transaction with ID " + id + " not found");
+        }
 	}
 
 	// Poistaa annetun ID:n entiteetin, palauttaa jäljellä olevat entiteetit ja koodin 200
@@ -86,8 +75,8 @@ public class RestTransactionController {
 			trRepo.delete(targetTransaction.get());
 			return new ResponseEntity<Iterable<Transaction>>(trRepo.findAll(), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Iterable<Transaction>>(HttpStatus.NOT_FOUND);
-		}
+            throw new EntityNotFoundException("Transaction with ID " + id + " not found");
+        }
 	}
 
 }

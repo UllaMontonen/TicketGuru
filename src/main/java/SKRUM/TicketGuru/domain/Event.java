@@ -33,9 +33,10 @@ public class Event {
 	
 	@NotNull(message = "Amount cannot be null")
     @PositiveOrZero(message = "Amount need to be a positive number")
-	private int ticketAmount;
+	private Integer ticketAmount;
 
 	@Temporal(TemporalType.DATE)
+	@NotNull(message = "Date cannot be null")
 	private Date eventDate;
 
 	@JsonIgnore
@@ -50,7 +51,7 @@ public class Event {
 		super();
 	}
 
-	public Event(String name, String place, String city, int ticketAmount, Date eventDate) {
+	public Event(String name, String place, String city, Integer ticketAmount, Date eventDate) {
 		super();
 		this.name = name;
 		this.place = place;
@@ -95,7 +96,7 @@ public class Event {
 		return ticketAmount;
 	}
 
-	public void setTicketAmount(int ticketAmount) {
+	public void setTicketAmount(Integer ticketAmount) {
 		this.ticketAmount = ticketAmount;
 	}
 

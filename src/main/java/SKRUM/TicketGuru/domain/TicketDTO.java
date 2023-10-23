@@ -12,11 +12,11 @@ public class TicketDTO {
 		this.ticketTypeId = ticketTypeId;
 	}
 
-	public int getTicketAmount() {
+	public Integer getTicketAmount() {
 		return ticketAmount;
 	}
 
-	public void setTicketAmount(int ticketAmount) {
+	public void setTicketAmount(Integer ticketAmount) {
 		this.ticketAmount = ticketAmount;
 	}
 
@@ -28,7 +28,7 @@ public class TicketDTO {
 		this.eventId = eventId;
 	}
 
-	public TicketDTO(Long ticketTypeId, Long eventId, int ticketAmount) {
+	public TicketDTO(Long ticketTypeId, Long eventId, Integer ticketAmount) {
 		super();
 		this.ticketTypeId = ticketTypeId;
 		this.eventId = eventId;
