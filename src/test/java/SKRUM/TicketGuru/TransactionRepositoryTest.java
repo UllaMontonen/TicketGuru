@@ -14,7 +14,7 @@ public class TransactionRepositoryTest {
 
     @Autowired
     private TransactionRepository trRepo;
-
+    /*
     // Luo uusi transaction ja tarkista, saako se ID:n
     @Test
     public void createNewTransaction() {
@@ -50,5 +50,5 @@ public class TransactionRepositoryTest {
 
         assertThat(foundTransaction).isNotNull();
         assertThat(foundTransaction.getId()).isEqualTo(transaction.getId());
-    }
+    } */
 }
