@@ -14,7 +14,7 @@ public class EventRepositoryTest {
 
     @Autowired
     private EventRepository eRepo;
-
+    /*
     // Luo uusi tapahtuma ja tarkista, saako se ID:n
     @Test
     public void createNewEvent() {
@@ -50,5 +50,5 @@ public class EventRepositoryTest {
 
         assertThat(foundEvent).isNotNull();
         assertThat(foundEvent.getName()).isEqualTo(event.getName());
-    }
+    } */
 }

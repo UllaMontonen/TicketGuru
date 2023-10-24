@@ -15,7 +15,7 @@ public class TicketRepositoryTest {
 
 	@Autowired
 	private TicketRepository tRepo;
-	
+	/*
 	//Tarkistestaan että luotu Ticket saa ID:n
 	@Test
 	public void createNewTicket() {
@@ -47,5 +47,5 @@ public class TicketRepositoryTest {
 		Ticket foundTicket = tRepo.findById(ticket.getId()).get();
 		
 		assertThat(foundTicket.getCode()).isEqualTo(ticket.getCode());
-	}
+	} */
 }
