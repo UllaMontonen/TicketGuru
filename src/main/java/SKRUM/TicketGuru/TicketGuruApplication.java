@@ -16,6 +16,7 @@ public class TicketGuruApplication {
 		SpringApplication.run(TicketGuruApplication.class, args);
 	}
 
+	/*
 	@Bean
 	public CommandLineRunner demo(CustomerRepository cRepo, EventRepository eRepo, TicketRepository tRepo,
 			TicketTypeRepository ttRepo, TransactionRepository trRepo, UserRepository uRepo) {
@@ -45,7 +46,7 @@ public class TicketGuruApplication {
 			uRepo.save(user1);
 
 
-		};
-	}
+		}; 
+	} */
 
 }
