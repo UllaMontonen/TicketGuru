@@ -46,6 +46,8 @@ public class TicketGuruApplication {
 			uRepo.save(user1);
 			User admin = new User("admin", "{bcrypt}$2a$12$wW1l6GyD6.OHZsOZuBaFVu0bFqD0aggEQ9k2vjo1d9.Adn0j0PmGK", "ADMIN");	
 			uRepo.save(admin);
+			User scanner = new User("scanner", "{bcrypt}$2a$12$J18yaI/yoy2LYzjbie8Vhus3s3UfbyRJN3BV/y6LxQxwjnGOgXte6", "SCANNER");	
+			uRepo.save(scanner);
 
 
 		}; 
