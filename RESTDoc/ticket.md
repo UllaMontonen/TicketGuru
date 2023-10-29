@@ -7,10 +7,18 @@
 
 * **Method:**
   
-  `GET` /tickets for all | /tickets/{ticket_id} for single ticket
-  `POSt` /tickets
-  `DELETE` /tickets/{ticket_id}
-  `PUT` /tickets/{ticket_id}
+  **`GET`** /tickets for all | /tickets/{ticket_id} for single ticket
+  **Auth required**: YES
+  **Permissions required**: Admin or User or Scanner
+  **`POSt`** /tickets
+  **Auth required**: YES
+  **Permissions required**: Admin or User
+  **`DELETE`** /tickets/{ticket_id}
+  **Auth required**: YES
+  **Permissions required**: Admin or User
+  **`PUT`** /tickets/{ticket_id}
+  **Auth required**: YES
+  **Permissions required**: Admin or User
   
 *  **URL Params**
 
