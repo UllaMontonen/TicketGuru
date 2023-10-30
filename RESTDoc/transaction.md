@@ -7,10 +7,18 @@
 
 * **Method:**
   
-  `GET` /transactions for all | /transactions/{transaction_id} for single transaction
-  `POSt` /transactions
-  `DELETE` /transactions/{transaction_id}
-  `PUT` /transactions/{transaction_id}
+  **`GET`** /transactions for all | /transactions/{transaction_id} for single transaction<br />
+  **Auth required**: YES<br />
+  **Permissions required**: Admin or User<br />
+  **`POSt`** /transactions<br />
+  **Auth required**: YES<br />
+  **Permissions required**: Admin or User<br />
+  **`DELETE`** /transactions/{transaction_id}<br />
+  **Auth required**: YES<br />
+  **Permissions required**: Admin or User<br />
+  **`PUT`** /transactions/{transaction_id}<br />
+  **Auth required**: YES<br />
+  **Permissions required**: Admin or User<br />
   
 *  **URL Params**
 
