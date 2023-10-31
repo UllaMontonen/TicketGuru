@@ -63,10 +63,20 @@ public class RestTicketController {
 		if (ticket.isPresent()) {
 			return new ResponseEntity<Optional<Ticket>>(ticket, HttpStatus.OK);
 		} else {
-            throw new EntityNotFoundException("Ticket with ID " + id + " not found");
-        }
+			throw new EntityNotFoundException("Ticket with ID " + id + " not found");
+		}
 	}
 
+	@GetMapping("/api/tickets/check")
+	public ResponseEntity<Optional<Ticket>> checkTicketByCode(@RequestBody TicketCodeDTO ticketCodeDTO) {
+		String ticketcode = ticketCodeDTO.getTicketcode();
+		Optional<Ticket> ticket = tRepo.findByCode(ticketcode);
+		if (ticket.isPresent()) {
+			return new ResponseEntity<Optional<Ticket>>(ticket, HttpStatus.OK);
+		} else {
+			throw new EntityNotFoundException("Ticket with Code " + ticketcode + " not found");
+		}
+	}
 	// Korvaava Post löytyy alempaa
 	//
 	// Luo tauluun uuden tiketin ja palauttaa sen bodyssä koodilla 201, tyhjä/ ei
@@ -85,8 +95,8 @@ public class RestTicketController {
 			editedTicket.setId(id);
 			return new ResponseEntity<Ticket>(tRepo.save(editedTicket), HttpStatus.OK);
 		} else {
-            throw new EntityNotFoundException("Ticket with ID " + id + " not found");
-        }
+			throw new EntityNotFoundException("Ticket with ID " + id + " not found");
+		}
 	}
 
 	// Poistaa annetun ID:n tiketin, palauttaa jäljellä olevat tiketit ja koodin 200
@@ -99,76 +109,80 @@ public class RestTicketController {
 			tRepo.delete(targetTicket.get());
 			return new ResponseEntity<Iterable<Ticket>>(tRepo.findAll(), HttpStatus.OK);
 		} else {
-            throw new EntityNotFoundException("Ticket with ID " + id + " not found");
-        }
+			throw new EntityNotFoundException("Ticket with ID " + id + " not found");
+		}
 	}
 
-	//Ostotapahtuma, luo tiketteja, transaction tapahtumia ja tarvittaessa ostajan.
-	// saa syötteenä customerId:n tai customerName ja customerEmail ja listan haluttujen lippujen määrästä,
-	//tapahtumasta ja lipputyypistä
+	// Ostotapahtuma, luo tiketteja, transaction tapahtumia ja tarvittaessa ostajan.
+	// saa syötteenä customerId:n tai customerName ja customerEmail ja listan
+	// haluttujen lippujen määrästä,
+	// tapahtumasta ja lipputyypistä
 	@PostMapping("/api/tickets")
-public ResponseEntity<Iterable<Ticket>> ticketSale(@RequestBody TicketSaleDTO ticketSale) {
-    List<Ticket> boughtTickets = new ArrayList<>();
-    double price = 0.0;
-    if (ticketSale.getCustomerId() == null && ticketSale.getCustomerName() != null
-            && ticketSale.getCustomerEmail() != null) {
-        Customer customer = cRepo.save(tMapper.DtoToCustomerByName(ticketSale));
+	public ResponseEntity<Iterable<Ticket>> ticketSale(@RequestBody TicketSaleDTO ticketSale) {
+		List<Ticket> boughtTickets = new ArrayList<>();
+		double price = 0.0;
+		if (ticketSale.getCustomerId() == null && ticketSale.getCustomerName() != null
+				&& ticketSale.getCustomerEmail() != null) {
+			Customer customer = cRepo.save(tMapper.DtoToCustomerByName(ticketSale));
 
-        for (TicketDTO ticketDto : ticketSale.getTicketsDTO()) {
-            for (int i = 0; i < ticketDto.getTicketAmount(); i++) {
-                Optional<Event> event = eRepo.findById(ticketDto.getEventId());
-                Optional<TicketType> ticketType = ttRepo.findById(ticketDto.getTicketTypeId());
-                if (ticketType.isEmpty()) {
-                    throw new TicketTypeNotFoundException("No tickettype found with id " + ticketDto.getTicketTypeId());
-                } else if (event.isEmpty()) {
-                    throw new EventNotFoundException("No event found with id " + ticketDto.getEventId());
-                } else if (event.get().getId() != ticketType.get().getEvent().getId()) {
-                    throw new RuntimeException("TicketType doesn't match the given Event");
-				} else {
-                    String ticketCode = generateUniqueTicketCode(event.get());
-                    boughtTickets.add(new Ticket(event.get(), ticketType.get(), null, ticketCode, true));
-                }
-            }
-        }
-        price = countTotalSumForSale(ticketSale.getTicketsDTO());
-        Transaction transaction = trRepo.save(new Transaction(new Date(), price, customer));
-        boughtTickets = addTransactionToTickets(boughtTickets, transaction);
-        return new ResponseEntity<Iterable<Ticket>>(tRepo.saveAll(boughtTickets), HttpStatus.OK);
-    } else if (tMapper.DtoToCustomerById(ticketSale).isPresent()) {
-        Customer customer = tMapper.DtoToCustomerById(ticketSale).get();
-        for (TicketDTO ticketDto : ticketSale.getTicketsDTO()) {
-            for (int i = 0; i < ticketDto.getTicketAmount(); i++) {
-                Optional<Event> event = eRepo.findById(ticketDto.getEventId());
-                Optional<TicketType> ticketType = ttRepo.findById(ticketDto.getTicketTypeId());
-                if (ticketType.isEmpty()) {
-                    throw new TicketTypeNotFoundException("No tickettype found with id " + ticketDto.getTicketTypeId());
-                } else if (event.isEmpty()) {
-                    throw new EventNotFoundException("No event found with id " + ticketDto.getEventId());
-                } else if (event.get().getId() != ticketType.get().getEvent().getId()) {
-                    throw new RuntimeException("TicketType doesn't match the given Event");
-				} else {
-                    String ticketCode = generateUniqueTicketCode(event.get());
-                    boughtTickets.add(new Ticket(event.get(), ticketType.get(), null, ticketCode, true));
-                }
-            }
-        }
-        price = countTotalSumForSale(ticketSale.getTicketsDTO());
-        Transaction transaction = trRepo.save(new Transaction(new Date(), price, customer));
-        boughtTickets = addTransactionToTickets(boughtTickets, transaction);
-        return new ResponseEntity<Iterable<Ticket>>(tRepo.saveAll(boughtTickets), HttpStatus.OK);
-    } else if (tMapper.DtoToCustomerById(ticketSale).isEmpty()) {
-        throw new CustomerNotFoundException("No Customer found with the given ID");
-    } else {
-        throw new RuntimeException("No ID given and email and/or name is missing");
-    }
-}
+			for (TicketDTO ticketDto : ticketSale.getTicketsDTO()) {
+				for (int i = 0; i < ticketDto.getTicketAmount(); i++) {
+					Optional<Event> event = eRepo.findById(ticketDto.getEventId());
+					Optional<TicketType> ticketType = ttRepo.findById(ticketDto.getTicketTypeId());
+					if (ticketType.isEmpty()) {
+						throw new TicketTypeNotFoundException(
+								"No tickettype found with id " + ticketDto.getTicketTypeId());
+					} else if (event.isEmpty()) {
+						throw new EventNotFoundException("No event found with id " + ticketDto.getEventId());
+					} else if (event.get().getId() != ticketType.get().getEvent().getId()) {
+						throw new RuntimeException("TicketType doesn't match the given Event");
+					} else {
+						String ticketCode = generateUniqueTicketCode(event.get());
+						boughtTickets.add(new Ticket(event.get(), ticketType.get(), null, ticketCode, true));
+					}
+				}
+			}
+			price = countTotalSumForSale(ticketSale.getTicketsDTO());
+			Transaction transaction = trRepo.save(new Transaction(new Date(), price, customer));
+			boughtTickets = addTransactionToTickets(boughtTickets, transaction);
+			return new ResponseEntity<Iterable<Ticket>>(tRepo.saveAll(boughtTickets), HttpStatus.OK);
+		} else if (tMapper.DtoToCustomerById(ticketSale).isPresent()) {
+			Customer customer = tMapper.DtoToCustomerById(ticketSale).get();
+			for (TicketDTO ticketDto : ticketSale.getTicketsDTO()) {
+				for (int i = 0; i < ticketDto.getTicketAmount(); i++) {
+					Optional<Event> event = eRepo.findById(ticketDto.getEventId());
+					Optional<TicketType> ticketType = ttRepo.findById(ticketDto.getTicketTypeId());
+					if (ticketType.isEmpty()) {
+						throw new TicketTypeNotFoundException(
+								"No tickettype found with id " + ticketDto.getTicketTypeId());
+					} else if (event.isEmpty()) {
+						throw new EventNotFoundException("No event found with id " + ticketDto.getEventId());
+					} else if (event.get().getId() != ticketType.get().getEvent().getId()) {
+						throw new RuntimeException("TicketType doesn't match the given Event");
+					} else {
+						String ticketCode = generateUniqueTicketCode(event.get());
+						boughtTickets.add(new Ticket(event.get(), ticketType.get(), null, ticketCode, true));
+					}
+				}
+			}
+			price = countTotalSumForSale(ticketSale.getTicketsDTO());
+			Transaction transaction = trRepo.save(new Transaction(new Date(), price, customer));
+			boughtTickets = addTransactionToTickets(boughtTickets, transaction);
+			return new ResponseEntity<Iterable<Ticket>>(tRepo.saveAll(boughtTickets), HttpStatus.OK);
+		} else if (tMapper.DtoToCustomerById(ticketSale).isEmpty()) {
+			throw new CustomerNotFoundException("No Customer found with the given ID");
+		} else {
+			throw new RuntimeException("No ID given and email and/or name is missing");
+		}
+	}
 
 	private String generateUniqueTicketCode(Event event) {
 		// Antaa joka lipulle uniikin koodin muodossa: "EVT-{eventId}-{aika}"
 		return "EVT-" + event.getId() + "-" + System.currentTimeMillis();
 	}
 
-	//Laskee transactionin summan ja palauttaa sen pyöristettynä kahden desimaalin tarkkuudella
+	// Laskee transactionin summan ja palauttaa sen pyöristettynä kahden desimaalin
+	// tarkkuudella
 	private Double countTotalSumForSale(List<TicketDTO> ticketsDto) {
 		Double sum = 0.0;
 
@@ -178,7 +192,8 @@ public ResponseEntity<Iterable<Ticket>> ticketSale(@RequestBody TicketSaleDTO ti
 		}
 		return Precision.round(sum, 2);
 	}
-	//Lisää listan jokaiseen tikettiin transactionin ja palauttaa päivitetyn listan
+
+	// Lisää listan jokaiseen tikettiin transactionin ja palauttaa päivitetyn listan
 	private List<Ticket> addTransactionToTickets(List<Ticket> tickets, Transaction transaction) {
 		for (Ticket ticket : tickets) {
 			ticket.setTransaction(transaction);

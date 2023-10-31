@@ -12,7 +12,7 @@ Get a list of all Customers.
 
 **Auth required**: YES
 
-**Permissions required**: None
+**Permissions required**: Admin
 
 ### Success Response
 
@@ -43,7 +43,7 @@ Get details of a specific Customer by its ID.
 
 **Auth required**: YES
 
-**Permissions required**: None
+**Permissions required**: Admin
 
 ### Success Response
 
@@ -80,7 +80,7 @@ Create a new Customer.
 
 **Auth required** : YES
 
-**Permissions required** : None
+**Permissions required** : Admin
 
 **Request Body**
 Provide the following details to create a new Customer:
@@ -116,7 +116,7 @@ Update an existing Customer.
 
 **Auth required** : YES
 
-**Permissions required** : None
+**Permissions required** : Admin
 
 ### Parameters
 
@@ -159,7 +159,7 @@ Delete an Customer by providing its ID.
 
 **Auth required** : YES
 
-**Permissions required** : None
+**Permissions required** : Admin
 
 ### Parameters
 

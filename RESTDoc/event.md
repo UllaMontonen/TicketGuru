@@ -12,7 +12,7 @@ Get a list of all events.
 
 **Auth required**: YES
 
-**Permissions required**: None
+**Permissions required**: Admin or User
 
 ### Success Response
 
@@ -50,7 +50,7 @@ Get details of a specific event by its ID.
 
 **Auth required**: YES
 
-**Permissions required**: None
+**Permissions required**: Admin
 
 ### Success Response
 
@@ -90,7 +90,7 @@ Create a new event.
 
 **Auth required** : YES
 
-**Permissions required** : None
+**Permissions required** : Admin
 
 **Request Body**
 Provide the following details to create a new event:
@@ -134,7 +134,7 @@ Update an existing event.
 
 **Auth required** : YES
 
-**Permissions required** : None
+**Permissions required** : Admin
 
 ### Parameters
 
@@ -184,7 +184,7 @@ Delete an event by providing its ID.
 
 **Auth required** : YES
 
-**Permissions required** : None
+**Permissions required** : Admin
 
 ### Parameters
 

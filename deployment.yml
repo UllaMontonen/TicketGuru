@@ -1,0 +1,24 @@
+spec:
+  template:
+    spec:
+      containers:
+       - env:
+         - name: SPRING_PROFILES_ACTIVE
+           value: rahti
+         - name: MYSQL_USER
+           value: SKRUM_Admin
+         - name: MYSQL_PASSWORD
+           value: SavolainenMontonenSajari
+         - name: MYSQL_DATABASE
+           value: TicketGuruDB
+         - name: MYSQL_SERVICE_HOST
+           value: 172.30.43.155
+         - name: NYSQL_SERVICE_PORT
+           value: 3306
+         - name: JWT_SECRET
+           valueFrom:
+             secretKeyRef:
+               key: jwt
+               name: jwtsecret
+          
+     

@@ -15,7 +15,7 @@ import jakarta.validation.constraints.Size;
 @Entity
 public class Event {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@NotEmpty(message = "Name cannot be empty")
@@ -33,10 +33,12 @@ public class Event {
 	
 	@NotNull(message = "Amount cannot be null")
     @PositiveOrZero(message = "Amount need to be a positive number")
+	@Column(name = "ticket_amount")
 	private Integer ticketAmount;
 
 	@Temporal(TemporalType.DATE)
 	@NotNull(message = "Date cannot be null")
+	@Column(name = "event_date")
 	private Date eventDate;
 
 	@JsonIgnore

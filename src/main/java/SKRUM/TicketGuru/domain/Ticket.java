@@ -11,7 +11,7 @@ import jakarta.validation.constraints.Size;
 public class Ticket {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@ManyToOne
@@ -19,7 +19,7 @@ public class Ticket {
 	private Event event;
 
 	@ManyToOne
-	@JoinColumn(name = "ticketType_id")
+	@JoinColumn(name = "ticket_type_id")
 	private TicketType ticketType;
 
 	@ManyToOne
