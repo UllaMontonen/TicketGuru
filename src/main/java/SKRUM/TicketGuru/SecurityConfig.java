@@ -5,6 +5,7 @@ import SKRUM.TicketGuru.web.UserDetailsServiceImpl;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -48,6 +49,27 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(antMatcher("/api/auth/**")).permitAll()
                         .requestMatchers(antMatcher("/h2-console/**")).permitAll()
+                        .requestMatchers(antMatcher("/api/customers/**")).hasRole("ADMIN")
+
+                        .requestMatchers(antMatcher(HttpMethod.GET,"/api/transactions/**")).hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(antMatcher(HttpMethod.POST,"/api/transactions/**")).hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(antMatcher(HttpMethod.PUT,"/api/transactions/**")).hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(antMatcher(HttpMethod.DELETE,"/api/transactions/**")).hasAnyRole("ADMIN", "USER")
+
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/tickets/**")).hasAnyRole("ADMIN", "USER", "SCANNER")
+                        .requestMatchers(antMatcher(HttpMethod.POST,"/api/tickets/**")).hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(antMatcher(HttpMethod.PUT,"/api/tickets/**")).hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(antMatcher(HttpMethod.DELETE,"/api/tickets/**")).hasAnyRole("ADMIN", "USER")
+
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/events/**")).hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(antMatcher(HttpMethod.POST, "/api/events/**")).hasRole("ADMIN")
+                        .requestMatchers(antMatcher(HttpMethod.PUT, "/api/events/**")).hasRole("ADMIN")
+                        .requestMatchers(antMatcher(HttpMethod.DELETE, "/api/events/**")).hasRole("ADMIN")
+
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/tickettypes/**")).hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(antMatcher(HttpMethod.POST, "/api/tickettypes/**")).hasRole("ADMIN")
+                        .requestMatchers(antMatcher(HttpMethod.PUT, "/api/tickettypes/**")).hasRole("ADMIN")
+                        .requestMatchers(antMatcher(HttpMethod.DELETE, "/api/tickettypes/**")).hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .headers(headers -> headers
                 		.frameOptions().disable())

@@ -12,7 +12,7 @@ Get a list of all TicketTypes.
 
 **Auth required**: YES
 
-**Permissions required**: None
+**Permissions required**: Admin or User
 
 ### Success Response
 
@@ -61,7 +61,7 @@ Get details of a specific TicketType by its ID.
 
 **Auth required**: YES
 
-**Permissions required**: None
+**Permissions required**: Admin
 
 ### Success Response
 
@@ -106,7 +106,7 @@ Create a new TicketType.
 
 **Auth required** : YES
 
-**Permissions required** : None
+**Permissions required** : Admin
 
 **Request Body**
 Provide the following details to create a new TicketType:
@@ -153,7 +153,7 @@ Update an existing TicketType.
 
 **Auth required** : YES
 
-**Permissions required** : None
+**Permissions required** : Admin
 
 ### Parameters
 
@@ -206,7 +206,7 @@ Delete an TicketType by providing its ID.
 
 **Auth required** : YES
 
-**Permissions required** : None
+**Permissions required** : Admin
 
 ### Parameters
 

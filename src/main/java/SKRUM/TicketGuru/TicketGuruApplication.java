@@ -16,7 +16,7 @@ public class TicketGuruApplication {
 		SpringApplication.run(TicketGuruApplication.class, args);
 	}
 
-	/*
+	
 	@Bean
 	public CommandLineRunner demo(CustomerRepository cRepo, EventRepository eRepo, TicketRepository tRepo,
 			TicketTypeRepository ttRepo, TransactionRepository trRepo, UserRepository uRepo) {
@@ -44,9 +44,13 @@ public class TicketGuruApplication {
 			//Käyttäjän luonti
 			User user1 = new User("user", "{bcrypt}$2a$10$cZAbqG8AaRTHSdwuNgPEHunTzr5.M.cAx4u6XwMsDSri.0e6wF8ca", "USER");	
 			uRepo.save(user1);
+			User admin = new User("admin", "{bcrypt}$2a$12$wW1l6GyD6.OHZsOZuBaFVu0bFqD0aggEQ9k2vjo1d9.Adn0j0PmGK", "ADMIN");	
+			uRepo.save(admin);
+			User scanner = new User("scanner", "{bcrypt}$2a$12$J18yaI/yoy2LYzjbie8Vhus3s3UfbyRJN3BV/y6LxQxwjnGOgXte6", "SCANNER");	
+			uRepo.save(scanner);
 
 
 		}; 
-	} */
+	}
 
 }

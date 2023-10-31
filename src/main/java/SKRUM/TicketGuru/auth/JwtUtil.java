@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import SKRUM.TicketGuru.domain.User;
 
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -28,6 +27,7 @@ public class JwtUtil {
 
     public String createToken(User user) {
         Claims claims = Jwts.claims().setSubject(user.getUsername());
+        claims.put("roles", user.getRole());
         Date tokenCreateTime = new Date();
         Date tokenValidity = new Date(tokenCreateTime.getTime() + TimeUnit.MINUTES.toMillis(accessTokenValidity));
         return Jwts.builder()
@@ -78,9 +78,8 @@ public class JwtUtil {
         return claims.getSubject();
     }
 
-    @SuppressWarnings("unused")
-	private List<String> getRoles(Claims claims) {
-        return (List<String>) claims.get("roles");
+	public String getRoles(Claims claims) {
+        return (String) claims.get("roles");
     }
 
 

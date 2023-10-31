@@ -38,6 +38,7 @@ public class Event {
 
 	@Temporal(TemporalType.DATE)
 	@NotNull(message = "Date cannot be null")
+	@Column(name = "event_date")
 	private Date eventDate;
 
 	@JsonIgnore
