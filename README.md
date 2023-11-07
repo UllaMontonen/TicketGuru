@@ -139,7 +139,7 @@ This is the documentation for the Ticket Selling API, which allows you to manage
 
 - **POST /api/event/{eventId}/ticketTypes/{ticketTypeId}**: Create a new ticket sale.
 
-### [Ticket Check](RESRDoc/TicketCheck.md)
+### [Ticket Check](RESTDoc/TicketCheck.md)
 
 - **GET /api/tickets/check**: Checking the ticket
 
