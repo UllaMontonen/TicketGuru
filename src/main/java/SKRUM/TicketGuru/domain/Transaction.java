@@ -6,6 +6,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,6 +27,7 @@ public class Transaction {
 
 	@Temporal(TemporalType.DATE)
 	@NotNull(message = "Date cannot be null")
+	@Column(name = "transaction_date")
 	private Date date;
 
 	@NotNull(message = "Amount cannot be null")

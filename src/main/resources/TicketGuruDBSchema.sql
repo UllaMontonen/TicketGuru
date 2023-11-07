@@ -28,7 +28,7 @@ name VARCHAR(255) NOT NULL,
 place VARCHAR(255) NOT NULL,
 city VARCHAR(255) NOT NULL,
 ticket_amount INT NOT NULL,
-date DATE NOT NULL,
+event_date DATE NOT NULL,
 PRIMARY KEY (id)
 );
 
@@ -43,7 +43,7 @@ FOREIGN KEY (event_id) REFERENCES event(id)
 
 CREATE TABLE transaction(
 id BIGINT NOT NULL AUTO_INCREMENT,
-date DATE NOT NULL,
+transaction_date DATE NOT NULL,
 amount DOUBLE NOT NULL,
 customer_id BIGINT NOT NULL,
 PRIMARY KEY (id),
@@ -64,18 +64,20 @@ FOREIGN KEY (transaction_id) REFERENCES transaction(id)
 );
 
 INSERT INTO users (username, password, role)
-VALUES("user", "{bcrypt}$2a$10$cZAbqG8AaRTHSdwuNgPEHunTzr5.M.cAx4u6XwMsDSri.0e6wF8ca", "USER");
+VALUES("user", "{bcrypt}$2a$10$cZAbqG8AaRTHSdwuNgPEHunTzr5.M.cAx4u6XwMsDSri.0e6wF8ca", "USER"),
+("admin", "{bcrypt}$2a$12$wW1l6GyD6.OHZsOZuBaFVu0bFqD0aggEQ9k2vjo1d9.Adn0j0PmGK", "ADMIN"),
+("scanner", "{bcrypt}$2a$12$J18yaI/yoy2LYzjbie8Vhus3s3UfbyRJN3BV/y6LxQxwjnGOgXte6", "SCANNER");
 
 INSERT INTO customer (name, email)
 VALUES("DBTesti", "dbmail@mail.com");
 
-INSERT INTO event (name, place, city, ticket_amount, date)
+INSERT INTO event (name, place, city, ticket_amount, event_date)
 VALUES("DBtapahtuma", "kantapaikka", "vaikka kanta", 1000, "2023-12-24");
 
 INSERT INTO ticket_type (description, price, event_id)
 VALUES("Testi", 20.30, 1);
 
-INSERT INTO transaction(date, amount, customer_id)
+INSERT INTO transaction(transaction_date, amount, customer_id)
 VALUES("2023-12-12", 40.40, 1);
 
 INSERT INTO ticket (event_id, ticket_type_id, transaction_id, code, verified)

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 @Configuration
-@PropertySource("classpath:application-rahti.properties")
+@PropertySource("classpath:application.properties")
 public class AppConfig {
 	
 	@Bean
