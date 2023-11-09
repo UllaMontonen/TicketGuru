@@ -4,25 +4,21 @@ This API allows you to check ticket information in the TicketGuru system.
 
 ## Check Ticket
 
-Check ticket information and if the ticket is valid
+Check ticket and mark it as used
 
-**URL**: `/api/tickets/check`
+**URL**: `/api/tickets/check/{ticketcode}`
 
-**Method**: `GET`
+**Method**: `PATCH`
 
 **Auth required**: YES
 
 **Permissions required**: Scanner
 
-### Request Body
+### Path Variables
 
-Provide the following details to sell tickets:
+Provide the following details to check and mark tickets as used:
 
-```json
-{
-    "ticketcode": "EVT-2-1698595259570"
-}
-```
+`ticketcode`: The code of the ticket to be checked and marked as used.
 
 ### Success Response
 
@@ -71,8 +67,14 @@ Provide the following details to sell tickets:
 
 ### Error Responses
 
+**Condition:** If ticket with provided code does not exist.
 
 **Code** : `404 Not Found`
 
 **Content** : `Ticket with Code EVT-2-1698595259570 not found`
 
+**Condition:** If ticket with provided code has already been used.
+
+**Code** : `400 BAD REQUEST`
+
+**Content** : `Ticket is already used`

@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -67,12 +68,18 @@ public class RestTicketController {
 		}
 	}
 
-	@GetMapping("/api/tickets/check")
-	public ResponseEntity<Optional<Ticket>> checkTicketByCode(@RequestBody TicketCodeDTO ticketCodeDTO) {
-		String ticketcode = ticketCodeDTO.getTicketcode();
+	// Etsii annetulla koodilla tikettiä, tarkistaa onko se käytetty, jos ei niin merkkaa sen käytetyksi ja palauttaa vastauksena tiketin tai koodin 404
+	@PatchMapping("/api/tickets/check/{ticketcode}")
+	public ResponseEntity<Optional<Ticket>> checkTicketByCode(@PathVariable String ticketcode) {
 		Optional<Ticket> ticket = tRepo.findByCode(ticketcode);
 		if (ticket.isPresent()) {
-			return new ResponseEntity<Optional<Ticket>>(ticket, HttpStatus.OK);
+			if (ticket.get().isVerified()) {
+				throw new RuntimeException("Ticket is already used");
+			} else {
+				ticket.get().setVerified(true);
+				tRepo.save(ticket.get());
+				return new ResponseEntity<Optional<Ticket>>(ticket, HttpStatus.OK);
+			}
 		} else {
 			throw new EntityNotFoundException("Ticket with Code " + ticketcode + " not found");
 		}
@@ -138,7 +145,7 @@ public class RestTicketController {
 						throw new RuntimeException("TicketType doesn't match the given Event");
 					} else {
 						String ticketCode = generateUniqueTicketCode(event.get());
-						boughtTickets.add(new Ticket(event.get(), ticketType.get(), null, ticketCode, true));
+						boughtTickets.add(new Ticket(event.get(), ticketType.get(), null, ticketCode, false));
 					}
 				}
 			}
@@ -161,7 +168,7 @@ public class RestTicketController {
 						throw new RuntimeException("TicketType doesn't match the given Event");
 					} else {
 						String ticketCode = generateUniqueTicketCode(event.get());
-						boughtTickets.add(new Ticket(event.get(), ticketType.get(), null, ticketCode, true));
+						boughtTickets.add(new Ticket(event.get(), ticketType.get(), null, ticketCode, false));
 					}
 				}
 			}
