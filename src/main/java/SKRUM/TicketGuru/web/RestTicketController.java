@@ -67,10 +67,25 @@ public class RestTicketController {
 			throw new EntityNotFoundException("Ticket with ID " + id + " not found");
 		}
 	}
+	// Etsii annetulla koodilla tiketin tiedot, palauttaa löydetyn tiketin ja koodin 200
+	@GetMapping("/api/tickets/check/{ticketcode}")
+	public ResponseEntity<Optional<Ticket>> getTicketByCode(@PathVariable String ticketcode) {
+		Optional<Ticket> ticket = tRepo.findByCode(ticketcode);
+		if (ticket.isPresent()) {
+			if (ticket.get().isVerified()) {
+				throw new RuntimeException("Ticket is already used");
+			} else {
+				return new ResponseEntity<Optional<Ticket>>(ticket, HttpStatus.OK);
+			}
+		} else {
+			throw new EntityNotFoundException("Ticket with Code " + ticketcode + " not found");
+		}
+	}
 
-	// Etsii annetulla koodilla tikettiä, tarkistaa onko se käytetty, jos ei niin merkkaa sen käytetyksi ja palauttaa vastauksena tiketin tai koodin 404
-	@PatchMapping("/api/tickets/check/{ticketcode}")
-	public ResponseEntity<Optional<Ticket>> checkTicketByCode(@PathVariable String ticketcode) {
+	// Etsii annetulla koodilla tikettiä, tarkistaa onko se käytetty, jos ei niin
+	// merkkaa sen käytetyksi ja palauttaa vastauksena tiketin tai koodin 404
+	@PatchMapping("/api/tickets/markused/{ticketcode}")
+	public ResponseEntity<Optional<Ticket>> markTicketUsedByCode(@PathVariable String ticketcode) {
 		Optional<Ticket> ticket = tRepo.findByCode(ticketcode);
 		if (ticket.isPresent()) {
 			if (ticket.get().isVerified()) {

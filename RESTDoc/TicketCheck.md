@@ -2,11 +2,61 @@
 
 This API allows you to check ticket information in the TicketGuru system.
 
-## Check Ticket
+## Get Ticket Information
 
-Check ticket and mark it as used
+Fetch the ticket information based on the ticket code.
 
 **URL**: `/api/tickets/check/{ticketcode}`
+
+**Method**: `GET`
+
+**Auth required**: YES
+
+**Permissions required**: Scanner
+
+### Path Variables
+
+`ticketcode`: The code of the ticket to be fetched.
+
+### Success Response
+
+**Code**: `200 OK`
+
+**Content examples**
+
+```json
+{
+    "id": 1,
+    "event": {
+        "id": 1,
+        "name": "TestiTapahtuma",
+        "place": "Apollo",
+        "city": "Helsinki",
+        "ticketAmount": 100,
+        "eventDate": "2023-11-07"
+    },
+    "ticketType": {
+        "id": 1,
+        "description": "Normaali",
+        "price": 20.3,
+        "event": {
+            "id": 1,
+            "name": "TestiTapahtuma",
+            "place": "Apollo",
+            "city": "Helsinki",
+            "ticketAmount": 100,
+            "eventDate": "2023-11-07"
+        }
+    },
+    "verified": false
+}
+```
+
+## Mark ticket as used
+
+Mark the ticket as used based on the ticket code.
+
+**URL**: `/api/tickets/markused/{ticketcode}`
 
 **Method**: `PATCH`
 
@@ -16,9 +66,7 @@ Check ticket and mark it as used
 
 ### Path Variables
 
-Provide the following details to check and mark tickets as used:
-
-`ticketcode`: The code of the ticket to be checked and marked as used.
+`ticketcode`: The code of the ticket to be marked as used.
 
 ### Success Response
 
