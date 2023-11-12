@@ -2,11 +2,11 @@
 
 This API allows you to check ticket information in the TicketGuru system.
 
-## Check Ticket
+## Get Ticket Information
 
-Check ticket information and if the ticket is valid
+Fetch the ticket information based on the ticket code.
 
-**URL**: `/api/tickets/check`
+**URL**: `/api/tickets/check/{ticketcode}`
 
 **Method**: `GET`
 
@@ -14,15 +14,59 @@ Check ticket information and if the ticket is valid
 
 **Permissions required**: Scanner
 
-### Request Body
+### Path Variables
 
-Provide the following details to sell tickets:
+`ticketcode`: The code of the ticket to be fetched.
+
+### Success Response
+
+**Code**: `200 OK`
+
+**Content examples**
 
 ```json
 {
-    "ticketcode": "EVT-2-1698595259570"
+    "id": 1,
+    "event": {
+        "id": 1,
+        "name": "TestiTapahtuma",
+        "place": "Apollo",
+        "city": "Helsinki",
+        "ticketAmount": 100,
+        "eventDate": "2023-11-07"
+    },
+    "ticketType": {
+        "id": 1,
+        "description": "Normaali",
+        "price": 20.3,
+        "event": {
+            "id": 1,
+            "name": "TestiTapahtuma",
+            "place": "Apollo",
+            "city": "Helsinki",
+            "ticketAmount": 100,
+            "eventDate": "2023-11-07"
+        }
+    },
+    "verified": false
 }
 ```
+
+## Mark ticket as used
+
+Mark the ticket as used based on the ticket code.
+
+**URL**: `/api/tickets/markused/{ticketcode}`
+
+**Method**: `PATCH`
+
+**Auth required**: YES
+
+**Permissions required**: Scanner
+
+### Path Variables
+
+`ticketcode`: The code of the ticket to be marked as used.
 
 ### Success Response
 
@@ -71,8 +115,14 @@ Provide the following details to sell tickets:
 
 ### Error Responses
 
+**Condition:** If ticket with provided code does not exist.
 
 **Code** : `404 Not Found`
 
 **Content** : `Ticket with Code EVT-2-1698595259570 not found`
 
+**Condition:** If ticket with provided code has already been used.
+
+**Code** : `400 BAD REQUEST`
+
+**Content** : `Ticket is already used`

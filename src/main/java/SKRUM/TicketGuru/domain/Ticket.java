@@ -27,7 +27,6 @@ public class Ticket {
 	private Transaction transaction;
 
 	@NotNull(message = "Value cannot be null")
-	@AssertTrue(message = "Ticket is not verified")
 	private boolean verified;
 
 	@NotEmpty(message = "Code cannot be empty")
