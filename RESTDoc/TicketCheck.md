@@ -17,6 +17,7 @@ Fetch the ticket information based on the ticket code.
 ### Path Variables
 
 `ticketcode`: The code of the ticket to be fetched.
+Example: `EVT-1-1699806364295`
 
 ### Success Response
 
@@ -26,29 +27,40 @@ Fetch the ticket information based on the ticket code.
 
 ```json
 {
-    "id": 1,
+    "id": 4,
     "event": {
         "id": 1,
-        "name": "TestiTapahtuma",
-        "place": "Apollo",
-        "city": "Helsinki",
-        "ticketAmount": 100,
-        "eventDate": "2023-11-07"
+        "name": "DBtapahtuma",
+        "place": "kantapaikka",
+        "city": "vaikka kanta",
+        "ticketAmount": 1000,
+        "eventDate": "2023-12-24"
     },
     "ticketType": {
         "id": 1,
-        "description": "Normaali",
+        "description": "Testi",
         "price": 20.3,
         "event": {
             "id": 1,
-            "name": "TestiTapahtuma",
-            "place": "Apollo",
-            "city": "Helsinki",
-            "ticketAmount": 100,
-            "eventDate": "2023-11-07"
+            "name": "DBtapahtuma",
+            "place": "kantapaikka",
+            "city": "vaikka kanta",
+            "ticketAmount": 1000,
+            "eventDate": "2023-12-24"
         }
     },
-    "verified": false
+    "transaction": {
+        "id": 2,
+        "date": "2023-11-12",
+        "amount": 60.6,
+        "customer": {
+            "id": 1,
+            "name": "DBTesti",
+            "email": "dbmail@mail.com"
+        }
+    },
+    "verified": false,
+    "code": "EVT-1-1699806364295"
 }
 ```
 
@@ -67,6 +79,7 @@ Mark the ticket as used based on the ticket code.
 ### Path Variables
 
 `ticketcode`: The code of the ticket to be marked as used.
+Example: `EVT-1-1699806364295`
 
 ### Success Response
 
@@ -76,40 +89,40 @@ Mark the ticket as used based on the ticket code.
 
 ```json
 {
-    "id": 1,
+    "id": 4,
     "event": {
         "id": 1,
-        "name": "TestiTapahtuma",
-        "place": "Apollo",
-        "city": "Helsinki",
-        "ticketAmount": 100,
-        "eventDate": "2023-11-07"
+        "name": "DBtapahtuma",
+        "place": "kantapaikka",
+        "city": "vaikka kanta",
+        "ticketAmount": 1000,
+        "eventDate": "2023-12-24"
     },
     "ticketType": {
         "id": 1,
-        "description": "Normaali",
+        "description": "Testi",
         "price": 20.3,
         "event": {
             "id": 1,
-            "name": "TestiTapahtuma",
-            "place": "Apollo",
-            "city": "Helsinki",
-            "ticketAmount": 100,
-            "eventDate": "2023-11-07"
+            "name": "DBtapahtuma",
+            "place": "kantapaikka",
+            "city": "vaikka kanta",
+            "ticketAmount": 1000,
+            "eventDate": "2023-12-24"
         }
     },
     "transaction": {
-        "id": 1,
-        "date": "2023-11-07",
-        "amount": 56.34,
+        "id": 2,
+        "date": "2023-11-12",
+        "amount": 60.6,
         "customer": {
             "id": 1,
-            "name": "Testi Pesti",
-            "email": "email@mail.com"
+            "name": "DBTesti",
+            "email": "dbmail@mail.com"
         }
     },
     "verified": true,
-    "code": "ABC-123"
+    "code": "EVT-1-1699806364295"
 }
 ```
 
@@ -119,7 +132,7 @@ Mark the ticket as used based on the ticket code.
 
 **Code** : `404 Not Found`
 
-**Content** : `Ticket with Code EVT-2-1698595259570 not found`
+**Content** : `Ticket with Code EVT-1-1699806364295 not found`
 
 **Condition:** If ticket with provided code has already been used.
 
