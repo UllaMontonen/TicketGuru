@@ -17,6 +17,7 @@ Fetch the ticket information based on the ticket code.
 ### Path Variables
 
 `ticketcode`: The code of the ticket to be fetched.
+
 Example: `EVT-1-1699806364295`
 
 ### Success Response
@@ -79,6 +80,7 @@ Mark the ticket as used based on the ticket code.
 ### Path Variables
 
 `ticketcode`: The code of the ticket to be marked as used.
+
 Example: `EVT-1-1699806364295`
 
 ### Success Response
