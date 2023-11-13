@@ -14,8 +14,15 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
+
+import java.util.Arrays;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -38,6 +45,17 @@ public class SecurityConfig {
         authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder(10));
         return authenticationManagerBuilder.build();
     }
+    
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+    	CorsConfiguration configuration = new CorsConfiguration();
+    	configuration.setAllowedOrigins(Arrays.asList("*"));
+    	configuration.setAllowedMethods(Arrays.asList("*"));
+    	configuration.setAllowedHeaders(Arrays.asList("*"));
+    	UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    	source.registerCorsConfiguration("/**", configuration);
+    	return source; 	
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -46,6 +64,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf
                 		.ignoringRequestMatchers(antMatcher("/h2-console/**"))
                 		.disable())
+                .cors(withDefaults())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(antMatcher("/api/auth/**")).permitAll()
                         .requestMatchers(antMatcher("/h2-console/**")).permitAll()
@@ -57,6 +76,7 @@ public class SecurityConfig {
                         .requestMatchers(antMatcher(HttpMethod.DELETE,"/api/transactions/**")).hasAnyRole("ADMIN", "USER")
 
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/tickets/**")).hasAnyRole("ADMIN", "USER", "SCANNER")
+                        .requestMatchers(antMatcher(HttpMethod.PATCH, "/api/tickets/**")).hasAnyRole("ADMIN", "USER", "SCANNER")
                         .requestMatchers(antMatcher(HttpMethod.POST,"/api/tickets/**")).hasAnyRole("ADMIN", "USER")
                         .requestMatchers(antMatcher(HttpMethod.PUT,"/api/tickets/**")).hasAnyRole("ADMIN", "USER")
                         .requestMatchers(antMatcher(HttpMethod.DELETE,"/api/tickets/**")).hasAnyRole("ADMIN", "USER")

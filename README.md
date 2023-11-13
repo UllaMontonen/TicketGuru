@@ -139,6 +139,10 @@ This is the documentation for the Ticket Selling API, which allows you to manage
 
 - **POST /api/event/{eventId}/ticketTypes/{ticketTypeId}**: Create a new ticket sale.
 
+### [Ticket Check](RESTDoc/TicketCheck.md)
+
+- **GET /api/tickets/check**: Checking the ticket
+
 ## Authentication
 
 Currently all endpoints require a valid Token to be included in the request. A Token can be acquired from the Login view. More information on login can be found here: [login info](RESTDoc/login.md)
