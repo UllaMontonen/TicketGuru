@@ -5,10 +5,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 public class TicketGuruApplicationTest {
-
+	
 	@Test
     public void applicationContextLoads() {
 
     }
     
-} 
+}
