@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.apache.commons.math3.util.Precision;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -199,8 +200,9 @@ public class RestTicketController {
 	}
 
 	private String generateUniqueTicketCode(Event event) {
-		// Antaa joka lipulle uniikin koodin muodossa: "EVT-{eventId}-{aika}"
-		return "EVT-" + event.getId() + "-" + System.currentTimeMillis();
+		//UUID mukainen täysin random koodi tiketille
+		UUID uuid = UUID.randomUUID();
+		return uuid.toString();
 	}
 
 	// Laskee transactionin summan ja palauttaa sen pyöristettynä kahden desimaalin
