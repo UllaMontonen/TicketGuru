@@ -4,20 +4,20 @@ This document lists the core things for our project that we need to test, and ho
 
 ## JUnit Tests
 
-1. **Test findByCode Method in TicketRepository**
+1. **Test findByName Method in EventRepository**
+
+    - **Goal**: Ensure that the `findByName` method in the `EventRepository` returns the correct event when given a valid name.
+    - **Expected Result**: An event whose name matches the input.
+
+2. **Test findByDescription Method in TicketTypeRepository**
+
+    - **Goal**: Ensure that the `findByDescription` method in the `TicketTypeRepository` returns the correct ticket type when given a valid description.
+    - **Expected Result**: A ticket type whose description matches the input.
+
+3. **Test findByCode Method in TicketRepository**
 
     - **Goal**: Ensure that the `findByCode` method in the `TicketRepository` returns the correct ticket when given a valid code.
     - **Expected Result**: A ticket whose code matches the input.
-
-2. **Test POST Method in RestTicketController**
-
-    - **Goal**: Ensure that the `POST` method in the `RestTicketController` correctly saves a ticket.
-    - **Expected Result**: A saved ticket in the database with correct input.
-
-3. **Test markTicketUsedByCode Method in RestTicketController**
-
-    - **Goal**: Ensure that the `markTicketUsedByCode` method in the `RestTicketController` returns the correct HTTP status and body when given a valid code.
-    - **Expected Result**: Ticket whose code matches the input is `verified=true`.
 
 ## Integration Tests
 
@@ -36,6 +36,11 @@ This document lists the core things for our project that we need to test, and ho
     - **Goal**: Ensure that the `/api/tickets/markused/{ticketcode}` endpoint returns the correct HTTP status and body when given a valid code.
     - **Expected Result**: JSON data with the correct Ticket that matches the input code and `verified=true`, or "Ticket has already been checked."
 
+4. **Test POST Method in RestTicketController**
+
+    - **Goal**: Ensure that the `POST` method in the `RestTicketController` correctly saves a ticket.
+    - **Expected Result**: A saved ticket in the database with correct input.
+
 ## End-to-End Tests
 
 1. **Test Ticket Fetch and Mark Used**
@@ -52,3 +57,8 @@ This document lists the core things for our project that we need to test, and ho
 
     - **Goal**: Ensure Ticket types are matched correctly with corresponding event when fetched from `/api/events/{id}/tickettypes`.
     - **Expected Result**: Ticket type info that is linked to the event which ID is inserted.
+
+4. **Test Fringe Numbers and Amounts**
+
+    - **Goal**: Ensure that the system correctly handles fringe numbers and amounts (e.g., very large numbers, negative numbers, zero, etc.) without bugs.
+    - **Expected Result**: The system should either correctly process these numbers or return an appropriate error message, without crashing or behaving unexpectedly.
