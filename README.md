@@ -23,6 +23,8 @@ Dependencies
 
 The application is used on a computer or mobile device, and tickets are scanned with a mobile terminal.
 
+In addition, a client-side has been created for the project, which is available as a published GitHub Pages: [TicketGuru client](https://kridesav.github.io/TicketGuru_client/).
+
 ## System Definition
 Identified user roles in this project:
 * Admin (admin)
@@ -30,7 +32,7 @@ Identified user roles in this project:
 * Ticket Inspector (scanner)
 * Buyer (will be implemented in the future)
 
-User roles and stories are presented in more detail here: : [User Roles and Stories](UserRolesAndStories.md)
+User roles and stories are presented in more detail here: [User Roles and Stories](UserRolesAndStories.md)
 
 ## User interface (will be updated!!!)
 
