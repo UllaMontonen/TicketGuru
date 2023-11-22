@@ -1,36 +1,40 @@
-# TicketGuru projekti
+# TicketGuru project
 
-SK(R)UM tiimi: Ulla Montonen, Santeri Sajari, Maiju Rekola, Kristjan Savolainen
+SK(R)UM team: Ulla Montonen, Santeri Sajari and Kristjan Savolainen. Additionally, Maiju Rekola participated in the creation of the project in its initial phase.
 
-## Johdanto
+## Introduction
 
-* Asiakkaana Tickettoimisto.
-* Lipunmyyntijärjestelmä nimeltä TicketGuru. 
-* Tickettoimisto syöttää myytävät liput, Tapahtuman kuvauksen ja hinnat ja asiakas pystyy ostamaan ne.
-* Asiakas pystyy tulostamaan ostamansa liput.
-* Sovellus tuottaa lipuille helposti tarkastettavan koodin, millä pystyy todentamaan lipun aitouden mobiilipäätteellä.
+This project has been produced as part of the Software Project 1 course at Haaga-Helia University of Applied Sciences.
 
-Toteutus- ja toimintaympäristö lyhyesti:
-* Maven projekti 3.1.3
+* The client for the project is the Ticket Office.
+* We developed a ticket sales system named TicketGuru.
+* The ticket office has the capability to create new events, specify the quantity of tickets available for each event, define ticket types for the event, and set the prices for these ticket types.
+* Tickets can be printed after purchase. Additionally, all unsold tickets can be printed for on-site sales at the door.
+* The application generates easily verifiable QR codes for the tickets, facilitating authenticity verification with a mobile terminal.
+
+Implementation and Operating Environment Briefly:
+* Maven project version 3.1.3
 * Java 17
 
-Riippuvuudet/dependencies
+Dependencies
 * Spring Boot DevTools
 * Spring Web
 * MySQL driver
 
-Käytetään tietokoneella ja liput luetaan mobiilipäätteellä.
+The application is used on a computer or mobile device, and tickets are scanned with a mobile terminal.
 
-## Järjestelmän määrittely
-Tässä projektissa tunnistettuja käyttäjärooleja:
-* Admin
-* Lipunmyyjä
-* Lipuntarkastaja
-* Ostaja
+In addition, a client-side has been created for the project, which is available as a published GitHub Pages: [TicketGuru client](https://kridesav.github.io/TicketGuru_client/).
 
-Lisää: [Käyttäjäryhmät ja tarinat](KayttajaroolitJaTarinat.md)
+## System Definition
+Identified user roles in this project:
+* Admin (admin)
+* Ticket Seller (user)
+* Ticket Inspector (scanner)
+* Buyer (will be implemented in the future)
 
-## Käyttöliittymä
+User roles and stories are presented in more detail here: [User Roles and Stories](UserRolesAndStories.md)
+
+## User interface (will be updated!!!)
 
 ![](Kuva1.png "Kuva 1")
 
@@ -38,61 +42,72 @@ Lisää: [Käyttäjäryhmät ja tarinat](KayttajaroolitJaTarinat.md)
 
 ![](Kuva3.png "Kuva 3")
 
-## Tietokanta
+## Database
 
  ### Event
-Event-taulu sisältää tapahtuman tiedot. Tapahtumaan voidaan myydä monta lippua. Lippu käy vain tiettyyn tapahtumaan. 
+The "Event" table contains information about an event. Multiple tickets can be sold for an event, and each ticket is valid only for a specific event.
 
-| Attribuutti | Tyyppi | Kuvaus |
+| Attribute | Type | Description |
 | --- |:---:| ---:|
-| id PK           | Integer (autoincrement) | Tapahtuman id |
-| eventDate        | Date | Tapahtuman ajankohta |
-| place           | Varchar(100) | Tapahtuman paikka/tila |
-| name            | Varchar(200) | Tapahtuman nimi |
-| city            | Varchar(100) | Tapahtuman järjestyskaupunki |
-| ticketAmount    | Integer | Myytävien Ticketjen määrä |
+| id PK           | Integer (autoincrement) | Event id |
+| eventDate        | Date | Date of the event |
+| place           | Varchar(100) | Place/space of the event |
+| name            | Varchar(200) | Name of the event |
+| city            | Varchar(100) | The city of the event |
+| ticketAmount    | Integer | Number of tickets to be sold |
 
 ### Ticket
-Ticket-taulu sisältää lipun tiedot. Ticket käy tiettyyn tapahtumaan. Yhdellä lipulla voi olla yksi Ticket tyyppi. Ticket tyyppi voi olla useammalla lipulla.
+The "Ticket" table contains information about a ticket. A ticket is valid for a specific event. Each ticket can have one ticket type, and a ticket type may be associated with multiple tickets.
 
-| Attribuutti | Tyyppi | Kuvaus |
+| Attribute | Type | Description |
 | --- |:---:| ---:|
-| id PK      | Integer (autoincrement) | Lipun id |
-| event_id  FK | Integer | Viittaus Tapahtumaan Event-taulussa |
-| ticketType_id FK     | Integer | Viittaus lipun tyyppiin TicketType-taulussa |
-| transaction_id FK     | Integer | Viittaus myynti tapahtumaan transaction-taulussa |
-| code     | Varchar(100) | Lipun koodi |
-| transaction_id FK     | Varchar(200) | Viittaus myynti tapahtumaan transaction-taulussa |
-| verified     | Boolean | Maksutapahtuman tila |
+| id PK      | Integer (autoincrement) | Ticket id |
+| event_id  FK | Integer | Reference to the Event in the Event table. |
+| ticketType_id FK     | Integer | Reference to the ticket type in the TicketType table. |
+| transaction_id FK     | Integer | Reference to the sales event in the Transaction table. |
+| code     | Varchar(100) | Ticket code |
+| transaction_id FK     | Varchar(200) | Reference to the sales event in the Transaction table. |
+| verified     | Boolean | Ticket verification status |
 
 ### TicketType
-TicketType-taulu sisältää Ticketjen eri tyypit. Sama TicketType voi olla eri lipuilla. Yhdellä lipulla voi olla vain yksi TicketType.
+The "TicketType" table contains different types of tickets. The same TicketType can be associated with different tickets. Each ticket can have only one TicketType.
 
-| Attribuutti | Tyyppi | Kuvaus |
+| Attribute | Type | Description |
 | --- |:---:| ---:|
-| id PK     | Integer (autoincrement) | Ticket tyypin id |
-| description          | Varchar(200) | Ticket tyypin kuvaus (esim. aikuinen, lapsi) |
-| price           | FLOAT(53) | Ticket tyypin hinta |
-| Event_id  FK | Integer | Viittaus Tapahtumaan Event-taulussa |
+| id PK     | Integer (autoincrement) | Ticket Type id |
+| description          | Varchar(200) | Description of the ticket type (e.g., adult, child). |
+| price           | FLOAT(53) | Price of the ticket type |
+| Event_id  FK | Integer | Reference to the Event in the Event table. |
+
+### User (this need to be checked!!!)
+A user can have only one active role. Each role always has specific permissions.
+
+| Attribute | Type | Description |
+| --- |:---:| ---:|
+| id PK     | Integer (autoincrement) | User id |
+| username           | Varchar(200) | username of the user |
+| password           | Varchar(200) | password of the user |
+| role           | Varchar(200) | User role |
+
 
 ### Customer
-Customer-taulu sisältää asiakkaan tiedot. Asiakkaat voivat omilla tiedoilla ostaa lippuja. 
+The "Customer" table contains customer information. Customers can purchase tickets using their own information.
 
-| Attribuutti | Tyyppi | Kuvaus |
+| Attribute | Type | Description |
 | --- |:---:| ---:|
-| id PK     | Integer (autoincrement) | Ticket tyypin id |
-| name           | Varchar(200) | Asiakkaan nimi |
-| email           | Varchar(200) | Sähköposti osoite |
+| id PK     | Integer (autoincrement) | Ticket Type id |
+| name           | Varchar(200) | Customer name |
+| email           | Varchar(200) | email address |
 
 ### transaction
-transaction-taulu sisältää myyntitapahtuman tiedot. Taulu sisältää myös sen asiakkaan jonka lipun osti tiedot.
+The "Transaction" table contains information about sales transactions. The table also includes details about the customer who purchased the ticket in that transaction.
 
-| Attribuutti | Tyyppi | Kuvaus |
+| Attribute | Type | Description |
 | --- |:---:| ---:|
-| id PK     | Integer (autoincrement) | Ticket tyypin id |
-| customer_id FK          | Integer | Asiakkaan taulu viittaus |
-| amount           | FLOAT(53) | määrä |
-| date          | Date | Myyntitapahtuman aikaleima |
+| id PK     | Integer (autoincrement) | Ticket Type id |
+| customer_id FK          | Integer | Reference to the Customer table. |
+| amount           | FLOAT(53) | amount |
+| date          | Date | Timestamp of the sales transaction. |
 
 # Ticket Selling API
 
