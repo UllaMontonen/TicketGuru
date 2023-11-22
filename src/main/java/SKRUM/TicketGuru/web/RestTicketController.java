@@ -68,16 +68,14 @@ public class RestTicketController {
 			throw new EntityNotFoundException("Ticket with ID " + id + " not found");
 		}
 	}
-	// Etsii annetulla koodilla tiketin tiedot, palauttaa löydetyn tiketin ja koodin 200
+
+	// Etsii annetulla koodilla tiketin tiedot, palauttaa löydetyn tiketin ja koodin
+	// 200
 	@GetMapping("/api/tickets/check/{ticketcode}")
 	public ResponseEntity<Optional<Ticket>> getTicketByCode(@PathVariable String ticketcode) {
 		Optional<Ticket> ticket = tRepo.findByCode(ticketcode);
 		if (ticket.isPresent()) {
-			if (ticket.get().isVerified()) {
-				throw new RuntimeException("Ticket is already used");
-			} else {
-				return new ResponseEntity<Optional<Ticket>>(ticket, HttpStatus.OK);
-			}
+			return new ResponseEntity<Optional<Ticket>>(ticket, HttpStatus.OK);
 		} else {
 			throw new EntityNotFoundException("Ticket with Code " + ticketcode + " not found");
 		}
@@ -159,7 +157,11 @@ public class RestTicketController {
 						throw new EventNotFoundException("No event found with id " + ticketDto.getEventId());
 					} else if (event.get().getId() != ticketType.get().getEvent().getId()) {
 						throw new RuntimeException("TicketType doesn't match the given Event");
+					} else if (event.get().getTicketAmount() < 1) {
+						throw new RuntimeException("Not enough tickets left for the event"); 
 					} else {
+						event.get().setTicketAmount(event.get().getTicketAmount() - 1);
+						eRepo.save(event.get());
 						String ticketCode = generateUniqueTicketCode(event.get());
 						boughtTickets.add(new Ticket(event.get(), ticketType.get(), null, ticketCode, false));
 					}
@@ -182,7 +184,11 @@ public class RestTicketController {
 						throw new EventNotFoundException("No event found with id " + ticketDto.getEventId());
 					} else if (event.get().getId() != ticketType.get().getEvent().getId()) {
 						throw new RuntimeException("TicketType doesn't match the given Event");
+					} else if (event.get().getTicketAmount() < 1) {
+						throw new RuntimeException("Not enough tickets left for the event"); 
 					} else {
+						event.get().setTicketAmount(event.get().getTicketAmount() - 1);
+						eRepo.save(event.get());
 						String ticketCode = generateUniqueTicketCode(event.get());
 						boughtTickets.add(new Ticket(event.get(), ticketType.get(), null, ticketCode, false));
 					}
@@ -200,7 +206,7 @@ public class RestTicketController {
 	}
 
 	private String generateUniqueTicketCode(Event event) {
-		//UUID mukainen täysin random koodi tiketille
+		// UUID mukainen täysin random koodi tiketille
 		UUID uuid = UUID.randomUUID();
 		return uuid.toString();
 	}
