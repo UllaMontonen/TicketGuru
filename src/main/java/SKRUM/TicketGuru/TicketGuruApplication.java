@@ -50,7 +50,7 @@ public class TicketGuruApplication {
 			uRepo.save(scanner);
 
 
-		}; 
+		};  
 	} 
 
 }

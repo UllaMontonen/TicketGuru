@@ -133,6 +133,7 @@ public class RestTicketController {
 			throw new EntityNotFoundException("Ticket with ID " + id + " not found");
 		}
 	}
+	
 
 	// Ostotapahtuma, luo tiketteja, transaction tapahtumia ja tarvittaessa ostajan.
 	// saa syötteenä customerId:n tai customerName ja customerEmail ja listan

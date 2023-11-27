@@ -27,6 +27,8 @@ public class RestEventController {
 
 	@Autowired
 	private EventRepository eRepo;
+	@Autowired
+	private TicketRepository tRepo;
 
 	// Hakee kaikki eventit taulusta ja palauttaa ne koodilla 200
 	@GetMapping("/api/events")
@@ -77,6 +79,18 @@ public class RestEventController {
 			eRepo.delete(targetEvent.get());
 			return new ResponseEntity<Iterable<Event>>(eRepo.findAll(), HttpStatus.OK);
 		} else {
+			throw new EntityNotFoundException("Event with ID " + id + " not found");
+		}
+	}
+	
+	@GetMapping("/api/events/{id}/tickets")
+	public ResponseEntity<Iterable<Ticket>> findTicketsByEvent(@PathVariable("id") Long id) {
+		Optional<Event> event = eRepo.findById(id);
+		
+		if (event.isPresent()) {
+			return new ResponseEntity<Iterable<Ticket>>(tRepo.findByEvent(event.get()), HttpStatus.OK);
+		}
+		else {
 			throw new EntityNotFoundException("Event with ID " + id + " not found");
 		}
 	}
