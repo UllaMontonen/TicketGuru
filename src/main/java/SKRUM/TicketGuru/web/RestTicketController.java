@@ -163,7 +163,7 @@ public class RestTicketController {
 					} else {
 						event.get().setTicketAmount(event.get().getTicketAmount() - 1);
 						eRepo.save(event.get());
-						String ticketCode = generateUniqueTicketCode(event.get());
+						String ticketCode = generateUniqueTicketCode();
 						boughtTickets.add(new Ticket(event.get(), ticketType.get(), null, ticketCode, false));
 					}
 				}
@@ -190,7 +190,7 @@ public class RestTicketController {
 					} else {
 						event.get().setTicketAmount(event.get().getTicketAmount() - 1);
 						eRepo.save(event.get());
-						String ticketCode = generateUniqueTicketCode(event.get());
+						String ticketCode = generateUniqueTicketCode();
 						boughtTickets.add(new Ticket(event.get(), ticketType.get(), null, ticketCode, false));
 					}
 				}
@@ -205,8 +205,30 @@ public class RestTicketController {
 			throw new RuntimeException("No ID given and email and/or name is missing");
 		}
 	}
+	
+	@PostMapping("/api/generatetickets")
+	public ResponseEntity<List<Ticket>> generateUnsoldTickets(@RequestBody GenerateTicketsDTO generateTicketsDto) {
+		Optional<Event> event = eRepo.findById(generateTicketsDto.getEventId());
+		Optional<TicketType> ticketType = ttRepo.findById(generateTicketsDto.getTicketTypeId());
+		List<Ticket> tickets = new ArrayList<>();
+		
+		if(event.isPresent() && ticketType.isPresent() && ticketType.get().getEvent().getId() == event.get().getId()) {
+			int amount = event.get().getTicketAmount();
+			event.get().setTicketAmount(0);
+			eRepo.save(event.get());
+			
+			for(int i = 0; i < amount; i++) {
+				tickets.add(tRepo.save(new Ticket(event.get(), ticketType.get(), null, generateUniqueTicketCode(), false)));
+			}
+			
+			return new ResponseEntity<List<Ticket>>(tickets, HttpStatus.OK);
+		}
+		else {
+			throw new RuntimeException("No event or tickettype found with ID, or event doesnt match tickettype");
+		}
+	}
 
-	private String generateUniqueTicketCode(Event event) {
+	private String generateUniqueTicketCode() {
 		// UUID mukainen täysin random koodi tiketille
 		UUID uuid = UUID.randomUUID();
 		return uuid.toString();
