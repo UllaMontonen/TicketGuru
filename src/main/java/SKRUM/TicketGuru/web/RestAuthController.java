@@ -1,6 +1,7 @@
 package SKRUM.TicketGuru.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -8,12 +9,14 @@ import org.springframework.security.authentication.InternalAuthenticationService
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import SKRUM.TicketGuru.auth.JwtUtil;
 import SKRUM.TicketGuru.domain.User;
 import SKRUM.TicketGuru.domain.UserRepository;
 import SKRUM.TicketGuru.domain.request.LoginReq;
+import SKRUM.TicketGuru.domain.request.RegisterReq;
 import SKRUM.TicketGuru.domain.response.LoginRes;
 
 @Controller
@@ -23,7 +26,7 @@ public class RestAuthController {
     private final AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserRepository userRepository; 
+    private UserRepository userRepository;
 
     private JwtUtil jwtUtil;
 
@@ -52,5 +55,19 @@ public class RestAuthController {
         } catch (InternalAuthenticationServiceException e) {
             throw new BadCredentialsException("Invalid username", e);
         }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ResponseEntity register(@RequestBody RegisterReq registerReq) {
+        if (userRepository.findByUsername(registerReq.getUsername()) != null) {
+            return ResponseEntity.badRequest().body("Username is already taken");
+        }
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(registerReq.getPassword());
+        User newUser = new User(registerReq.getUsername(), hashedPassword, "USER");
+
+        userRepository.save(newUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
 }

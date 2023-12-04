@@ -1,5 +1,7 @@
 package SKRUM.TicketGuru.web;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +29,21 @@ public class RestEventController {
 
 	@Autowired
 	private EventRepository eRepo;
+	@Autowired
+	private TicketRepository tRepo;
 
 	// Hakee kaikki eventit taulusta ja palauttaa ne koodilla 200
 	@GetMapping("/api/events")
-	public ResponseEntity<Iterable<Event>> eventListRest() {
-		Iterable<Event> events = eRepo.findAll();
-		return new ResponseEntity<Iterable<Event>>(events, HttpStatus.OK);
+	public ResponseEntity<List<EventDTO>> eventListRest() {
+		List<Event> events = (List<Event>) eRepo.findAll();
+		List<EventDTO> eventsDto = new ArrayList<>();
+		events.forEach(event -> {
+			eventsDto.add(new EventDTO(event.getId(), event.getName(), event.getPlace(), event.getCity(),
+					event.getTicketAmount(), event.getTickets().size() , event.getEventDate(), event.getTickets(), event.getTicketTypes()));
+		});
+		
+		
+		return new ResponseEntity<List<EventDTO>>(eventsDto, HttpStatus.OK);
 	}
 
 	// Etsii annettulla ID:llä eventtiä, palauttaa löydetyn eventin ja koodin 200
@@ -77,6 +88,18 @@ public class RestEventController {
 			eRepo.delete(targetEvent.get());
 			return new ResponseEntity<Iterable<Event>>(eRepo.findAll(), HttpStatus.OK);
 		} else {
+			throw new EntityNotFoundException("Event with ID " + id + " not found");
+		}
+	}
+	
+	@GetMapping("/api/events/{id}/tickets")
+	public ResponseEntity<Iterable<Ticket>> findTicketsByEvent(@PathVariable("id") Long id) {
+		Optional<Event> event = eRepo.findById(id);
+		
+		if (event.isPresent()) {
+			return new ResponseEntity<Iterable<Ticket>>(tRepo.findByEvent(event.get()), HttpStatus.OK);
+		}
+		else {
 			throw new EntityNotFoundException("Event with ID " + id + " not found");
 		}
 	}
