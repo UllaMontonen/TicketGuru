@@ -44,76 +44,83 @@ User roles and stories are presented in more detail here: [User Roles and Storie
 
 ## Database
 
- ### Event
-The "Event" table contains information about an event. Multiple tickets can be sold for an event, and each ticket is valid only for a specific event.
+The database for this project has been built using MariaDB. Below, the attributes of the database tables are detailed along with their explanations.
+
+### Event
+The "event" table contains information about an event. Multiple tickets can be sold for an event, and each ticket is valid only for a specific event.
 
 | Attribute | Type | Description |
 | --- |:---:| ---:|
-| id PK           | Integer (autoincrement) | Event id |
-| eventDate        | Date | Date of the event |
-| place           | Varchar(100) | Place/space of the event |
-| name            | Varchar(200) | Name of the event |
-| city            | Varchar(100) | The city of the event |
-| ticketAmount    | Integer | Number of tickets to be sold |
+| id PK           | Integer (autoincrement) | Event id, not null |
+| name            | Varchar(255) | Name of the event, not null |
+| place           | Varchar(255) | Place/space of the event, not null |
+| city            | Varchar(255) | The city of the event, not null |
+| ticketAmount    | Integer | Number of tickets to be sold, not null |
+| eventDate        | Date | Date of the event, not null |
+
 
 ### Ticket
-The "Ticket" table contains information about a ticket. A ticket is valid for a specific event. Each ticket can have one ticket type, and a ticket type may be associated with multiple tickets.
+The "ticket" table contains information about a ticket. A ticket is valid for a specific event. Each ticket can have one ticket type, and a ticket type may be associated with multiple tickets.
 
 | Attribute | Type | Description |
 | --- |:---:| ---:|
 | id PK      | Integer (autoincrement) | Ticket id |
-| event_id  FK | Integer | Reference to the Event in the Event table. |
-| ticketType_id FK     | Integer | Reference to the ticket type in the TicketType table. |
-| transaction_id FK     | Integer | Reference to the sales event in the Transaction table. |
-| code     | Varchar(100) | Ticket code |
-| transaction_id FK     | Varchar(200) | Reference to the sales event in the Transaction table. |
-| verified     | Boolean | Ticket verification status |
+| event_id  FK | Integer | Reference to the Event in the Event table. Not null |
+| ticketType_id FK     | Integer | Reference to the ticket type in the TicketType table. Not null |
+| transaction_id FK     | Integer | Reference to the sales event in the Transaction table. Not null |
+| verified     | Boolean | Ticket verification status, not null |
+| code     | Varchar(255) | Unique ticket code, not null |
+
 
 ### TicketType
-The "TicketType" table contains different types of tickets. The same TicketType can be associated with different tickets. Each ticket can have only one TicketType.
+The "ticket_type" table contains different types of tickets. The same TicketType can be associated with different tickets. Each ticket can have only one TicketType.
 
 | Attribute | Type | Description |
 | --- |:---:| ---:|
-| id PK     | Integer (autoincrement) | Ticket Type id |
-| description          | Varchar(200) | Description of the ticket type (e.g., adult, child). |
-| price           | FLOAT(53) | Price of the ticket type |
-| Event_id  FK | Integer | Reference to the Event in the Event table. |
+| id PK     | Integer (autoincrement) | Ticket Type id, not null |
+| description          | Varchar(255) | Description of the ticket type (e.g., adult, child). Not null |
+| price           | Double | Price of the ticket type, not null |
+| Event_id  FK | Integer | Reference to the Event in the Event table. Not null |
 
-### User (this need to be checked!!!)
-A user can have only one active role. Each role always has specific permissions.
+
+### User 
+The "user" table contains users with roles. A user can have only one active role. Each role always has specific permissions.
 
 | Attribute | Type | Description |
 | --- |:---:| ---:|
 | id PK     | Integer (autoincrement) | User id |
-| username           | Varchar(200) | username of the user |
-| password           | Varchar(200) | password of the user |
-| role           | Varchar(200) | User role |
+| username           | Varchar(255) | username of the user, not null |
+| password           | Varchar(255) | password of the user, not null |
+| role           | Varchar(255) | User role, not null |
 
 
 ### Customer
-The "Customer" table contains customer information. Customers can purchase tickets using their own information.
+The "customer" table contains customer information. Customers can purchase tickets using their own information.
 
 | Attribute | Type | Description |
 | --- |:---:| ---:|
 | id PK     | Integer (autoincrement) | Ticket Type id |
-| name           | Varchar(200) | Customer name |
-| email           | Varchar(200) | email address |
+| name           | Varchar(255) | Customer name, not null |
+| email           | Varchar(255) | email address, not null |
 
-### transaction
-The "Transaction" table contains information about sales transactions. The table also includes details about the customer who purchased the ticket in that transaction.
+
+### Transaction
+The "transaction" table contains information about sales transactions. The table also includes details about the customer who purchased the ticket in that transaction.
 
 | Attribute | Type | Description |
 | --- |:---:| ---:|
-| id PK     | Integer (autoincrement) | Ticket Type id |
-| customer_id FK          | Integer | Reference to the Customer table. |
-| amount           | FLOAT(53) | amount |
-| date          | Date | Timestamp of the sales transaction. |
+| id PK     | Integer (autoincrement) | Transaction id |
+| transaction_date     | Date | Date of the transaction, not null |
+| amount           | Double | amount of the transaction, not null |
+| customer_id FK          | Integer | Reference to the Customer table. Not nill |
+
 
 # Ticket Selling API
 
 This is the documentation for the Ticket Selling API, which allows you to manage customers, events, transactions, ticket types and tickets in a ticket-selling application.
 
 ## Endpoints
+Here, we have detailed all the endpoints. For each endpoint, there is more detailed documentation that you can read by clicking on the title of the respective endpoint.
 
 ### [Customers](RESTDoc/customer.md)
 
@@ -122,12 +129,14 @@ This is the documentation for the Ticket Selling API, which allows you to manage
 - **PUT /api/customers/{id}**: Update an existing customer.
 - **DELETE /api/customers/{id}**: Delete a customer.
 
+
 ### [Events](RESTDoc/event.md)
 
 - **GET /api/events**: Get a list of events.
 - **POST /api/events**: Create a new event.
 - **PUT /api/events/{id}**: Update an existing event.
 - **DELETE /api/events/{id}**: Delete an event.
+
 
 ### [Tickets](RESTDoc/ticket.md)
 
@@ -136,12 +145,14 @@ This is the documentation for the Ticket Selling API, which allows you to manage
 - **PUT /api/tickets/{id}**: Update an existing ticket.
 - **DELETE /api/tickets/{id}**: Delete a ticket.
 
+
 ### [Transactions](RESTDoc/transaction.md)
 
 - **GET /api/transactions**: Get a list of transactions.
 - **POST /api/transactions**: Create a new transaction.
 - **PUT /api/transactions/{id}**: Update an existing transaction.
 - **DELETE /api/transactions/{id}**: Delete a transaction.
+
 
 ### [Ticket Types](RESTDoc/TicketType.md)
 
@@ -150,15 +161,44 @@ This is the documentation for the Ticket Selling API, which allows you to manage
 - **PUT /api/ticketTypes/{id}**: Update an existing ticketType.
 - **DELETE /api/ticketTypes/{id}**: Delete a ticketType.
 
+
 ### [Ticket Sales](RESTDoc/TicketSale.md)
 
 - **POST /api/event/{eventId}/ticketTypes/{ticketTypeId}**: Create a new ticket sale.
 
+
 ### [Ticket Check](RESTDoc/TicketCheck.md)
 
-- **GET /api/tickets/check**: Checking the ticket
+- **GET /api/tickets/check/{ticketcode}**: Checking the ticket.
+
+
+### [Ticket Markused] need to be created
+
+- **PATCH /api/tickets/markused/{ticketcode}**: Marking the ticket as used.
+
 
 ## Authentication
 
 Currently all endpoints require a valid Token to be included in the request. A Token can be acquired from the Login view. More information on login can be found here: [login info](RESTDoc/login.md)
 
+
+# Technical description
+
+Need some text.
+
+# Testing
+
+Testing has its own separate documentation, which can be found here: [Testing](RESTDoc/Testing.md)
+
+The testing process has considered unit testing, integration testing, and end-to-end testing. All the tests mentioned in the documentation have passed.
+
+Additionally, on the end-to-end side, [requirements and user stories](UserRolesAndStories.md) have also been tested to ensure that the application we built meets the client's requirements.
+
+# Installation information
+
+Need some text.
+
+
+# Startup and user instructions
+
+need some text.
