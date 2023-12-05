@@ -124,7 +124,7 @@ This is the documentation for the Ticket Selling API, which allows you to manage
 ## Endpoints
 Here, we have detailed all the endpoints. For each endpoint, there is more detailed documentation that you can read by clicking on the title of the respective endpoint.
 
-### [Customers](Documentation/RESTDoc/customer.md)
+### [Customers](RESTDoc/customer.md)
 
 - **GET /api/customers**: Get a list of customers.
 - **POST /api/customers**: Create a new customer.
@@ -132,7 +132,7 @@ Here, we have detailed all the endpoints. For each endpoint, there is more detai
 - **DELETE /api/customers/{id}**: Delete a customer.
 
 
-### [Events](Documentation/RESTDoc/event.md)
+### [Events](RESTDoc/event.md)
 
 - **GET /api/events**: Get a list of events.
 - **POST /api/events**: Create a new event.
@@ -140,7 +140,7 @@ Here, we have detailed all the endpoints. For each endpoint, there is more detai
 - **DELETE /api/events/{id}**: Delete an event.
 
 
-### [Tickets](Documentation/RESTDoc/ticket.md)
+### [Tickets](RESTDoc/ticket.md)
 
 - **GET /api/tickets**: Get a list of tickets.
 - **POST /api/tickets**: Create a new ticket.
@@ -148,7 +148,7 @@ Here, we have detailed all the endpoints. For each endpoint, there is more detai
 - **DELETE /api/tickets/{id}**: Delete a ticket.
 
 
-### [Transactions](Documentation/RESTDoc/transaction.md)
+### [Transactions](RESTDoc/transaction.md)
 
 - **GET /api/transactions**: Get a list of transactions.
 - **POST /api/transactions**: Create a new transaction.
@@ -156,7 +156,7 @@ Here, we have detailed all the endpoints. For each endpoint, there is more detai
 - **DELETE /api/transactions/{id}**: Delete a transaction.
 
 
-### [Ticket Types](Documentation/RESTDoc/TicketType.md)
+### [Ticket Types](RESTDoc/TicketType.md)
 
 - **GET /api/ticketTypes**: Get a list of ticketTypes.
 - **POST /api/ticketTypes**: Create a new ticketType.
@@ -164,17 +164,17 @@ Here, we have detailed all the endpoints. For each endpoint, there is more detai
 - **DELETE /api/ticketTypes/{id}**: Delete a ticketType.
 
 
-### [Ticket Sales](Documentation/RESTDoc/TicketSale.md)
+### [Ticket Sales](RESTDoc/TicketSale.md)
 
 - **POST /api/event/{eventId}/ticketTypes/{ticketTypeId}**: Create a new ticket sale.
 
 
-### [Ticket Check](Documentation/RESTDoc/TicketCheck.md)
+### [Ticket Check](RESTDoc/TicketCheck.md)
 
 - **GET /api/tickets/check/{ticketcode}**: Checking the ticket.
 
 
-### [Ticket Markused](Documentation/RESTDoc/TicketMarkused.md)
+### [Ticket Markused](RESTDoc/TicketMarkused.md)
 
 - **PATCH /api/tickets/markused/{ticketcode}**: Marking the ticket as used.
 
