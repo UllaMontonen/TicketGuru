@@ -32,19 +32,21 @@ Identified user roles in this project:
 * Ticket Inspector (scanner)
 * Buyer (will be implemented in the future)
 
-User roles and stories are presented in more detail here: [User Roles and Stories](UserRolesAndStories.md)
+User roles and stories are presented in more detail here: [User Roles and Stories](Documentation/UserRolesAndStories.md)
 
 ## User interface (will be updated!!!)
 
-![](Kuva1.png "Kuva 1")
+![](Documentation/Kuva1.png "Kuva 1")
 
-![](Kuva2.png "Kuva 2")
+![](Documentation/Kuva2.png "Kuva 2")
 
-![](Kuva3.png "Kuva 3")
+![](Documentation/Kuva3.png "Kuva 3")
 
 ## Database
 
 The database for this project has been built using MariaDB. Below, the attributes of the database tables are detailed along with their explanations.
+
+Picture of database here!
 
 ### Event
 The "event" table contains information about an event. Multiple tickets can be sold for an event, and each ticket is valid only for a specific event.
@@ -122,7 +124,7 @@ This is the documentation for the Ticket Selling API, which allows you to manage
 ## Endpoints
 Here, we have detailed all the endpoints. For each endpoint, there is more detailed documentation that you can read by clicking on the title of the respective endpoint.
 
-### [Customers](RESTDoc/customer.md)
+### [Customers](Documentation/RESTDoc/customer.md)
 
 - **GET /api/customers**: Get a list of customers.
 - **POST /api/customers**: Create a new customer.
@@ -130,7 +132,7 @@ Here, we have detailed all the endpoints. For each endpoint, there is more detai
 - **DELETE /api/customers/{id}**: Delete a customer.
 
 
-### [Events](RESTDoc/event.md)
+### [Events](Documentation/RESTDoc/event.md)
 
 - **GET /api/events**: Get a list of events.
 - **POST /api/events**: Create a new event.
@@ -138,7 +140,7 @@ Here, we have detailed all the endpoints. For each endpoint, there is more detai
 - **DELETE /api/events/{id}**: Delete an event.
 
 
-### [Tickets](RESTDoc/ticket.md)
+### [Tickets](Documentation/RESTDoc/ticket.md)
 
 - **GET /api/tickets**: Get a list of tickets.
 - **POST /api/tickets**: Create a new ticket.
@@ -146,7 +148,7 @@ Here, we have detailed all the endpoints. For each endpoint, there is more detai
 - **DELETE /api/tickets/{id}**: Delete a ticket.
 
 
-### [Transactions](RESTDoc/transaction.md)
+### [Transactions](Documentation/RESTDoc/transaction.md)
 
 - **GET /api/transactions**: Get a list of transactions.
 - **POST /api/transactions**: Create a new transaction.
@@ -154,7 +156,7 @@ Here, we have detailed all the endpoints. For each endpoint, there is more detai
 - **DELETE /api/transactions/{id}**: Delete a transaction.
 
 
-### [Ticket Types](RESTDoc/TicketType.md)
+### [Ticket Types](Documentation/RESTDoc/TicketType.md)
 
 - **GET /api/ticketTypes**: Get a list of ticketTypes.
 - **POST /api/ticketTypes**: Create a new ticketType.
@@ -162,17 +164,17 @@ Here, we have detailed all the endpoints. For each endpoint, there is more detai
 - **DELETE /api/ticketTypes/{id}**: Delete a ticketType.
 
 
-### [Ticket Sales](RESTDoc/TicketSale.md)
+### [Ticket Sales](Documentation/RESTDoc/TicketSale.md)
 
 - **POST /api/event/{eventId}/ticketTypes/{ticketTypeId}**: Create a new ticket sale.
 
 
-### [Ticket Check](RESTDoc/TicketCheck.md)
+### [Ticket Check](Documentation/RESTDoc/TicketCheck.md)
 
 - **GET /api/tickets/check/{ticketcode}**: Checking the ticket.
 
 
-### [Ticket Markused] need to be created
+### [Ticket Markused](Documentation/RESTDoc/TicketMarkused.md)
 
 - **PATCH /api/tickets/markused/{ticketcode}**: Marking the ticket as used.
 
@@ -188,11 +190,11 @@ Need some text.
 
 # Testing
 
-Testing has its own separate documentation, which can be found here: [Testing](RESTDoc/Testing.md)
+Testing has its own separate documentation, which can be found here: [Testing](Documentation/Testing.md)
 
 The testing process has considered unit testing, integration testing, and end-to-end testing. All the tests mentioned in the documentation have passed.
 
-Additionally, on the end-to-end side, [requirements and user stories](UserRolesAndStories.md) have also been tested to ensure that the application we built meets the client's requirements.
+Additionally, on the end-to-end side, [requirements and user stories](Documentation/UserRolesAndStories.md) have also been tested to ensure that the application we built meets the client's requirements.
 
 # Installation information
 

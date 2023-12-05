@@ -1,15 +1,15 @@
-# Checking the Ticket information
+# Marking ticket as used
 
-This API allows you to check ticket information in the TicketGuru system.
+This API allows you to mark ticket as used in the TicketGuru system.
 
 
-## Get Ticket Information
+## Mark ticket as used
 
-Fetch the ticket information based on the ticket code.
+Mark the ticket as used based on the ticket code.
 
-**URL**: `/api/tickets/check/{ticketcode}`
+**URL**: `/api/tickets/markused/{ticketcode}`
 
-**Method**: `GET`
+**Method**: `PATCH`
 
 **Auth required**: YES
 
@@ -17,7 +17,7 @@ Fetch the ticket information based on the ticket code.
 
 ### Path Variables
 
-`ticketcode`: The code of the ticket to be fetched.
+`ticketcode`: The code of the ticket to be marked as used.
 
 Example: `81a37038-6d96-5ce7-ae6a-65e9f03d698f`
 
@@ -61,11 +61,10 @@ Example: `81a37038-6d96-5ce7-ae6a-65e9f03d698f`
             "email": "dbmail@mail.com"
         }
     },
-    "verified": false,
+    "verified": true,
     "code": "81a37038-6d96-5ce7-ae6a-65e9f03d698f"
 }
 ```
-
 
 ### Error Responses
 
@@ -75,3 +74,8 @@ Example: `81a37038-6d96-5ce7-ae6a-65e9f03d698f`
 
 **Content** : `Ticket with Code 81a37038-6d96-5ce7-ae6a-65e9f03d698f not found`
 
+**Condition:** If ticket with provided code has already been used.
+
+**Code** : `400 BAD REQUEST`
+
+**Content** : `Ticket is already used`
