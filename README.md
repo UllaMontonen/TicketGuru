@@ -23,7 +23,7 @@ Dependencies
 
 The application is used on a computer or mobile device, and tickets are scanned with a mobile terminal.
 
-In addition, a client-side has been created for the project, which is available as a published GitHub Pages: [TicketGuru client](https://kridesav.github.io/TicketGuru_client/).
+In addition, a client-side has been created for this project, which can be found here: [TicketGuru client](https://github.com/kridesav/TicketGuru_client).
 
 ## System Definition
 Identified user roles in this project:
@@ -44,7 +44,7 @@ User roles and stories are presented in more detail here: [User Roles and Storie
 
 ## Database
 
-The database for this project has been built using MariaDB. Below is an image of the database structure, and detailed explanations of the attributes of the database tables accompany it."
+The database for this project has been built using MariaDB. Below is an image of the database structure, and detailed explanations of the attributes of the database tables accompany it.
 
 ![](Documentation/TicketGuru_Database.png "TicketGuru_Database")
 
