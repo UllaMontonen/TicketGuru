@@ -44,9 +44,9 @@ User roles and stories are presented in more detail here: [User Roles and Storie
 
 ## Database
 
-The database for this project has been built using MariaDB. Below, the attributes of the database tables are detailed along with their explanations.
+The database for this project has been built using MariaDB. Below is an image of the database structure, and detailed explanations of the attributes of the database tables accompany it."
 
-Picture of database here!
+![](Documentation/TicketGuru_Database.png "TicketGuru_Database")
 
 ### Event
 The "event" table contains information about an event. Multiple tickets can be sold for an event, and each ticket is valid only for a specific event.
