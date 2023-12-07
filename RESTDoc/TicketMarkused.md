@@ -1,7 +1,7 @@
 # Marking ticket as used
 
 This API allows you to mark ticket as used in the TicketGuru system.
-
+If the verified field is true, then the ticket has been marked as used. If it is false, then it has not been marked as used.
 
 ## Mark ticket as used
 
