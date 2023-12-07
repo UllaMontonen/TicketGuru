@@ -1,8 +1,13 @@
 # TicketType API
 
 This API allows you to manage TicketTypes in the TicketGuru system.
+* [Get all ticket types](#getall)
+* [Get ticket type with id](#getid)
+* [Create new ticket type](#post)
+* [Update ticket type info](#put)
+* [Delete ticket type](#delete)
 
-## List TicketTypes
+## <a name="getall"></a>List TicketTypes
 
 Get a list of all TicketTypes.
 
@@ -51,7 +56,7 @@ Get a list of all TicketTypes.
 ]
 ```
 
-## Get TicketType by ID
+## <a name="getid"></a>Get TicketType by ID
 
 Get details of a specific TicketType by its ID.
 
@@ -61,7 +66,7 @@ Get details of a specific TicketType by its ID.
 
 **Auth required**: YES
 
-**Permissions required**: Admin
+**Permissions required**: Admin or User
 
 ### Success Response
 
@@ -97,7 +102,7 @@ For an TicketType with a non-existent ID:
 }
 ```
 
-## Create TicketType
+## <a name="post"></a>Create TicketType
 Create a new TicketType.
 
 **URL** : `/api/tickettypes/`
@@ -143,7 +148,7 @@ For a newly created TicketType:
     }
 ```
 
-## Update TicketType
+## <a name="put"></a>Update TicketType
 
 Update an existing TicketType.
 
@@ -196,7 +201,7 @@ For an updated TicketType with ID 1:
 }
 ```
 
-## Delete TicketType
+## <a name="delete"></a>Delete TicketType
 
 Delete an TicketType by providing its ID.
 
