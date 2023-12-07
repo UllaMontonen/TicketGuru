@@ -1,8 +1,13 @@
 # Event API
 
 This API allows you to manage events in the TicketGuru system.
+* [Get all events](#getall)
+* [Get event with id](#getid)
+* [Create new event](#post)
+* [Update event info](#put)
+* [Delete event](#delete)
 
-## List Events
+## <a name="getall"></a>List Events
 
 Get a list of all events.
 
@@ -28,7 +33,10 @@ Get a list of all events.
         "place": "Venue A",
         "city": "City A",
         "ticketAmount": 100,
-        "eventDate": "2023-10-15"
+        "ticketsSold": 21,
+        "eventDate": "2023-10-15",
+        "tickets": [],
+        "ticketTypes": []
     },
     {
         "id": 2,
@@ -36,11 +44,14 @@ Get a list of all events.
         "place": "Stadium X",
         "city": "City B",
         "ticketAmount": 200,
-        "eventDate": "2023-11-05"
+        "ticketsSold": 21,
+        "eventDate": "2023-11-05",
+        "tickets": [],
+        "ticketTypes": []
     }
 ```
 
-## Get Event by ID
+## <a name="getid"></a>Get Event by ID
 
 Get details of a specific event by its ID.
 
@@ -50,7 +61,7 @@ Get details of a specific event by its ID.
 
 **Auth required**: YES
 
-**Permissions required**: Admin
+**Permissions required**: Admin or User
 
 ### Success Response
 
@@ -81,7 +92,7 @@ For an event with a non-existent ID:
 }
 ```
 
-## Create Event
+## <a name="post"></a>Create Event
 Create a new event.
 
 **URL** : `/api/events/`
@@ -118,13 +129,14 @@ For a newly created event:
     "place": "New Location",
     "city": "New City",
     "ticketAmount": 200,
+    "ticketsSold": 0,
     "eventDate": "2023-12-31",
     "tickets": [],
     "ticketTypes": []
 }
 ```
 
-## Update Event
+## <a name="put"></a>Update Event
 
 Update an existing event.
 
@@ -168,13 +180,14 @@ For an updated event with ID 1:
     "place": "Updated Location",
     "city": "Updated City",
     "ticketAmount": 250,
+    "ticketsSold": 0,
     "eventDate": "2024-01-15",
     "tickets": [],
     "ticketTypes": []
 }
 ```
 
-## Delete Event
+## <a name="delete"></a>Delete Event
 
 Delete an event by providing its ID.
 
@@ -206,6 +219,7 @@ For a list of remaining events after deletion:
         "place": "Location 2",
         "city": "City 2",
         "ticketAmount": 150,
+        "ticketsSold": 0,
         "eventDate": "2023-11-15",
         "tickets": [],
         "ticketTypes": []
