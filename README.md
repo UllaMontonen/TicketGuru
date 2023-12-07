@@ -188,6 +188,10 @@ Here, we have detailed all the endpoints. For each endpoint, there is more detai
 
 - **PATCH /api/tickets/markused/{ticketcode}**: Marking the ticket as used.
 
+### [Generated tickets](RESTDoc/generatetickets.md)
+
+- **POST /api/generatetickets**: Printing the unsold ticket.
+
 
 ## Authentication
 
