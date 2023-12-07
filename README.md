@@ -174,11 +174,6 @@ Here, we have detailed all the endpoints. For each endpoint, there is more detai
 - **DELETE /api/ticketTypes/{id}**: Delete a ticketType.
 
 
-### [Ticket Sales](RESTDoc/TicketSale.md)
-
-- **POST /api/event/{eventId}/ticketTypes/{ticketTypeId}**: Create a new ticket sale.
-
-
 ### [Ticket Check](RESTDoc/TicketCheck.md)
 
 - **GET /api/tickets/check/{ticketcode}**: Checking the ticket.

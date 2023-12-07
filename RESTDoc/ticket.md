@@ -1,103 +1,253 @@
-**Ticket**
-----
+# Ticket API
 
-* **URL**
+This API allows you to manage Tickets in the TicketGuru system.
+* [Get all tickets](#getall)
+* [Get ticket with id](#getid)
+* [Create new ticket](#post)
+* [Update ticket info](#put)
+* [Delete ticket](#delete)
 
-  /api/tickets | /api/tickets/{ticket_id}
+**URL Params**
 
-* **Method:**
-  
-  **`GET`** /tickets for all | /tickets/{ticket_id} for single ticket<br />
-  **Auth required**: YES<br />
-  **Permissions required**: Admin or User or Scanner<br />
-  **`POSt`** /tickets<br />
-  **Auth required**: YES<br />
-  **Permissions required**: Admin or User<br />
-  **`DELETE`** /tickets/{ticket_id}<br />
-  **Auth required**: YES<br />
-  **Permissions required**: Admin or User<br />
-  **`PUT`** /tickets/{ticket_id}<br />
-  **Auth required**: YES<br />
-  **Permissions required**: Admin or User<br />
-  
-*  **URL Params**
+* `ticket_id`: id for ticket entity, acts as primary key in the table
 
-   `ticket_id`: id for ticket entity, acts as primary key in the table
+## <a name="getall"></a>List Tickets
 
-* **Data Params**
+Get a list of all Tickets.
 
-  All colums in table are nullable, none are required
-    "event": event entity
-    "tickettype": tickettype entity
-    "transaction": transaction entity
-    "verified": boolean value
-    "code": String 
+**URL**: `/api/tickets/`
 
+**Method**: `GET`
 
+**Auth required**: YES
 
-* **Success Response:**
-  
-    **GET**
-  * **Code:** 200 <br />
-    **Content:** `all tickets in list or ticket with id given as a parameter`
+**Permissions required**: Admin or User or Scanner
 
-    **POST**
-    * **Code:** 201 <br />
-    **Content:** `Created ticket`
+### Success Response
 
-    **DELETE**
-    * **Code:** 200 <br />
-    **Content:** `Rest of the remaining tickets in list`
+**Code**: `200 OK`
 
-    **PUT**
-    * **Code:**  200 <br />
-    **Content:** `Modified ticket`
- 
-* **Error Response:**
+**Content examples**
 
-  * **Code:** 404 NOT_FOUND <br />
-    **Content:** `None`
-
-* **Sample Body:**
-
-```
-{
-    "event": {
-        "id": 2,
-        "name": "TestiTapahtuma",
-        "place": "Apollo",
-        "city": "Helsinki",
-        "ticketAmpunt": 100,
-        "eventDate": "2023-09-22"
-    },
-    "ticketType": {
-        "id": 1,
-        "description": "Normaali",
-        "price": 20.3,
+```json
+    [
+    {
+        "id": 17,
         "event": {
-            "id": 1,
-            "name": "TestiTapahtuma",
-            "place": "Apollo",
+            "id": 3,
+            "name": "Joulun tähdet -juhlakonsertti",
+            "place": "Aleksanterin teatteri",
             "city": "Helsinki",
-            "ticketAmount": 100,
-            "eventDate": "2023-09-22"
+            "ticketAmount": 1000,
+            "eventDate": "2023-11-21"
+        },
+        "ticketType": {
+            "id": 13,
+            "description": "Aitio",
+            "price": 100.0,
+            "event": {
+                "id": 3,
+                "name": "Joulun tähdet -juhlakonsertti",
+                "place": "Aleksanterin teatteri",
+                "city": "Helsinki",
+                "ticketAmount": 1000,
+                "eventDate": "2023-11-21"
             }
         },
         "transaction": {
-            "id": 1,
-            "date": "2023-09-22",
-            "amount": 56.34,
+            "id": 13,
+            "date": "2023-11-20",
+            "amount": 100.0,
             "customer": {
                 "id": 1,
-                "name": "Testi Pesti",
-                "email": "email@mail.com"
+                "name": "DBTesti",
+                "email": "dbmail@mail.com"
             }
         },
-        "veridied": true,
-        "code": "benis"
+        "verified": false,
+        "code": "e5c7aee8-429f-4757-b581-cca5e6764158"
+    },
+    ]
+```
+
+
+## <a name="getid"></a>Get Ticket by ID
+
+Get details of a specific Ticket by its ID.
+
+**URL**: `/api/tickets/{id}`
+
+**Method**: `GET`
+
+**Auth required**: YES
+
+**Permissions required**: Admin or User or Scanner
+
+### Success Response
+
+**Code**: `200 OK`
+
+**Content examples**
+
+For a ticket with ID 1:
+
+```json
+    {
+    "id": 1,
+    "event": {
+        "id": 3,
+        "name": "Joulun tähdet -juhlakonsertti",
+        "place": "Aleksanterin teatteri",
+        "city": "Helsinki",
+        "ticketAmount": 1000,
+        "eventDate": "2023-11-21"
+    },
+    "ticketType": {
+        "id": 10,
+        "description": "Permanto (vasen)",
+        "price": 58.5,
+        "event": {
+            "id": 3,
+            "name": "Joulun tähdet -juhlakonsertti",
+            "place": "Aleksanterin teatteri",
+            "city": "Helsinki",
+            "ticketAmount": 1000,
+            "eventDate": "2023-11-21"
+        }
+    },
+    "transaction": {
+        "id": 32,
+        "date": "2023-11-22",
+        "amount": 58.5,
+        "customer": {
+            "id": 1,
+            "name": "DBTesti",
+            "email": "dbmail@mail.com"
+        }
+    },
+    "verified": true,
+    "code": "c4749a82-2579-4a2c-b72a-8f518df4bc99"
+}
+```
+
+**Code**: `404 Not Found`
+
+For a ticket with a non-existent ID:
+
+```json
+{
+    "error": "Ticket with ID {id} not found"
 }
 ```
 
 
-* **Notes:**
 
+## <a name="post"></a>Create Ticket
+
+Get details of a specific Ticket by its ID.
+
+**URL**: `/api/tickets/`
+
+**Method**: `POST`
+
+**Auth required**: YES
+
+**Permissions required**: Admin or User
+
+**Request Body**
+Provide the following details to create a new Ticket:
+
+```json
+    {
+        ..
+    }
+```
+### Success Response
+**Code** : `201 Created`
+
+**Content examples**
+
+For a newly created Ticket:
+
+```json
+    {
+       ..
+    }
+```
+
+
+  
+## <a name="put"></a>Update Ticket
+
+Update an existing Ticket.
+
+**URL** : `/api/tickets/{id}`
+
+**Method** : `PUT`
+
+**Auth required** : YES
+
+**Permissions required** : Admin or User
+
+### Parameters
+
+- `{id}`: The ID of the Ticket to update.
+
+### Request Body
+
+Provide the updated details for the Ticket.
+
+```json
+    {
+    
+    
+}
+```
+### Success Response
+
+**Code** : `200 OK`
+
+**Content examples**
+
+For an updated Ticket with ID 1:
+
+```json
+{
+        "id": 1,
+       ....
+}
+```
+
+
+
+# <a name="delete"></a>Delete Ticket
+
+Delete an Customer by providing its ID.
+
+**URL** : `/api/tickets/{id}`
+
+**Method** : `DELETE`
+
+**Auth required** : YES
+
+**Permissions required** : Admin or User
+
+
+### Parameters
+
+- `{id}`: The ID of the Ticket to delete.
+
+### Success Responses
+
+**Code** : `200 OK`
+
+**Content examples**
+
+For a list of remaining Tickets after deletion:
+
+
+### Error Responses
+
+**Code** : `404 Not Found`
+
+**Content** : `Ticket with ID {id} not found`
