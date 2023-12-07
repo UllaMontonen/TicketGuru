@@ -62,7 +62,7 @@ The database for this project has been built using MariaDB. Below is an image of
 The "event" table contains information about an event. Multiple tickets can be sold for an event, and each ticket is valid only for a specific event.
 
 | Attribute | Type | Description |
-| --- |---| ---|
+| :---: |:---:| :---:|
 | id PK           | Integer (autoincrement) | Event id, not null |
 | name            | Varchar(255) | Name of the event, not null |
 | place           | Varchar(255) | Place/space of the event, not null |
@@ -75,7 +75,7 @@ The "event" table contains information about an event. Multiple tickets can be s
 The "ticket" table contains information about a ticket. A ticket is valid for a specific event. Each ticket can have one ticket type, and a ticket type may be associated with multiple tickets.
 
 | Attribute | Type | Description |
-| --- |---| ---|
+| :---: |:---:| :---:|
 | id PK      | Integer (autoincrement) | Ticket id |
 | event_id  FK | Integer | Reference to the Event in the Event table. Not null |
 | ticketType_id FK     | Integer | Reference to the ticket type in the TicketType table. Not null |
@@ -88,7 +88,7 @@ The "ticket" table contains information about a ticket. A ticket is valid for a 
 The "ticket_type" table contains different types of tickets. The same TicketType can be associated with different tickets. Each ticket can have only one TicketType.
 
 | Attribute | Type | Description |
-| --- |---| ---|
+| :---: |:---:| :---:|
 | id PK     | Integer (autoincrement) | Ticket Type id, not null |
 | description          | Varchar(255) | Description of the ticket type (e.g., adult, child). Not null |
 | price           | Double | Price of the ticket type, not null |
@@ -99,7 +99,7 @@ The "ticket_type" table contains different types of tickets. The same TicketType
 The "user" table contains users with roles. A user can have only one active role. Each role always has specific permissions.
 
 | Attribute | Type | Description |
-| --- |---| ---|
+| :---: |:---:| :---:|
 | id PK     | Integer (autoincrement) | User id |
 | username           | Varchar(255) | username of the user, not null |
 | password           | Varchar(255) | password of the user, not null |
@@ -110,7 +110,7 @@ The "user" table contains users with roles. A user can have only one active role
 The "customer" table contains customer information. Customers can purchase tickets using their own information.
 
 | Attribute | Type | Description |
-| --- |---| ---|
+| :---: |:---:| :---:|
 | id PK     | Integer (autoincrement) | Ticket Type id |
 | name           | Varchar(255) | Customer name, not null |
 | email           | Varchar(255) | email address, not null |
@@ -120,7 +120,7 @@ The "customer" table contains customer information. Customers can purchase ticke
 The "transaction" table contains information about sales transactions. The table also includes details about the customer who purchased the ticket in that transaction.
 
 | Attribute | Type | Description |
-| --- |---| ---|
+| :---: |:---:| :---:|
 | id PK     | Integer (autoincrement) | Transaction id |
 | transaction_date     | Date | Date of the transaction, not null |
 | amount           | Double | amount of the transaction, not null |
@@ -251,7 +251,7 @@ Users have been assigned different roles, and functionalities have been restrict
 
 Login credentials:
 | Username | Password | Role |
-| --- |---| ---|
+| :---: |:---:| :---:|
 | admin | admin | admin: all rights |
 | user | user | user: selling tickets and checking tickets/marking them as used |
 | scanner | scanner | scanner: checking tickets/marking them as used |
