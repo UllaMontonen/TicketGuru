@@ -1,11 +1,11 @@
 # Customer API
 
 This API allows you to manage Customers in the TicketGuru system.
--[Get all customers](RESTDoc/customer.md#getall)
--[Get customer with id](RESTDoc/customer.md#getid)
--[Create new customer](RESTDoc/customer.md#post)
--[Update customer info](RESTDoc/customer.md#put)
--[Delete customer](RESTDoc/customer.md#delete)
+* [Get all customers](#getall)
+* [Get customer with id](#getid)
+* [Create new customer](#post)
+* [Update customer info](#put)
+* [Delete customer](#delete)
 
 ## <a name="getall"></a>List Customers 
 
