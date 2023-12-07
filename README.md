@@ -20,6 +20,14 @@ Dependencies
 * Spring Boot DevTools
 * Spring Web
 * MySQL driver
+* MariaDB Java Client
+* Spring Boot test
+* Spring Boot JPA
+* H2 database
+* Apache commons math3
+* Spring Boot Security
+* JSON Web Token jwt.io
+* Jaxb-api
 
 The application is used on a computer or mobile device, and tickets are scanned with a mobile terminal.
 
@@ -34,19 +42,21 @@ Identified user roles in this project:
 
 User roles and stories are presented in more detail here: [User Roles and Stories](Documentation/UserRolesAndStories.md)
 
-## User interface (will be updated!!!)
+## User interface
 
-![](Documentation/Kuva1.png "Kuva 1")
+![alt text](Documentation/SignInAndTicketSell "Picture of sign in screen and selling tickets screen")
 
-![](Documentation/Kuva2.png "Kuva 2")
+![alt text](Documentation/CheckingTickets.png "Pictire of checking tickets and marking them as used")
 
-![](Documentation/Kuva3.png "Kuva 3")
+![alt text](Documentation/AddAndEditEvents.png "Picture of the add new event and edit event screens")
+
+![alt text](Documentation/ControlPanel.png "Picture of the control panel view")
 
 ## Database
 
 The database for this project has been built using MariaDB. Below is an image of the database structure, and detailed explanations of the attributes of the database tables accompany it.
 
-![](Documentation/TicketGuru_Database.png "TicketGuru_Database")
+![alt text](Documentation/TicketGuru_Database.png "Structure of TicketGuru database")
 
 ### Event
 The "event" table contains information about an event. Multiple tickets can be sold for an event, and each ticket is valid only for a specific event.
@@ -181,12 +191,26 @@ Here, we have detailed all the endpoints. For each endpoint, there is more detai
 
 ## Authentication
 
-Currently all endpoints require a valid Token to be included in the request. A Token can be acquired from the Login view. More information on login can be found here: [login info](RESTDoc/login.md)
+Currently all endpoints require a valid Token to be included in the request. The authentication token has been created using JSON Web Token. 
+
+A Token can be acquired from the Login view. More information on login can be found here: [login info](RESTDoc/login.md)
 
 
 # Technical description
 
 Need some text.
+
+~~POISTA:Teknisessä kuvauksessa esitetään järjestelmän toteutuksen suunnittelussa tehdyt tekniset ratkaisut, esim.
+
+Missä mikäkin järjestelmän komponentti ajetaan (tietokone, palvelinohjelma) ja komponenttien väliset yhteydet (vaikkapa tähän tyyliin: https://security.ufl.edu/it-workers/risk-assessment/creating-an-information-systemdata-flow-diagram/)
+Palvelintoteutuksen yleiskuvaus: teknologiat, deployment-ratkaisut yms.
+Keskeisten rajapintojen kuvaukset, esimerkit REST-rajapinta. Tarvittaessa voidaan rajapinnan käyttöä täsmentää UML-sekvenssikaavioilla.
+Toteutuksen yleisiä ratkaisuja, esim. turvallisuus.
+Tämän lisäksi
+
+ohjelmakoodin tulee olla kommentoitua
+luokkien, metodien ja muuttujien tulee olla kuvaavasti nimettyjä ja noudattaa johdonmukaisia nimeämiskäytäntöjä
+ohjelmiston pitää olla organisoitu komponentteihin niin, että turhalta toistolta vältytään~~
 
 # Testing
 
@@ -198,9 +222,37 @@ Additionally, on the end-to-end side, [requirements and user stories](Documentat
 
 # Installation information
 
-Need some text.
+In order to use this application, you will need a **programming environment** installed, such as Eclipse. You also need to make sure that Java is installed in your computer. You will also need a **production environment** (we used Rahti) and a **database** (we used MariaDB)
 
+## Development environment
+First, you need to install a programming environment, if you do not already have one. Then you can clone our project using command: `git clone https://github.com/UllaMontonen/TicketGuru.git`
+In a programming environment such as eclipse, you can import an existing Maven project and run it. The project will launch at the url: [http://localhost:8080/](http://localhost:8080/)
+
+## Production environment
+After successfully setting up your development environment, the next step is to install the database (see the next section). At this point, it is also crucial to consider the security aspects of your project. Please note that authentication tokens are already integrated into our TicketGuru project.
+
+Next, you'll need to choose a production environment and familiarize yourself with its documentation. Typically, deploying your project involves configuring it on a production server, ensuring that the database is properly set up. Keep in mind that each time you make changes to your code, manual deployment to the production server is required unless an automated system is in place.
+
+## Database
+You can choose the database you want to use in the `application.properties` file. In this project, you'll find an `application-dev.properties` file that utilizes the H2 database, while the `application-rahti.properties` file uses the MariaDB database. In the `application.properties` file, you can specify which one is active and in use.
+
+The [TicketGuruDBSchem](https://github.com/UllaMontonen/TicketGuru/blob/main/src/main/resources/TicketGuruDBSchema.sql) is employed to create the database. You can customize this file, for instance, to add more users with different permission roles. Bcrypt is employed as a password-hashing function in the database.
+
+~~POISTA: Asennusohjeesta tulisi ainakin käydä ilmi, miten käytettävä tietokanta ja käyttäjät tulee ohjelmistoa asentaessa määritellä (käytettävä tietokanta, käyttäjätunnus, salasana, tietokannan luonti yms.).~~
 
 # Startup and user instructions
 
-need some text.
+The application can be launched from the following URL: [https://ticketguru-ticketmaster.rahtiapp.fi/](https://ticketguru-ticketmaster.rahtiapp.fi/)
+
+In this documentation, you will find information on how the application works and how the REST API functions.
+
+Test credentials have been used in the application to create different user profiles.
+Users have been assigned different roles, and functionalities have been restricted accordingly.
+
+Login credentials:
+| Username | Password | Role |
+| --- |:---:| ---:|
+| admin | admin | admin: all rights |
+| user | user | user: selling tickets and checking tickets/marking them as used |
+| scanner | scanner | scanner: checking tickets/marking them as used |
+
