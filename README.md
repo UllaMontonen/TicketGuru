@@ -153,7 +153,7 @@ Here, we have detailed all the endpoints. For each endpoint, there is more detai
 ### [Tickets](RESTDoc/ticket.md)
 
 - **GET /api/tickets**: Get a list of tickets.
-- **POST /api/tickets**: Create a new ticket.
+- **POST /api/tickets**: Create a new ticket / selling new ticket.
 - **PUT /api/tickets/{id}**: Update an existing ticket.
 - **DELETE /api/tickets/{id}**: Delete a ticket.
 
@@ -183,9 +183,9 @@ Here, we have detailed all the endpoints. For each endpoint, there is more detai
 
 - **PATCH /api/tickets/markused/{ticketcode}**: Marking the ticket as used.
 
-### [Generated tickets](RESTDoc/generatetickets.md)
+### [Generated Tickets](RESTDoc/generatetickets.md)
 
-- **POST /api/generatetickets**: Printing the unsold ticket.
+- **POST /api/generatetickets**: Printing the unsold tickets.
 
 
 ## Authentication
