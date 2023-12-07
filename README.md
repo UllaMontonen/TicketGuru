@@ -61,70 +61,70 @@ The database for this project has been built using MariaDB. Below is an image of
 ### Event
 The "event" table contains information about an event. Multiple tickets can be sold for an event, and each ticket is valid only for a specific event.
 
-| Attribute | Type | Description |
-| :---: |:---:| :---:|
-| id PK           | Integer (autoincrement) | Event id, not null |
-| name            | Varchar(255) | Name of the event, not null |
-| place           | Varchar(255) | Place/space of the event, not null |
-| city            | Varchar(255) | The city of the event, not null |
-| ticketAmount    | Integer | Number of tickets to be sold, not null |
-| eventDate        | Date | Date of the event, not null |
+| Attribute       | Type                    | Description                            |
+|:--------------- |:------------------------|:---------------------------------------|
+| id PK           | Integer (autoincrement) | Event id, not null                     |
+| name            | Varchar(255)            | Name of the event, not null            |
+| place           | Varchar(255)            | Place/space of the event, not null     |
+| city            | Varchar(255)            | The city of the event, not null        |
+| ticketAmount    | Integer                 | Number of tickets to be sold, not null |
+| eventDate       | Date                    | Date of the event, not null            |
 
 
 ### Ticket
 The "ticket" table contains information about a ticket. A ticket is valid for a specific event. Each ticket can have one ticket type, and a ticket type may be associated with multiple tickets.
 
-| Attribute | Type | Description |
-| :---: |:---:| :---:|
-| id PK      | Integer (autoincrement) | Ticket id |
-| event_id  FK | Integer | Reference to the Event in the Event table. Not null |
-| ticketType_id FK     | Integer | Reference to the ticket type in the TicketType table. Not null |
-| transaction_id FK     | Integer | Reference to the sales event in the Transaction table. Not null |
-| verified     | Boolean | Ticket verification status, not null |
-| code     | Varchar(255) | Unique ticket code, not null |
+| Attribute            | Type                    | Description                                                     |
+|:-------------------- |:------------------------|:----------------------------------------------------------------|
+| id PK                | Integer (autoincrement) | Ticket id                                                       |
+| event_id  FK         | Integer                 | Reference to the Event in the Event table. Not null             |
+| ticketType_id FK     | Integer                 | Reference to the ticket type in the TicketType table. Not null  |
+| transaction_id FK    | Integer                 | Reference to the sales event in the Transaction table. Not null |
+| verified             | Boolean                 | Ticket verification status, not null                            |
+| code                 | Varchar(255)            | Unique ticket code, not null                                    |
 
 
 ### TicketType
 The "ticket_type" table contains different types of tickets. The same TicketType can be associated with different tickets. Each ticket can have only one TicketType.
 
-| Attribute | Type | Description |
-| :---: |:---:| :---:|
-| id PK     | Integer (autoincrement) | Ticket Type id, not null |
-| description          | Varchar(255) | Description of the ticket type (e.g., adult, child). Not null |
-| price           | Double | Price of the ticket type, not null |
-| Event_id  FK | Integer | Reference to the Event in the Event table. Not null |
+| Attribute     | Type                    | Description                                                   |
+|:------------- |:------------------------|:--------------------------------------------------------------|
+| id PK         | Integer (autoincrement) | Ticket Type id, not null                                      |
+| description   | Varchar(255)            | Description of the ticket type (e.g., adult, child). Not null |
+| price         | Double                  | Price of the ticket type, not null                            |
+| Event_id  FK  | Integer                 | Reference to the Event in the Event table. Not null           |
 
 
 ### User 
 The "user" table contains users with roles. A user can have only one active role. Each role always has specific permissions.
 
-| Attribute | Type | Description |
-| :---: |:---:| :---:|
-| id PK     | Integer (autoincrement) | User id |
-| username           | Varchar(255) | username of the user, not null |
-| password           | Varchar(255) | password of the user, not null |
-| role           | Varchar(255) | User role, not null |
+| Attribute    | Type                    | Description                    |
+|:------------ |:------------------------|:-------------------------------|
+| id PK        | Integer (autoincrement) | User id                        |
+| username     | Varchar(255)            | Username of the user, not null |
+| password     | Varchar(255)            | Password of the user, not null |
+| role         | Varchar(255)            | User role, not null            |
 
 
 ### Customer
 The "customer" table contains customer information. Customers can purchase tickets using their own information.
 
-| Attribute | Type | Description |
-| :---: |:---:| :---:|
-| id PK     | Integer (autoincrement) | Ticket Type id |
-| name           | Varchar(255) | Customer name, not null |
-| email           | Varchar(255) | email address, not null |
+| Attribute | Type                    | Description             |
+|:--------- |:------------------------|:------------------------|
+| id PK     | Integer (autoincrement) | Ticket Type id          |
+| name      | Varchar(255)            | Customer name, not null |
+| email     | Varchar(255)            | Email address, not null |
 
 
 ### Transaction
 The "transaction" table contains information about sales transactions. The table also includes details about the customer who purchased the ticket in that transaction.
 
-| Attribute | Type | Description |
-| :---: |:---:| :---:|
-| id PK     | Integer (autoincrement) | Transaction id |
-| transaction_date     | Date | Date of the transaction, not null |
-| amount           | Double | amount of the transaction, not null |
-| customer_id FK          | Integer | Reference to the Customer table. Not nill |
+| Attribute            | Type                    | Description                               |
+|:-------------------- |:------------------------|:------------------------------------------|
+| id PK                | Integer (autoincrement) | Transaction id                            |
+| transaction_date     | Date                    | Date of the transaction, not null         |
+| amount               | Double                  | Amount of the transaction, not null       |
+| customer_id FK       | Integer                 | Reference to the Customer table. Not nill |
 
 
 # Ticket Selling API
@@ -250,9 +250,9 @@ Test credentials have been used in the application to create different user prof
 Users have been assigned different roles, and functionalities have been restricted accordingly.
 
 Login credentials:
-| Username | Password | Role |
-| :---: |:---:| :---:|
-| admin | admin | admin: all rights |
-| user | user | user: selling tickets and checking tickets/marking them as used |
-| scanner | scanner | scanner: checking tickets/marking them as used |
+| Username | Password | Role                                                            |
+|:-------- |:---------|:----------------------------------------------------------------|
+| admin    | admin    | admin: all rights                                               |
+| user     | user     | user: selling tickets and checking tickets/marking them as used |
+| scanner  | scanner  | scanner: checking tickets/marking them as used                  |
 
