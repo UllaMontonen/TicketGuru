@@ -56,7 +56,7 @@ Get details of a specific Customer by its ID.
 
 **Content examples**
 
-For an Customer with ID 1:
+For a Customer with ID 1:
 
 ```json
     {
@@ -68,7 +68,7 @@ For an Customer with ID 1:
 
 **Code**: `404 Not Found`
 
-For an Customer with a non-existent ID:
+For a Customer with a non-existent ID:
 
 ```json
 {
@@ -156,7 +156,7 @@ For an updated Customer with ID 1:
 
 ## <a name="delete"></a>Delete Customer
 
-Delete an Customer by providing its ID.
+Delete a Customer by providing its ID.
 
 **URL** : `/api/customers/{id}`
 
