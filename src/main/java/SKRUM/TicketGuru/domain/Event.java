@@ -6,6 +6,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -38,6 +39,7 @@ public class Event {
 
 	@Temporal(TemporalType.DATE)
 	@NotNull(message = "Date cannot be null")
+	@FutureOrPresent(message = "Date must be in the present or future")
 	@Column(name = "event_date")
 	private Date eventDate;
 
