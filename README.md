@@ -235,9 +235,9 @@ Next, you'll need to choose a production environment and familiarize yourself wi
 ## Database
 You can choose the database you want to use in the `application.properties` file. In this project, you'll find an `application-dev.properties` file that utilizes the H2 database, while the `application-rahti.properties` file uses the MariaDB database. In the `application.properties` file, you can specify which one is active and in use.
 
-The [TicketGuruDBSchem](https://github.com/UllaMontonen/TicketGuru/blob/main/src/main/resources/TicketGuruDBSchema.sql) is employed to create the database. You can customize this file, for instance, to add more users with different permission roles. Bcrypt is employed as a password-hashing function in the database.
+The [TicketGuruDBSchem](https://github.com/UllaMontonen/TicketGuru/blob/main/src/main/resources/TicketGuruDBSchema.sql) is employed to create the database. You can customize this file, for instance, to add more users with different permission roles. Bcrypt is employed as a password-hashing function in the database. Each user needs to have username, password, and role.
 
-~~POISTA: Asennusohjeesta tulisi ainakin käydä ilmi, miten käytettävä tietokanta ja käyttäjät tulee ohjelmistoa asentaessa määritellä (käytettävä tietokanta, käyttäjätunnus, salasana, tietokannan luonti yms.).~~
+MariaDB database's own documentation: [Documentation](https://mariadb.org/documentation/#getting-started)
 
 # Startup and user instructions
 
