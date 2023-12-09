@@ -3,6 +3,8 @@
 This API allows you to manage events in the TicketGuru system.
 * [Get all events](#getall)
 * [Get event with id](#getid)
+* [Get list of sold tickets for certain event](#gettickets)
+* [Get list of ticket types for certain event](#gettickettypes)
 * [Create new event](#post)
 * [Update event info](#put)
 * [Delete event](#delete)
@@ -88,9 +90,139 @@ For an event with a non-existent ID:
 
 ```json
 {
-    "error": "Event not found"
+    "error": "Event with ID {id }not found"
 }
 ```
+
+## <a name="gettickets"></a>Get list of sold tickets for certain event
+
+Get details of a specific event by its ID.
+
+**URL**: `/api/events/{id}/tickets`
+
+**Method**: `GET`
+
+**Auth required**: YES
+
+**Permissions required**: Admin or User
+
+### Success Response
+
+**Code**: `200 OK`
+
+**Content examples**
+
+For an event with ID 1:
+
+```json
+{
+        "id": 21,
+        "event": {
+            "id": 1,
+            "name": "Assembly Winter 24",
+            "place": "Helsingin Messukeskus",
+            "city": "Helsinki",
+            "ticketAmount": 1500,
+            "eventDate": "2024-02-22"
+        },
+        "ticketType": {
+            "id": 4,
+            "description": "4 vrk kävijälippu TO-SU",
+            "price": 40.0,
+            "event": {
+                "id": 1,
+                "name": "Assembly Winter 24",
+                "place": "Helsingin Messukeskus",
+                "city": "Helsinki",
+                "ticketAmount": 1500,
+                "eventDate": "2024-02-22"
+            }
+        },
+        "transaction": {
+            "id": 17,
+            "date": "2023-11-20",
+            "amount": 121.0,
+            "customer": {
+                "id": 1,
+                "name": "DBTesti",
+                "email": "dbmail@mail.com"
+            }
+        },
+        "verified": false,
+        "code": "EVT-1-1700485021557"
+    }
+```
+
+**Code**: `404 Not Found`
+
+For an event with a non-existent ID:
+
+```json
+{
+    "error": "Event with ID {id }not found"
+}
+```
+## <a name="gettickettypes"></a>Get list of ticket types for certain event
+
+Get details of a specific event by its ID.
+
+**URL**: `/api/events/{id}/tickettypes`
+
+**Method**: `GET`
+
+**Auth required**: YES
+
+**Permissions required**: Admin or User
+
+### Success Response
+
+**Code**: `200 OK`
+
+**Content examples**
+
+For an event with ID 1:
+
+```json
+[
+    {
+        "id": 4,
+        "description": "4 vrk kävijälippu TO-SU",
+        "price": 40.0,
+        "event": {
+            "id": 1,
+            "name": "Assembly Winter 24",
+            "place": "Helsingin Messukeskus",
+            "city": "Helsinki",
+            "ticketAmount": 1500,
+            "eventDate": "2024-02-22"
+        }
+    },
+    {
+        "id": 5,
+        "description": "3 vrk kävijälippu TO-SU",
+        "price": 35.0,
+        "event": {
+            "id": 1,
+            "name": "Assembly Winter 24",
+            "place": "Helsingin Messukeskus",
+            "city": "Helsinki",
+            "ticketAmount": 1500,
+            "eventDate": "2024-02-22"
+        }
+    }
+]
+```
+
+**Code**: `404 Not Found`
+
+For an event with a non-existent ID:
+
+```json
+{
+    "error": "Event with ID {id} not found"
+}
+```
+
 
 ## <a name="post"></a>Create Event
 Create a new event.
@@ -230,4 +362,8 @@ For a list of remaining events after deletion:
 
 **Code** : `404 Not Found`
 
-**Content** : `Event not found`
+```json
+{
+    "error": "Event with ID {id} not found"
+}
+```

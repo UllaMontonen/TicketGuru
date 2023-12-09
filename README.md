@@ -148,6 +148,8 @@ Here, we have detailed all the endpoints. For each endpoint, there is more detai
 - **POST /api/events**: Create a new event.
 - **PUT /api/events/{id}**: Update an existing event.
 - **DELETE /api/events/{id}**: Delete an event.
+- **GET /api/events/{id}/tickets: List of sold tickets for certain event
+- **GET /api/events/{id}/tickettypes: List of ticket types for certain event
 
 
 ### [Tickets](RESTDoc/ticket.md)
@@ -168,10 +170,10 @@ Here, we have detailed all the endpoints. For each endpoint, there is more detai
 
 ### [Ticket Types](RESTDoc/TicketType.md)
 
-- **GET /api/ticketTypes**: Get a list of ticketTypes.
-- **POST /api/ticketTypes**: Create a new ticketType.
-- **PUT /api/ticketTypes/{id}**: Update an existing ticketType.
-- **DELETE /api/ticketTypes/{id}**: Delete a ticketType.
+- **GET /api/tickettypes**: Get a list of ticket types.
+- **POST /api/tickettypes**: Create a new ticket type.
+- **PUT /api/tickettypes/{id}**: Update an existing ticket type.
+- **DELETE /api/tickettypes/{id}**: Delete a ticket type.
 
 
 ### [Ticket Check](RESTDoc/TicketCheck.md)
