@@ -199,6 +199,8 @@ A Token can be acquired from the Login view. More information on login can be fo
 
 # Technical description
 
+![alt text](Documentation/uml_technical.png "Simple UML diagram about the program")
+
 Our system is a web-based application built using the Spring Boot framework for the backend and React for the frontend. The application is containerized using Docker and deployed on Rahti, a cloud-based Kubernetes service, using the JKube OpenShift Maven plugin.
 
 The backend is a RESTful API that handles data processing and business logic. It communicates with a MariaDB database for data storage and retrieval. The API endpoints follow REST conventions and use HTTP methods for CRUD operations.
@@ -208,8 +210,6 @@ The frontend is a single-page application built with React. It communicates with
 The system components run on a cloud server, and the connections between them are secured using HTTPS. The system follows best practices for security, including data validation, encryption, and user authentication with Spring Security and JWT.
 
 In addition to these, our codebase is well-commented, and we follow consistent naming conventions for classes, methods, and variables. The software is organized into components to avoid unnecessary repetition.
-
-~~ POISTA Tähän voisi vielä tehdä uml kaavion jos joku jaksaa.~~
 
 # Testing
 
