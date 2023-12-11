@@ -18,7 +18,6 @@ Generate unsold tickets for a certain event.
 {
     "eventId": 1,
     "ticketTypeId": 1,
-    "ticketAmount": 2
 }
 ```
 
