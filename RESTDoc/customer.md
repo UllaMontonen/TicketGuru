@@ -1,8 +1,13 @@
 # Customer API
 
 This API allows you to manage Customers in the TicketGuru system.
+* [Get all customers](#getall)
+* [Get customer with id](#getid)
+* [Create new customer](#post)
+* [Update customer info](#put)
+* [Delete customer](#delete)
 
-## List Customers
+## <a name="getall"></a>List Customers 
 
 Get a list of all Customers.
 
@@ -33,7 +38,7 @@ Get a list of all Customers.
     }
 ```
 
-## Get Customer by ID
+## <a name="getid"></a>Get Customer by ID
 
 Get details of a specific Customer by its ID.
 
@@ -51,7 +56,7 @@ Get details of a specific Customer by its ID.
 
 **Content examples**
 
-For an Customer with ID 1:
+For a Customer with ID 1:
 
 ```json
     {
@@ -63,7 +68,7 @@ For an Customer with ID 1:
 
 **Code**: `404 Not Found`
 
-For an Customer with a non-existent ID:
+For a Customer with a non-existent ID:
 
 ```json
 {
@@ -71,7 +76,7 @@ For an Customer with a non-existent ID:
 }
 ```
 
-## Create Customer
+## <a name="post"></a>Create Customer
 Create a new Customer.
 
 **URL** : `/api/customers/`
@@ -106,7 +111,7 @@ For a newly created Customer:
     }
 ```
 
-## Update Customer
+## <a name="put"></a>Update Customer
 
 Update an existing Customer.
 
@@ -149,9 +154,9 @@ For an updated Customer with ID 1:
 }
 ```
 
-## Delete Customer
+## <a name="delete"></a>Delete Customer
 
-Delete an Customer by providing its ID.
+Delete a Customer by providing its ID.
 
 **URL** : `/api/customers/{id}`
 

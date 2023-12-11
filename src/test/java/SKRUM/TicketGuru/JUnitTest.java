@@ -2,6 +2,7 @@ package SKRUM.TicketGuru;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +28,11 @@ public class JUnitTest {
 
 	@BeforeEach
 	public void setUp() {
-		Date date = new Date();
+		Calendar calendar = Calendar.getInstance();
+		// Add 1 day to the current date
+		calendar.add(Calendar.DAY_OF_MONTH, 1);
+		// Convert the Calendar back to a Date
+		Date date = calendar.getTime();
 
 		// customer
 		cRepo.save(new Customer("Testi Pesti", "email@mail.com"));
@@ -68,7 +73,12 @@ public class JUnitTest {
 	public void findByNameTest() {
 		// Create an event with a name
 		String name = "Testi Tapahtuma3";
-		Event madeEvent = eRepo.save(new Event(name, "Apollo", "Helsinki", 100, new Date()));
+		Calendar calendar = Calendar.getInstance();
+		// Add 1 day to the current date
+		calendar.add(Calendar.DAY_OF_MONTH, 1);
+		// Convert the Calendar back to a Date
+		Date date = calendar.getTime();
+		Event madeEvent = eRepo.save(new Event(name, "Apollo", "Helsinki", 100, date));
 
 		Event foundEvent = eRepo.findByName(name).get(0);
 

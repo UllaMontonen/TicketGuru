@@ -20,10 +20,18 @@ Dependencies
 * Spring Boot DevTools
 * Spring Web
 * MySQL driver
+* MariaDB Java Client
+* Spring Boot test
+* Spring Boot JPA
+* H2 database
+* Apache commons math3
+* Spring Boot Security
+* JSON Web Token jwt.io
+* Jaxb-api
 
 The application is used on a computer or mobile device, and tickets are scanned with a mobile terminal.
 
-In addition, a client-side has been created for the project, which is available as a published GitHub Pages: [TicketGuru client](https://kridesav.github.io/TicketGuru_client/).
+In addition, a client-side has been created for this project, which can be found here: [TicketGuru client](https://github.com/kridesav/TicketGuru_client).
 
 ## System Definition
 Identified user roles in this project:
@@ -32,88 +40,99 @@ Identified user roles in this project:
 * Ticket Inspector (scanner)
 * Buyer (will be implemented in the future)
 
-User roles and stories are presented in more detail here: [User Roles and Stories](UserRolesAndStories.md)
+User roles and stories are presented in more detail here: [User Roles and Stories](Documentation/UserRolesAndStories.md)
 
-## User interface (will be updated!!!)
+## User interface
 
-![](Kuva1.png "Kuva 1")
+![Sign in and sell tickets screens](Documentation/SignInAndTicketSell.png "Picture of sign in screen and selling tickets screen")
 
-![](Kuva2.png "Kuva 2")
+![Check ticket screen](Documentation/CheckingTickets.png "Picture of checking tickets and marking them as used")
 
-![](Kuva3.png "Kuva 3")
+![Event screens](Documentation/AddAndEditEvents.png "Picture of the add new event and edit event screens")
+
+![Control panel screen](Documentation/ControlPanel.png "Picture of the control panel view")
 
 ## Database
 
- ### Event
-The "Event" table contains information about an event. Multiple tickets can be sold for an event, and each ticket is valid only for a specific event.
+The database for this project has been built using MariaDB. Below is an image of the database structure, and detailed explanations of the attributes of the database tables accompany it.
 
-| Attribute | Type | Description |
-| --- |:---:| ---:|
-| id PK           | Integer (autoincrement) | Event id |
-| eventDate        | Date | Date of the event |
-| place           | Varchar(100) | Place/space of the event |
-| name            | Varchar(200) | Name of the event |
-| city            | Varchar(100) | The city of the event |
-| ticketAmount    | Integer | Number of tickets to be sold |
+![alt text](Documentation/TicketGuru_Database.png "Structure of TicketGuru database")
+
+### Event
+The "event" table contains information about an event. Multiple tickets can be sold for an event, and each ticket is valid only for a specific event.
+
+| Attribute       | Type                    | Description                            |
+|:--------------- |:------------------------|:---------------------------------------|
+| id PK           | Integer (autoincrement) | Event id, not null                     |
+| name            | Varchar(255)            | Name of the event, not null            |
+| place           | Varchar(255)            | Place/space of the event, not null     |
+| city            | Varchar(255)            | The city of the event, not null        |
+| ticketAmount    | Integer                 | Number of tickets to be sold, not null |
+| eventDate       | Date                    | Date of the event, not null            |
+
 
 ### Ticket
-The "Ticket" table contains information about a ticket. A ticket is valid for a specific event. Each ticket can have one ticket type, and a ticket type may be associated with multiple tickets.
+The "ticket" table contains information about a ticket. A ticket is valid for a specific event. Each ticket can have one ticket type, and a ticket type may be associated with multiple tickets.
 
-| Attribute | Type | Description |
-| --- |:---:| ---:|
-| id PK      | Integer (autoincrement) | Ticket id |
-| event_id  FK | Integer | Reference to the Event in the Event table. |
-| ticketType_id FK     | Integer | Reference to the ticket type in the TicketType table. |
-| transaction_id FK     | Integer | Reference to the sales event in the Transaction table. |
-| code     | Varchar(100) | Ticket code |
-| transaction_id FK     | Varchar(200) | Reference to the sales event in the Transaction table. |
-| verified     | Boolean | Ticket verification status |
+| Attribute            | Type                    | Description                                                     |
+|:-------------------- |:------------------------|:----------------------------------------------------------------|
+| id PK                | Integer (autoincrement) | Ticket id                                                       |
+| event_id  FK         | Integer                 | Reference to the Event in the Event table. Not null             |
+| ticketType_id FK     | Integer                 | Reference to the ticket type in the TicketType table. Not null  |
+| transaction_id FK    | Integer                 | Reference to the sales event in the Transaction table. Not null |
+| verified             | Boolean                 | Ticket verification status, not null                            |
+| code                 | Varchar(255)            | Unique ticket code, not null                                    |
+
 
 ### TicketType
-The "TicketType" table contains different types of tickets. The same TicketType can be associated with different tickets. Each ticket can have only one TicketType.
+The "ticket_type" table contains different types of tickets. The same TicketType can be associated with different tickets. Each ticket can have only one TicketType.
 
-| Attribute | Type | Description |
-| --- |:---:| ---:|
-| id PK     | Integer (autoincrement) | Ticket Type id |
-| description          | Varchar(200) | Description of the ticket type (e.g., adult, child). |
-| price           | FLOAT(53) | Price of the ticket type |
-| Event_id  FK | Integer | Reference to the Event in the Event table. |
+| Attribute     | Type                    | Description                                                   |
+|:------------- |:------------------------|:--------------------------------------------------------------|
+| id PK         | Integer (autoincrement) | Ticket Type id, not null                                      |
+| description   | Varchar(255)            | Description of the ticket type (e.g., adult, child). Not null |
+| price         | Double                  | Price of the ticket type, not null                            |
+| Event_id  FK  | Integer                 | Reference to the Event in the Event table. Not null           |
 
-### User (this need to be checked!!!)
-A user can have only one active role. Each role always has specific permissions.
 
-| Attribute | Type | Description |
-| --- |:---:| ---:|
-| id PK     | Integer (autoincrement) | User id |
-| username           | Varchar(200) | username of the user |
-| password           | Varchar(200) | password of the user |
-| role           | Varchar(200) | User role |
+### User 
+The "user" table contains users with roles. A user can have only one active role. Each role always has specific permissions.
+
+| Attribute    | Type                    | Description                    |
+|:------------ |:------------------------|:-------------------------------|
+| id PK        | Integer (autoincrement) | User id                        |
+| username     | Varchar(255)            | Username of the user, not null |
+| password     | Varchar(255)            | Password of the user, not null |
+| role         | Varchar(255)            | User role, not null            |
 
 
 ### Customer
-The "Customer" table contains customer information. Customers can purchase tickets using their own information.
+The "customer" table contains customer information. Customers can purchase tickets using their own information.
 
-| Attribute | Type | Description |
-| --- |:---:| ---:|
-| id PK     | Integer (autoincrement) | Ticket Type id |
-| name           | Varchar(200) | Customer name |
-| email           | Varchar(200) | email address |
+| Attribute | Type                    | Description             |
+|:--------- |:------------------------|:------------------------|
+| id PK     | Integer (autoincrement) | Ticket Type id          |
+| name      | Varchar(255)            | Customer name, not null |
+| email     | Varchar(255)            | Email address, not null |
 
-### transaction
-The "Transaction" table contains information about sales transactions. The table also includes details about the customer who purchased the ticket in that transaction.
 
-| Attribute | Type | Description |
-| --- |:---:| ---:|
-| id PK     | Integer (autoincrement) | Ticket Type id |
-| customer_id FK          | Integer | Reference to the Customer table. |
-| amount           | FLOAT(53) | amount |
-| date          | Date | Timestamp of the sales transaction. |
+### Transaction
+The "transaction" table contains information about sales transactions. The table also includes details about the customer who purchased the ticket in that transaction.
+
+| Attribute            | Type                    | Description                               |
+|:-------------------- |:------------------------|:------------------------------------------|
+| id PK                | Integer (autoincrement) | Transaction id                            |
+| transaction_date     | Date                    | Date of the transaction, not null         |
+| amount               | Double                  | Amount of the transaction, not null       |
+| customer_id FK       | Integer                 | Reference to the Customer table. Not nill |
+
 
 # Ticket Selling API
 
 This is the documentation for the Ticket Selling API, which allows you to manage customers, events, transactions, ticket types and tickets in a ticket-selling application.
 
 ## Endpoints
+Here, we have detailed all the endpoints. For each endpoint, there is more detailed documentation that you can read by clicking on the title of the respective endpoint.
 
 ### [Customers](RESTDoc/customer.md)
 
@@ -122,19 +141,24 @@ This is the documentation for the Ticket Selling API, which allows you to manage
 - **PUT /api/customers/{id}**: Update an existing customer.
 - **DELETE /api/customers/{id}**: Delete a customer.
 
+
 ### [Events](RESTDoc/event.md)
 
 - **GET /api/events**: Get a list of events.
 - **POST /api/events**: Create a new event.
 - **PUT /api/events/{id}**: Update an existing event.
 - **DELETE /api/events/{id}**: Delete an event.
+- **GET /api/events/{id}/tickets**: List of sold tickets for certain event.
+- **GET /api/events/{id}/tickettypes**: List of ticket types for certain event.
+
 
 ### [Tickets](RESTDoc/ticket.md)
 
 - **GET /api/tickets**: Get a list of tickets.
-- **POST /api/tickets**: Create a new ticket.
+- **POST /api/tickets**: Create a new ticket / selling new ticket.
 - **PUT /api/tickets/{id}**: Update an existing ticket.
 - **DELETE /api/tickets/{id}**: Delete a ticket.
+
 
 ### [Transactions](RESTDoc/transaction.md)
 
@@ -143,22 +167,91 @@ This is the documentation for the Ticket Selling API, which allows you to manage
 - **PUT /api/transactions/{id}**: Update an existing transaction.
 - **DELETE /api/transactions/{id}**: Delete a transaction.
 
+
 ### [Ticket Types](RESTDoc/TicketType.md)
 
-- **GET /api/ticketTypes**: Get a list of ticketTypes.
-- **POST /api/ticketTypes**: Create a new ticketType.
-- **PUT /api/ticketTypes/{id}**: Update an existing ticketType.
-- **DELETE /api/ticketTypes/{id}**: Delete a ticketType.
+- **GET /api/tickettypes**: Get a list of ticket types.
+- **POST /api/tickettypes**: Create a new ticket type.
+- **PUT /api/tickettypes/{id}**: Update an existing ticket type.
+- **DELETE /api/tickettypes/{id}**: Delete a ticket type.
 
-### [Ticket Sales](RESTDoc/TicketSale.md)
-
-- **POST /api/event/{eventId}/ticketTypes/{ticketTypeId}**: Create a new ticket sale.
 
 ### [Ticket Check](RESTDoc/TicketCheck.md)
 
-- **GET /api/tickets/check**: Checking the ticket
+- **GET /api/tickets/check/{ticketcode}**: Checking the ticket.
+
+
+### [Ticket Markused](RESTDoc/TicketMarkused.md)
+
+- **PATCH /api/tickets/markused/{ticketcode}**: Marking the ticket as used.
+
+### [Generated Tickets](RESTDoc/generatetickets.md)
+
+- **POST /api/generatetickets**: Printing the unsold tickets.
+
 
 ## Authentication
 
-Currently all endpoints require a valid Token to be included in the request. A Token can be acquired from the Login view. More information on login can be found here: [login info](RESTDoc/login.md)
+Currently all endpoints require a valid Token to be included in the request. The authentication token has been created using JSON Web Token. 
+
+A Token can be acquired from the Login view. More information on login can be found here: [login info](RESTDoc/login.md)
+
+
+# Technical description
+
+![alt text](Documentation/uml_technical.png "Simple UML diagram about the program")
+
+Our system is a web-based application built using the Spring Boot framework for the backend and React for the frontend. The application is containerized using Docker and deployed on Rahti, a cloud-based Kubernetes service, using the JKube OpenShift Maven plugin.
+
+The backend is a RESTful API that handles data processing and business logic. It communicates with a MariaDB database for data storage and retrieval. The API endpoints follow REST conventions and use HTTP methods for CRUD operations.
+
+The frontend is a single-page application built with React. It communicates with the backend through AJAX requests and updates the user interface based on the data received.
+
+The system components run on a cloud server, and the connections between them are secured using HTTPS. The system follows best practices for security, including data validation, encryption, and user authentication with Spring Security and JWT.
+
+In addition to these, our codebase is well-commented, and we follow consistent naming conventions for classes, methods, and variables. The software is organized into components to avoid unnecessary repetition.
+
+# Testing
+
+Testing has its own separate documentation, which can be found here: [Testing](Documentation/Testing.md)
+
+The testing process has considered unit testing, integration testing, and end-to-end testing. All the tests mentioned in the documentation have passed.
+
+Additionally, on the end-to-end side, [requirements and user stories](Documentation/UserRolesAndStories.md) have also been tested to ensure that the application we built meets the client's requirements.
+
+# Installation information
+
+In order to use this application, you will need a **programming environment** installed, such as Eclipse. You also need to make sure that Java is installed in your computer. You will also need a **production environment** (we used Rahti) and a **database** (we used MariaDB)
+
+## Development environment
+First, you need to install a programming environment, if you do not already have one. Then you can clone our project using command: `git clone https://github.com/UllaMontonen/TicketGuru.git`
+In a programming environment such as eclipse, you can import an existing Maven project and run it. The project will launch at the url: [http://localhost:8080/](http://localhost:8080/)
+
+## Production environment
+After successfully setting up your development environment, the next step is to install the database (see the next section). At this point, it is also crucial to consider the security aspects of your project. Please note that authentication tokens are already integrated into our TicketGuru project.
+
+Next, you'll need to choose a production environment and familiarize yourself with its documentation. Typically, deploying your project involves configuring it on a production server, ensuring that the database is properly set up. Keep in mind that each time you make changes to your code, manual deployment to the production server is required unless an automated system is in place.
+
+## Database
+You can choose the database you want to use in the `application.properties` file. In this project, you'll find an `application-dev.properties` file that utilizes the H2 database, while the `application-rahti.properties` file uses the MariaDB database. In the `application.properties` file, you can specify which one is active and in use.
+
+The [TicketGuruDBSchem](https://github.com/UllaMontonen/TicketGuru/blob/main/src/main/resources/TicketGuruDBSchema.sql) is employed to create the database. You can customize this file, for instance, to add more users with different permission roles. Bcrypt is employed as a password-hashing function in the database. Each user needs to have username, password, and role.
+
+MariaDB database's own documentation: [Documentation](https://mariadb.org/documentation/#getting-started)
+
+# Startup and user instructions
+
+The application can be launched from the following URL: [https://ticketguru-ticketmaster.rahtiapp.fi/](https://ticketguru-ticketmaster.rahtiapp.fi/)
+
+In this documentation, you will find information on how the application works and how the REST API functions.
+
+Test credentials have been used in the application to create different user profiles.
+Users have been assigned different roles, and functionalities have been restricted accordingly.
+
+Login credentials:
+| Username | Password | Role                                                            |
+|:-------- |:---------|:----------------------------------------------------------------|
+| admin    | admin    | admin: all rights                                               |
+| user     | user     | user: selling tickets and checking tickets/marking them as used |
+| scanner  | scanner  | scanner: checking tickets/marking them as used                  |
 
