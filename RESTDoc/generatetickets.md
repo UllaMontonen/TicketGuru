@@ -17,7 +17,8 @@ Generate unsold tickets for a certain event.
 ```json
 {
     "eventId": 1,
-    "ticketTypeId": 1
+    "ticketTypeId": 1,
+    "ticketAmount": 2
 }
 ```
 
