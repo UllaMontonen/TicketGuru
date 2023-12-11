@@ -148,6 +148,9 @@ public class RestTicketController {
 			Customer customer = cRepo.save(tMapper.DtoToCustomerByName(ticketSale));
 
 			for (TicketDTO ticketDto : ticketSale.getTicketsDTO()) {
+				if (ticketDto.getTicketAmount() < 1) {
+					throw new IllegalArgumentException("Ticket amount must be greater than 0");
+				}
 				for (int i = 0; i < ticketDto.getTicketAmount(); i++) {
 					Optional<Event> event = eRepo.findById(ticketDto.getEventId());
 					Optional<TicketType> ticketType = ttRepo.findById(ticketDto.getTicketTypeId());
@@ -175,6 +178,9 @@ public class RestTicketController {
 		} else if (tMapper.DtoToCustomerById(ticketSale).isPresent()) {
 			Customer customer = tMapper.DtoToCustomerById(ticketSale).get();
 			for (TicketDTO ticketDto : ticketSale.getTicketsDTO()) {
+				if (ticketDto.getTicketAmount() < 1) {
+					throw new IllegalArgumentException("Ticket amount must be greater than 0");
+				}
 				for (int i = 0; i < ticketDto.getTicketAmount(); i++) {
 					Optional<Event> event = eRepo.findById(ticketDto.getEventId());
 					Optional<TicketType> ticketType = ttRepo.findById(ticketDto.getTicketTypeId());

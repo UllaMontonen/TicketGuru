@@ -2,6 +2,7 @@ package SKRUM.TicketGuru.web;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
@@ -24,6 +25,8 @@ import SKRUM.TicketGuru.domain.exceptions.TicketTypeNotFoundException;
 import SKRUM.TicketGuru.domain.response.ErrorRes;
 import SKRUM.TicketGuru.domain.response.ValidErrorRes;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -57,7 +60,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(InternalAuthenticationServiceException.class)
-    public ResponseEntity<ErrorRes> handleInternalAuthenticationServiceException(InternalAuthenticationServiceException e) {
+    public ResponseEntity<ErrorRes> handleInternalAuthenticationServiceException(
+            InternalAuthenticationServiceException e) {
         ErrorRes errorResponse = new ErrorRes(HttpStatus.BAD_REQUEST, e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
@@ -87,9 +91,22 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(TransactionSystemException.class)
-    public ResponseEntity<ErrorRes> handleTransactionSystemException(TransactionSystemException e) {
-        ErrorRes errorResponse = new ErrorRes(HttpStatus.BAD_REQUEST, "customer name or email is null or not valid");
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    public ResponseEntity<ValidErrorRes> handleTransactionSystemException(TransactionSystemException e) {
+        Throwable cause = e.getRootCause();
+        if (cause instanceof ConstraintViolationException) {
+            List<String> errors = new ArrayList<>();
+            Set<ConstraintViolation<?>> violations = ((ConstraintViolationException) cause).getConstraintViolations();
+            for (ConstraintViolation<?> violation : violations) {
+                errors.add(String.format("Field '%s' %s", violation.getPropertyPath(), violation.getMessage()));
+            }
+            ValidErrorRes errorResponse = new ValidErrorRes(HttpStatus.BAD_REQUEST, "Validation errors", errors);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        } else {
+            // handle other causes of TransactionSystemException
+            ValidErrorRes errorResponse = new ValidErrorRes(HttpStatus.BAD_REQUEST, "An error occurred",
+                    new ArrayList<>());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
     }
 
     @ExceptionHandler(InvalidDataAccessApiUsageException.class)
@@ -108,7 +125,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorRes> handleDataIntegrityViolation(DataIntegrityViolationException e) {
-        ErrorRes errorResponse = new ErrorRes(HttpStatus.BAD_REQUEST, "Conflicting values inserted, cannot insert into database");
+        ErrorRes errorResponse = new ErrorRes(HttpStatus.BAD_REQUEST,
+                "Conflicting values inserted, cannot insert into database");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 

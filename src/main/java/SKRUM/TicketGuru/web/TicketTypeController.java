@@ -59,7 +59,7 @@ public class TicketTypeController {
         }
         editedTicketType.setId(id);
         ttRepo.save(editedTicketType);
-        return new ResponseEntity<TicketType>(HttpStatus.OK);
+        return ResponseEntity.ok(editedTicketType);
     }
 
     // Poistaa annetun ID:n perusteella tikettityypin, palauttaa jäljellä olevat tikettityypit
