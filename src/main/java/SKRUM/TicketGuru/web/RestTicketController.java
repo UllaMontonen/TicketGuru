@@ -218,13 +218,25 @@ public class RestTicketController {
 		Optional<TicketType> ticketType = ttRepo.findById(generateTicketsDto.getTicketTypeId());
 		List<Ticket> tickets = new ArrayList<>();
 		
+		//Karvalakki ratkaisu generointiin, luo printer customerin tai käyttää olemassa olevaa jos se on aikaisemmin luotu
+		List<Customer> customer = cRepo.findByName("printer");
+		Customer printer = null;
+		
+		if(customer.size() == 0) {
+			printer = cRepo.save(new Customer("printer", "printer@mail"));
+		}
+		else {
+			printer = customer.get(0);
+		}
+		Transaction transaction = trRepo.save(new Transaction(new Date(), 0.0, printer));
+		
 		if(event.isPresent() && ticketType.isPresent() && ticketType.get().getEvent().getId() == event.get().getId()) {
 			int amount = event.get().getTicketAmount();
 			event.get().setTicketAmount(0);
 			eRepo.save(event.get());
 			
 			for(int i = 0; i < amount; i++) {
-				tickets.add(tRepo.save(new Ticket(event.get(), ticketType.get(), null, generateUniqueTicketCode(), false)));
+				tickets.add(tRepo.save(new Ticket(event.get(), ticketType.get(), transaction, generateUniqueTicketCode(), false)));
 			}
 			
 			return new ResponseEntity<List<Ticket>>(tickets, HttpStatus.OK);
